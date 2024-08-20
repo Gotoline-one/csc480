@@ -3,6 +3,9 @@
  *   Place in the same source directory as Main.java
  *   Ensure that your build system copies this file to your build output directory.
  */
+#background {
+    -fx-background-color: red;
+}
 
 #headerLabel {
     -fx-background-color: steelblue;
@@ -11,7 +14,7 @@
 }
 
 #vistaHolder {
-    -fx-background-color: lightgrey;
+    -fx-background-color: white;
 }
 
 #vista1 {
@@ -23,6 +26,6 @@
 }
 
 .button {
-    -fx-base: lightgreen;
+    -fx-base: lightgrey;
     -fx-font-size: 12px;
 }

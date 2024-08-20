@@ -1,6 +1,8 @@
 package csc480;
 
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -9,6 +11,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+
 
 public class RoadToEagle extends Application {
     public static Stage primaryStage;
@@ -28,12 +32,12 @@ public class RoadToEagle extends Application {
      */
     private Pane loadMainPane() throws IOException {
         FXMLLoader loader = new FXMLLoader();
-        Locale fr_FR = new Locale("fr");
-        ResourceBundle bundle = ResourceBundle.getBundle("csc480.Bundle", fr_FR);
+        Locale en_US = new Locale("en");
+        ResourceBundle bundle = ResourceBundle.getBundle("csc480.Bundle", en_US);
         loader.setResources(bundle);
 
         Pane mainPane = loader.load(
-                getClass().getResourceAsStream(VistaNavigator.MAIN)
+                getClass().getResourceAsStream(VistaNavigator.MAIN) //MAIN = "roadtoeagle.fxml";
         );
 
 
@@ -52,9 +56,7 @@ public class RoadToEagle extends Application {
      * @return the created scene.
      */
     private Scene createScene(Pane mainPane) {
-        Scene scene = new Scene(
-                mainPane
-        );
+        Scene scene = new Scene(mainPane);
 
         scene.getStylesheets().setAll(
                 getClass().getResource("vista.css").toExternalForm()
@@ -76,5 +78,9 @@ public class RoadToEagle extends Application {
         stage.show();
     }
 
+    @FXML
+    void nextPane(ActionEvent event) {
+        VistaNavigator.loadVista(VistaNavigator.NEW_SCOUT);
 
+    }
 }

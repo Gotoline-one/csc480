@@ -1,9 +1,11 @@
 package csc480;
 
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -17,16 +19,31 @@ public class VistaNavigator {
     /**
      * Convenience constants for fxml layouts managed by the navigator.
      */
-    public static final String MAIN = "RoadtoEagle.fxml";
+    public static final String MAIN = "roadtoeagle.fxml";
     public static final String SPLASH = "Splash.fxml";
-    public static final String VISTA_2 = "NewScout_i18n.fxml";
+    public static final String NEW_SCOUT = "NewScout.fxml";
+    public static final String NEW_ACTION = "NewAction.fxml";
+    public static final String NEW_BADGE = "NewBadge.fxml";
 
 
     /**
      * The main application layout controller.
      */
-    private static MainController mainController;
 
+    private static SubController currentSubController;
+    public static SubController getSubController() {
+        if (currentSubController != null) {
+            return currentSubController;
+        }
+        return null;
+    }
+
+    public static void setSubController(SubController subController) {
+        VistaNavigator.currentSubController = subController;
+    }
+
+
+    private static MainController mainController;
     public static MainController getMainController() {
         if (mainController != null) {
             return mainController;
@@ -60,17 +77,20 @@ public class VistaNavigator {
      *
      * @param fxml the fxml file to be loaded.
      */
-    public static void loadVista(String fxml) {
-        Locale fr_FR = new Locale("fr");
+    public static SubController loadVista(String fxml) {
         Locale en_US = new Locale("en");
 
         try {
             ResourceBundle bundle = ResourceBundle.getBundle("csc480.Bundle", en_US);
-            mainController.setVista(
-                    FXMLLoader.load(VistaNavigator.class.getResource(fxml), bundle)
-            );
+            FXMLLoader loader = new FXMLLoader( VistaNavigator.class.getResource(fxml), bundle);
+            Node node = loader.load();
+            mainController.setVista(node);
+            return  (SubController) loader.getController();
+
+
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
     }
 }

@@ -3,6 +3,7 @@ package csc480;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 
@@ -10,8 +11,9 @@ import javafx.scene.image.ImageView;
  * TODO: Finish Awards, Badges, and Photo stuff
  * TODO: Make Position a dropdown (There is a finite amount of scouting positions)
  */
-public class NewScoutController {
-
+public class NewScoutController extends SubController<Scout>{
+    @FXML
+    ComboBox<String> rankCombo;
     @FXML
     private TextField firstNameTxtBox;
 
@@ -43,10 +45,6 @@ public class NewScoutController {
     private TextField scoutPosition;
 
     @FXML
-    private TextField scoutRank;
-
-
-    @FXML
     private TextField scoutEmail;
 
     @FXML
@@ -69,21 +67,23 @@ public class NewScoutController {
     void addBadges(ActionEvent event) {
 
     }
+    @FXML
+    void initialize() {
+        rankCombo.getItems().addAll("Tenderfoot","Second Class","First Class","Star","Life","Eagle");
 
-    private void clearInput() {
-        firstNameTxtBox.clear();
-        lastNameTxtBox.clear();
-        scoutRank.clear();
-        scoutEmail.clear();
-        scoutAwards.clear();
-        scoutBadges.clear();
     }
 
-    public void loadScout(Scout scoutToLoad) {
-        firstNameTxtBox.setText(scoutToLoad.getFirstName());
-        lastNameTxtBox.setText(scoutToLoad.getLastName());
-        scoutRank.setText(scoutToLoad.getRank());
-        scoutPosition.setText(scoutToLoad.getPosition());
+    /**
+     * TODO: Could do some error checking here: email, ensure all the info is filled out
+     *
+     * @return New Scout object from form
+     */
+    private Scout formToScout(){
+        Scout newScout = new Scout(firstNameTxtBox.getText(), lastNameTxtBox.getText(), rankCombo.getValue());
+        newScout.setPosition(scoutPosition.getText());
+        newScout.setEmail(scoutEmail.getText());
+
+        return newScout;
     }
 
     /**
@@ -92,32 +92,49 @@ public class NewScoutController {
      * TODO: make sure all fields make sense (Email RFC Check)
      * TODO: Add some kind of RED outline on problem fields, AND statement on bottom of screen.
      *
-     * @param event
+     *
      */
     @FXML
     void nextScout(ActionEvent event) {
-        Scout newScout = new Scout(
-                firstNameTxtBox.getText(),
-                lastNameTxtBox.getText(),
-                scoutRank.getText());
 
-        VistaNavigator.getMainController().addScout(newScout);
-        clearInput();
+        VistaNavigator.getMainController().addScout(formToScout());
+        clearInfo();
     }
 
     @FXML
     void cancel(ActionEvent event) {
         VistaNavigator.loadVista(VistaNavigator.SPLASH);
-        clearInput();
+        clearInfo();
     }
 
+    /**
+     * This function is to Save data to current Scout
+     *
+     */
     @FXML
     void saveScout(ActionEvent event) {
-        Scout s = new Scout(firstNameTxtBox.getText(), lastNameTxtBox.getText(), scoutRank.getText());
-        VistaNavigator.getMainController().addScout(s);
-        VistaNavigator.loadVista(VistaNavigator.SPLASH);
-        clearInput();
+
+        VistaNavigator.getMainController().saveScout(formToScout());
     }
 
 
+    @Override
+    public void clearInfo() {
+        firstNameTxtBox.clear();
+        lastNameTxtBox.clear();
+        rankCombo.valueProperty().set(null);
+        scoutEmail.clear();
+        scoutAwards.clear();
+        scoutBadges.clear();
+        scoutPosition.clear();
+    }
+
+    @Override
+    public void loadInfo(Scout scoutToLoad) {
+        firstNameTxtBox.setText(scoutToLoad.getFirstName());
+        lastNameTxtBox.setText(scoutToLoad.getLastName());
+        rankCombo.setValue(scoutToLoad.getRank());
+        scoutPosition.setText(scoutToLoad.getPosition());
+        scoutEmail.setText(scoutToLoad.getEmail());
+    }
 }
