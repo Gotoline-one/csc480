@@ -1,86 +1,38 @@
-package csc480;
-
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
-import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.util.Locale;
-import java.util.ResourceBundle;
+package csc480.Branched;
 
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class RoadToEagle extends Application {
-    public static Stage primaryStage;
-
-    public static void main(String[] args) {
-        launch();
-
+public class RoadToEagle {
+    private Scout[] theScouts;
+    private Scout[] theLeaders;
+    private Award[] meritBadges;
+    private Award[] scoutingAwards;
+    private ScoutEvent[] plannedScoutEvents;
+    private ScoutEvent[] completedScoutEvents;
+    private Scout[] parents;
+    // Using ArrayList for dynamic resizing
+    private List<Scout> scoutList = new ArrayList<>();
+    private List<Award> meritBadgeList = new ArrayList<>();
+    private List<Award> scoutingAwardList = new ArrayList<>();
+    private List<ScoutEvent> plannedScoutEventList = new ArrayList<>();
+    private List<ScoutEvent> completedScoutEventList = new ArrayList<>();
+    private List<Scout> parentList = new ArrayList<>();
+    public ScoutAction createAction(String actionName, String meritBadge) {
+        return new ScoutAction(actionName);
     }
-
-    /**
-     * Loads the main fxml layout.
-     * Sets up the vista switching VistaNavigator.
-     * Loads the first vista into the fxml layout.
-     *
-     * @return the loaded pane.
-     * @throws IOException if the pane could not be loaded.
-     */
-    private Pane loadMainPane() throws IOException {
-        FXMLLoader loader = new FXMLLoader();
-        Locale en_US = new Locale("en");
-        ResourceBundle bundle = ResourceBundle.getBundle("csc480.Bundle", en_US);
-        loader.setResources(bundle);
-
-        Pane mainPane = loader.load(
-                getClass().getResourceAsStream(VistaNavigator.MAIN) //MAIN = "roadtoeagle.fxml";
-        );
-
-
-        MainController mainController = loader.getController();
-
-        VistaNavigator.setMainController(mainController);
-        VistaNavigator.loadVista(VistaNavigator.SPLASH);
-
-        return mainPane;
+    public void addScout(String firstName, String lastName, String email) {
+        Scout newScout = new Scout(firstName, lastName, email);
+        scoutList.add(newScout);
     }
-
-    /**
-     * Creates the main application scene.
-     *
-     * @param mainPane the main application layout.
-     * @return the created scene.
-     */
-    private Scene createScene(Pane mainPane) {
-        Scene scene = new Scene(mainPane);
-
-        scene.getStylesheets().setAll(
-                getClass().getResource("vista.css").toExternalForm()
-        );
-
-        return scene;
-    }
-
-    @Override
-    public void start(Stage stage) throws Exception {
-        stage.setTitle("Vista Viewer");
-
-        stage.setScene(
-                createScene(
-                        loadMainPane()
-                )
-        );
-
-        stage.show();
-    }
-
-    @FXML
-    void nextPane(ActionEvent event) {
-        VistaNavigator.loadVista(VistaNavigator.NEW_SCOUT);
-
+    public Award createAward(String awardName, ScoutAction[] scoutActions) {
+        Award newAward = new Award(awardName, scoutActions);
+        if (scoutActions.length > 0 && scoutActions[0].name.contains("Merit Badge")) {
+            meritBadgeList.add(newAward);
+        } else {
+            scoutingAwardList.add(newAward);
+        }
+        return newAward;
     }
 }

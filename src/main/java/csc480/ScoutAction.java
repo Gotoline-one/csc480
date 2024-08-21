@@ -1,45 +1,34 @@
-package csc480;
-
-public class ScoutAction {
-    String title, description;
-    Boolean knowledge, action;
+package csc480.Branched;
 
 
-    public Boolean getKnowledge() {
-        return knowledge;
+import java.time.Duration;
+
+class ScoutAction {
+    private String name;
+    private Duration timeToComplete;
+    private int amountComplete;
+    private boolean isComplete;
+    public ScoutAction(String name) {
+        this.name = name;
+        this.isComplete = false;
     }
-
-    public void setKnowledge(Boolean knowledge) {
-        this.knowledge = knowledge;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof ScoutAction)) return false;
+        ScoutAction scoutAction = (ScoutAction) obj;
+        return name.equals(scoutAction.name);
     }
-
-    public Boolean getAction() {
-        return action;
+    public boolean isComplete() {
+        return isComplete;
     }
-
-    public void setAction(Boolean action) {
-        this.action = action;
+    public void complete(boolean isComplete) {
+        this.isComplete = isComplete;
     }
-
-    public String getDescription() {
-        return description;
+    public int partiallyComplete(int completeness) {
+        this.amountComplete += completeness;
+        return this.amountComplete;
     }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public ScoutAction(String newTitle, String newDesc){
-        title = newTitle;
-        description = newDesc;
-
+    public int getPartialComplete() {
+        return amountComplete;
     }
 }

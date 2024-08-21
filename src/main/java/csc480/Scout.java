@@ -1,90 +1,50 @@
-package csc480;
+package csc480.Branched;
+
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class Scout {
+class Scout {
     private String firstName;
     private String lastName;
-    private String rank;
-    private String position;
-
-
-
     private String email;
-    private ArrayList<Award> meritBadges;
-    private ArrayList<Award> awards;
-
-    public Scout(String newFirstName, String newLastname, String newRank) {
-        firstName = newFirstName;
-        lastName = newLastname;
-        rank = newRank;
-
-    }
-    public Scout() {
-        this.firstName = "";
-        this.lastName = "";
-        this.rank = "";
-        this.email="";
-
-    }
-
-    public void updateScout(Scout newScout){
-        System.out.println("Inside Scout.setEmail: new:"+newScout.email + " old: "+email);
-
-        setFirstName(newScout.firstName);
-        setLastName(newScout.lastName);
-        setRank(newScout.rank);
-        setEmail(newScout.email);
-        setPosition(newScout.getPosition());
-
-    }
-
-    public String getEmail() {
-
-        return this.email;
-    }
-
-    public void setEmail(String email) {
-        System.out.println("Inside Scout.setEmail: "+email);
-
+    private String position;
+    private String ranks;
+    private Award[] awards;
+    private Award[] meritBadges;
+    private Membership membership;
+    // Using ArrayList for dynamic resizing
+    private List<Award> awardList = new ArrayList<>();
+    private List<Award> meritBadgeList = new ArrayList<>();
+    public Scout(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
     }
-
-    public String getFirstName() {
-        return firstName;
+    public void setPosition(String newPosition) {
+        this.position = newPosition;
     }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void addAward(Award newAward) {
+        awardList.add(newAward);
     }
-
-    public String getLastName() {
-        return lastName;
+    public void removeAward(String byName, String current) {
+        for (int i = 0; i < awardList.size(); i++) {
+            if (awardList.get(i).awardName.equals(byName)) {
+                awardList.remove(i);
+                return;
+            }
+        }
     }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void addMeritBadge(Award newBadge) {
+        meritBadgeList.add(newBadge);
     }
-
-    public String getRank() {
-        return rank;
+    public Award[] getAwards() {
+        return awardList.toArray(new Award[0]);
     }
-
-    public void setRank(String rank) {
-        this.rank = rank;
+    public Award[] getMeritBadges() {
+        return meritBadgeList.toArray(new Award[0]);
     }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    @Override
-    public String toString() {
-        return firstName + " " + lastName;
-
+    public void validateEmail() {
+// Implement email validation logic here
     }
 }
