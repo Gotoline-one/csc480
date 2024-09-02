@@ -341,7 +341,7 @@ public class MainController {
             this.addAward(currentAward);
     }
 
-    private void addAward(Award currentAward) {
+    public void addAward(Award currentAward) {
         if(currentAward ==null) return;
 
         if(!awardListObserver.contains(currentAward))
@@ -350,6 +350,8 @@ public class MainController {
             awardList.getSelectionModel().clearSelection();
             setRightStatus("add Award(" + currentAward +")");
             currentAwardSelected=null;
+        }else{
+            setRightStatus("ERROR IN ADDING AWARD - award already exists");
         }
     }
 }
