@@ -166,20 +166,23 @@ public class NewScoutController extends SubController<Scout>{
         }
 
         //Form is filled out correctly so put new scout on the main scout list and start on next one
-        if( formToScout())
-        {
-            VistaNavigator.getMainController().addScout(this.currentScout);
-            this.currentScout = null;
-            VistaNavigator.getMainController().currentScoutSelected = null;
-            clearInfo();
-            System.out.println("save scout and get new form");
-            if(mainController !=null)
-                this.mainController.setLeftStatus("NewScoutController.NextScout()  Nor Form Errors");}
+        if( formToScout()) {
+            if (mainController != null) {
+                mainController.addScout(this.currentScout);
+//            VistaNavigator.getMainController().addScout(this.currentScout);
+                this.currentScout = null;
+//                mainController.currentScoutSelected = null;// should be taken care of in mainctrl.addScout
+                clearInfo();
+                System.out.println("save scout and get new form");
+//                if (mainController != null)
+                this.mainController.setLeftStatus("NewScoutController.NextScout()  Nor Form Errors");
+            }
+        }
         else
         { // Form was not filled out correctly, give user option to fix it
                 // adds new scout to list, but has incomplete data
-            VistaNavigator.getMainController().addScout(this.currentScout);
-            VistaNavigator.getMainController().currentScoutSelected = this.currentScout;
+            mainController.addScout(this.currentScout);
+            mainController.currentScoutSelected = this.currentScout;
         }
 
     }
@@ -197,12 +200,14 @@ public class NewScoutController extends SubController<Scout>{
             this.currentScout = new Scout();
 
 
-        if(formToScout()) { // formToScout sets this.currentScout
+        if(formToScout())
+        { // formToScout sets this.currentScout
             if (mainController != null) {
                 mainController.saveScout(this.currentScout);
                 mainController.scoutList.refresh();
             }
-        }else{// Issue with scout form - so don't modify Scout until fixed
+        }else
+        {// Issue with scout form - so don't modify Scout until fixed
             this.mainController.scoutList.getSelectionModel().clearSelection();
             this.mainController.scoutList.getSelectionModel().select(currentScout);
         }

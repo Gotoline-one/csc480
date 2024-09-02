@@ -94,28 +94,17 @@ public class NewAwardController extends SubController<Award>{
             boolean b;
             b = currentAward.activityAddAll(activitiesListObserver);
 
-//
-//            int i =0;
-//            for (Activity currAwardAct : currentAward){
-//                if(currAwardAct.toString() == selectedActivities.get(i).toString())
-//                {// they match?
-//                    // TODO: debugging
-//                    System.out.println("currAwardAct " + currAwardAct.toString()
-//                                      +"selectedAct  "+ selectedActivities.get(i).toString());
-//                }
-//                else
-//                { // add rest of unmatched
-//                }
-//                i++;
-//            }
             return true;
 
     }
     @FXML
-    public void saveNewBtn(){
+    public void saveNewBtn()
+    {
         //currentAward = new Award();
         formToAward();
-        mainController.awardListObserver.add(this.currentAward);
+
+//        mainController.awardListObserver.add(this.currentAward);
+        mainController.addAward(this.currentAward);
         this.currentAward = null;
         clearInfo();
     }
@@ -128,7 +117,8 @@ public class NewAwardController extends SubController<Award>{
     }
 
     @FXML
-    public void removeActivity(){
+    public void removeActivity()
+    {
 
         selectedActivities =  activitiesList.getSelectionModel().getSelectedItems();
         ObservableList<Integer> selectedIndices = activitiesList.getSelectionModel().getSelectedIndices();
@@ -155,13 +145,14 @@ public class NewAwardController extends SubController<Award>{
 
     }
     @Override
-    public void clearInfo() {
+    public void clearInfo()
+    {
         activityTitle.setText("");
         knowledgeCkBx.setSelected(false);
         actionCkBx.setSelected(false);
         descriptionBox.setText("");
         activitiesListObserver.clear();
-        selectedActivities.clear();
+//        selectedActivities.clear();
         currentAward = null;
     }
 
@@ -186,9 +177,11 @@ public class NewAwardController extends SubController<Award>{
         VistaNavigator.loadVista(VistaNavigator.SPLASH);
         this.currentAward = null;
         clearInfo();
-        if(mainController !=null)
-            this.mainController.setLeftStatus("NewScoutController.Canceled()");
 
+        if(mainController !=null) {
+            mainController.currentScoutSelected = null;
+            this.mainController.setLeftStatus("NewScoutController.Canceled()");
+        }
     }
 
     public void saveBtn(ActionEvent actionEvent) {
@@ -204,9 +197,11 @@ public class NewAwardController extends SubController<Award>{
             }
         }
         else
-        {// something is wrong with the form
-
+        {
+            mainController.awardList.getSelectionModel().clearSelection();
+            mainController.awardList.getSelectionModel().select(currentAward);
         }
-
+        if(mainController !=null)
+            this.mainController.setLeftStatus("NewAwardController.saveAward()");
     }
 }
