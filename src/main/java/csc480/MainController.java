@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
@@ -14,6 +15,7 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
@@ -23,9 +25,10 @@ public class MainController {
     @FXML
     ListView<Scout> scoutList;
     ObservableList<Scout> scoutListObserver;
+    Scout currentScoutSelected;
 
-    SubController currentNewScoutController;
-
+    private SubController currentNewScoutController;
+    ArrayList<Activity> activityArrayList;
  @FXML
     ListView<ScoutEvent> eventList;
     ObservableList<ScoutEvent> eventListObserver;
@@ -38,9 +41,11 @@ public class MainController {
     ListView<Award> awardList;
     ObservableList<Award> awardListObserver;
 
+    @FXML
+    Label rightStatus;
 
-
-
+    @FXML
+    Label leftStatus;
 
     @FXML
     private HBox mainScreen;
@@ -49,7 +54,16 @@ public class MainController {
     @FXML
     private URL location;
     @FXML
+
     private Button button;
+    private Badge currentBadgeSelected;
+    private SubController currentNewBadgeController;
+    private ScoutEvent currentScoutEventSelected;
+    private Object currentNewScoutEventController;
+    private Award currentAwardSelected;
+    private NewAwardController currentNewAwardController;
+
+    private ListView<Activity> scoutActivities;
 
     @FXML
     void initialize() {
@@ -67,14 +81,81 @@ public class MainController {
         awardListObserver = FXCollections.observableArrayList();
         awardList.setItems(awardListObserver);
 
-        SubController currentNewScoutController=null;
+        currentNewBadgeController = null;
+        currentBadgeSelected = null;
+
+        currentNewScoutEventController = null;
+        currentScoutEventSelected = null;
+
+        currentNewScoutController = null;
+        currentScoutSelected =null;
+
+        currentNewAwardController = null;
+        currentAwardSelected=null;
+        scoutActivities = new ListView<Activity>();
+        addFakeActions();
+        addFakeScouts();
+        System.out.println("MainController Initialized");
+    }
+
+    public ListView<Activity> getScoutActivities() {
+        return scoutActivities;
+    }
+
+    public void addFakeActions(){
+
+        scoutActivities.getItems().add(new Activity("5 Mi Hike"));
+        scoutActivities.getItems().add(new Activity("10 Mi Hike"));
+        scoutActivities.getItems().add(new Activity("20 Mi Hike"));
+        scoutActivities.getItems().add(new Activity("Explain how hiking is an aerobic activity"));
 
     }
 
-    @FXML
-    void newScoutBtn(ActionEvent event) throws IOException {
-        VistaNavigator.loadVista(VistaNavigator.NEW_SCOUT);
+    public void addFakeScouts(){
+        //Scout(String newFirstName, String newLastname, String newRank, String newPosition, String newEmail)
+        String vari = "aaa";
+        scoutList.getItems().add(
+                new Scout(
+                "fname_"+vari,
+                "lname_"+vari,
+                    "rank_"+vari,
+                  "pos_"+vari,
+                    vari+"@"+vari+".com"
+        ));
+        vari = "bbb";
+        scoutList.getItems().add(
+                new Scout(
+                        "fname_"+vari,
+                        "lname_"+vari,
+                        "rank_"+vari,
+                        "pos_"+vari,
+                        vari+"@"+vari+".com"
+                ));
+        vari = "ccc";
+        scoutList.getItems().add(
+                new Scout(
+                        "fname_"+vari,
+                        "lname_"+vari,
+                        "rank_"+vari,
+                        "pos_"+vari,
+                        vari+"@"+vari+".com"
+                ));
+        vari = "ddd";
+        scoutList.getItems().add(
+                new Scout(
+                        "fname_"+vari,
+                        "lname_"+vari,
+                        "rank_"+vari,
+                        "pos_"+vari,
+                        vari+"@"+vari+".com"
+                ));
+    }
+    public void setLeftStatus(String leftStatus) {
+        this.leftStatus.setText(leftStatus);
+    }
 
+    public void setRightStatus(String rightStatus) {
+        this.rightStatus.setText(rightStatus);
     }
 
     @FXML
@@ -83,49 +164,192 @@ public class MainController {
 
     }
 
-    public void addScout(Scout newScout) {
-        scoutListObserver.add(newScout);
-        System.out.println("Adding newScout " + newScout.toString());
-    }
-
-    public void saveScout(Scout updatedScout){
-        System.out.println(currentScoutSelected + " VS  " + updatedScout + "  Before");
-        currentScoutSelected.updateScout(updatedScout);
-        System.out.println(currentScoutSelected + " VS  " + updatedScout + "  AFTER");
-
-    }
-
     public void setVista(Node node) {
         mainScreen.getChildren().setAll(node);
     }
 
+
+
+    @FXML
+    public void newEvent(ActionEvent actionEvent) {
+        VistaNavigator.loadVista(VistaNavigator.NEW_EVENT);
+
+    }
+
+    @FXML
+    void newActivity(){
+        VistaNavigator.loadVista(VistaNavigator.NEW_ACTION);
+
+    }
+
+
+    /**
+     * checks if newScout is a valid object,
+     * adds newly passed in Scout to scoutList if not already on list
+     *
+     * @param newScout Scout object to copy and add to scoutList
+     */
+    public void addScout(Scout newScout) {
+        if(newScout == null) return;
+
+        if (!scoutListObserver.contains(newScout)) {
+            scoutListObserver.add(newScout);
+            scoutList.getSelectionModel().clearSelection();
+            setRightStatus("add Scout("+newScout+")");
+            currentScoutSelected = null;
+        }
+    }
+
+    public void saveScout(Scout updatedScout){
+        if(updatedScout == null) return;
+
+        if(currentScoutSelected !=null) {
+            currentScoutSelected.updateScout(updatedScout);
+        }else{
+            addScout(updatedScout);
+        }
+        scoutList.getSelectionModel().clearSelection();
+        scoutList.getSelectionModel().select(updatedScout);
+        setRightStatus("Updated Scout("+updatedScout+")");
+    }
+
+
+    @FXML
+    void newScoutMenuBtn(ActionEvent event) throws IOException {
+        currentNewScoutController = (NewScoutController) VistaNavigator.loadVista(VistaNavigator.NEW_SCOUT);
+        currentScoutSelected=null;
+    }
+
+    @FXML
+    public void selectScoutBadge(MouseEvent click) {
+        if(click.getClickCount() ==2){ //Double Clicked
+
+            setRightStatus("NewScoutBadge ");
+            Badge aBadge = badgeList.getSelectionModel().getSelectedItem();
+
+            if(aBadge !=null)
+            { //something was double clicked
+                currentBadgeSelected = aBadge;
+                currentNewBadgeController = VistaNavigator.loadVista(VistaNavigator.NEW_BADGE);
+                NewBadgeController newBadgeController = (NewBadgeController) currentNewBadgeController;
+                if(newBadgeController !=null)
+                    newBadgeController.loadInfo(aBadge);
+            }
+            else
+            {//emptiness was double clicked so there is no badge to select
+                currentNewBadgeController = (NewBadgeController) VistaNavigator.loadVista(VistaNavigator.NEW_BADGE);
+                currentScoutSelected = null;
+            }
+        }
+    }
+
+    @FXML
+    public void selectScoutAward(MouseEvent click) {
+        if(click.getClickCount() ==2){ //Double Clicked
+
+            setRightStatus("NewScoutAward ");
+            Award aAward = awardList.getSelectionModel().getSelectedItem();
+
+            if(aAward !=null)
+            { //something was double clicked
+                currentAwardSelected = aAward;
+                currentNewAwardController = (NewAwardController)  VistaNavigator.loadVista(VistaNavigator.NEW_AWARD);
+                NewAwardController newAwardController = currentNewAwardController;
+                if(newAwardController !=null)
+                    newAwardController.loadInfo(aAward);
+            }
+
+            else
+            {//emptiness was double clicked so there is no badge to select
+                currentNewAwardController = (NewAwardController) VistaNavigator.loadVista(VistaNavigator.NEW_AWARD);
+                currentScoutSelected = null;
+            }
+        }
+    }
+    @FXML
+    public void selectScoutEvent(MouseEvent click) {
+
+        if (click.getClickCount() == 2)
+        {
+            ScoutEvent aScoutEvent = eventList.getSelectionModel().getSelectedItem();
+            if(aScoutEvent  !=null)  //something was double clicked
+            {
+                currentScoutEventSelected = aScoutEvent;
+                currentNewScoutController= VistaNavigator.loadVista(VistaNavigator.NEW_EVENT);
+                NewScoutEventController scoutEventController= (NewScoutEventController) currentNewScoutEventController;
+                if(scoutEventController !=null)
+                    scoutEventController.loadInfo(currentScoutEventSelected);
+
+            }
+            else    //emptiness was double clicked so there is no scout to select
+            {
+                currentNewScoutController = (NewScoutEventController) VistaNavigator.loadVista(VistaNavigator.NEW_EVENT);
+                currentScoutEventSelected=null;
+            }
+            setRightStatus("Selected Scout("+aScoutEvent+")");
+        }
+
+
+    }
+
+
+    @FXML
+    public void selectScout(MouseEvent click) {
+
+        if (click.getClickCount() == 2)
+        {
+            Scout aScout = scoutList.getSelectionModel().getSelectedItem();
+            if(aScout  !=null)  //something was double clicked
+            {
+                currentScoutSelected = aScout;
+                currentNewScoutController= VistaNavigator.loadVista(VistaNavigator.NEW_SCOUT);
+                if(currentNewScoutController!=null)
+                {
+                    NewScoutController newScoutController = (NewScoutController) currentNewScoutController;
+                    newScoutController.loadInfo(currentScoutSelected);
+                }
+                else
+                {
+                    setLeftStatus("ERROR Could not load New Scout Page");
+                }
+            }
+            else    //emptiness was double clicked so there is no scout to select
+            {
+                currentNewScoutController = (NewScoutController) VistaNavigator.loadVista(VistaNavigator.NEW_SCOUT);
+                currentScoutSelected=null;
+            }
+            setRightStatus("Selected Scout("+aScout+")");
+        }
+
+    }
+
     public void menuQuit(ActionEvent event) throws IOException{
         Platform.exit();
-
     }
 
-    public void newAction(ActionEvent actionEvent) {
-        VistaNavigator.loadVista(VistaNavigator.NEW_ACTION);
+    public void newAward(ActionEvent actionEvent) {
+        currentNewAwardController = (NewAwardController) VistaNavigator.loadVista(VistaNavigator.NEW_AWARD);
+        currentScoutSelected = null;
     }
 
-    Scout currentScoutSelected;
-    @FXML
-    public void scoutSelect(MouseEvent click) {
+    public void saveAward(Award currentAward) {
+        if(currentAward ==null) return;
 
-        if (click.getClickCount() == 2) {
-            if(scoutList.getSelectionModel().getSelectedItem() !=null){
-                currentScoutSelected = scoutList.getSelectionModel().getSelectedItem();
-                System.out.println("you've Selected  " + currentScoutSelected);
-               currentNewScoutController= VistaNavigator.loadVista(VistaNavigator.NEW_SCOUT);
-                NewScoutController nsc= (NewScoutController) currentNewScoutController;
-                nsc.loadInfo(currentScoutSelected);
+        if(currentAwardSelected !=null)
+            currentAwardSelected.updateAward(currentAward);
+        else
+            this.addAward(currentAward);
+    }
 
-            }
-            else{
-                System.out.println("you've Selected  a null item. How did yo do that?" );
+    private void addAward(Award currentAward) {
+        if(currentAward ==null) return;
 
-            }
-
+        if(!awardListObserver.contains(currentAward))
+        {//if list does not already contain this award
+            awardListObserver.add(currentAward);
+            awardList.getSelectionModel().clearSelection();
+            setRightStatus("add Award(" + currentAward +")");
+            currentAwardSelected=null;
         }
     }
 }

@@ -1,12 +1,15 @@
 package csc480;
 
+//import csc480.Branched.Activity;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -42,7 +45,6 @@ public class RoadToEagle extends Application {
 
 
         MainController mainController = loader.getController();
-
         VistaNavigator.setMainController(mainController);
         VistaNavigator.loadVista(VistaNavigator.SPLASH);
 
@@ -74,7 +76,7 @@ public class RoadToEagle extends Application {
                         loadMainPane()
                 )
         );
-
+        primaryStage = stage;
         stage.show();
     }
 
@@ -82,5 +84,32 @@ public class RoadToEagle extends Application {
     void nextPane(ActionEvent event) {
         VistaNavigator.loadVista(VistaNavigator.NEW_SCOUT);
 
+    }
+
+
+    public static boolean isValidEmailAddress(String email) {
+        String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }
+
+    public Award createAward(String awardName, Activity[] scoutActivities) {
+        Award newAward = new Award(awardName, scoutActivities);
+        if (scoutActivities.length > 0 && scoutActivities[0].getName().contains("Merit Badge")) {
+//            meritBadges.add(newAward);
+        } else {
+//            scoutingAwards.add(newAward);
+        }
+        return newAward;
+    }
+    public static void showAlert(Alert.AlertType alertType, String title, String message) {
+        Window owner =  primaryStage.getScene().getWindow();
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.initOwner(owner);
+        alert.show();
     }
 }

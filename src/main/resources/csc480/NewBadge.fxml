@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane prefHeight="400.0" prefWidth="714.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csc480.NewBadgeController">
+   <children>
+      <ListView fx:id="activityList" layoutX="295.0" layoutY="74.0" prefHeight="220.0" prefWidth="182.0" />
+      <Label alignment="BOTTOM_LEFT" layoutX="300.0" layoutY="47.0" prefHeight="15.0" prefWidth="170.0" text="Required Activities" />
+      <TextField alignment="TOP_LEFT" layoutX="23.0" layoutY="74.0" prefHeight="25.0" prefWidth="234.0" />
+
+      <Label layoutX="28.0" layoutY="47.0" prefHeight="15.0" prefWidth="234.0" text="Title" />
+      <CheckBox layoutX="28.0" layoutY="119.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="104.0" text="Knowledge" />
+      <Button layoutX="343.0" layoutY="311.0" mnemonicParsing="false" text="Remove Activity" />
+      <CheckBox layoutX="28.0" layoutY="155.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="74.0" text="Action" />
+      <Text layoutX="222.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="New Merit Badge" />
+      <Button layoutX="25.0" layoutY="352.0" mnemonicParsing="false" text="Save and New" />
+      <Button layoutX="145.0" layoutY="352.0" mnemonicParsing="false" text="Save" />
+      <Label layoutX="24.0" layoutY="183.0" prefHeight="15.0" prefWidth="171.0" text="Description" />
+      <TextArea layoutX="24.0" layoutY="198.0" prefHeight="113.0" prefWidth="234.0" wrapText="true" />
+      <Button layoutX="505.0" layoutY="311.0" mnemonicParsing="false" text="Add Activity" />
+      <ListView fx:id="availActivityList" layoutX="505.0" layoutY="73.0" prefHeight="220.0" prefWidth="182.0" />
+      <Label alignment="BOTTOM_LEFT" layoutX="509.0" layoutY="47.0" prefHeight="15.0" prefWidth="182.0" text="Available Activities" />
+      <Button fx:id="cancelBtn" layoutX="212.0" layoutY="352.0" mnemonicParsing="false" text="Cancel" onAction="#cancelBtn" />
+   </children>
+</AnchorPane>

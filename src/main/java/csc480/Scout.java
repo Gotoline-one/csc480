@@ -1,25 +1,31 @@
 package csc480;
 
+import javafx.scene.Parent;
+
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 public class Scout {
     private String firstName;
     private String lastName;
-    private String rank;
-    private String position;
-
-
-
     private String email;
-    private ArrayList<Award> meritBadges;
+    private String position;
+    private String rank;
     private ArrayList<Award> awards;
+    private ArrayList<Award> meritBadges;
+    private Membership membership;
 
-    public Scout(String newFirstName, String newLastname, String newRank) {
-        firstName = newFirstName;
-        lastName = newLastname;
-        rank = newRank;
 
+
+
+    public Scout(String newFirstName, String newLastname, String newRank, String newPosition, String newEmail) {
+        this.firstName  = newFirstName;
+        this.lastName   = newLastname;
+        this.rank       = newRank;
+        this.position   = newPosition;
+        this.email      = newEmail;
     }
+
     public Scout() {
         this.firstName = "";
         this.lastName = "";
@@ -28,13 +34,16 @@ public class Scout {
 
     }
 
+    /**
+     * Copy other scout object by value into this one
+     *
+     * @param newScout scout object that holds info to copy into this one
+     */
     public void updateScout(Scout newScout){
-        System.out.println("Inside Scout.setEmail: new:"+newScout.email + " old: "+email);
-
+        setEmail(newScout.email);
         setFirstName(newScout.firstName);
         setLastName(newScout.lastName);
         setRank(newScout.rank);
-        setEmail(newScout.email);
         setPosition(newScout.getPosition());
 
     }
@@ -44,10 +53,18 @@ public class Scout {
         return this.email;
     }
 
-    public void setEmail(String email) {
+
+    public boolean setEmail(String email) {
         System.out.println("Inside Scout.setEmail: "+email);
 
-        this.email = email;
+        if (email == null || !RoadToEagle.isValidEmailAddress(email)) {
+            System.out.println("BAD EMAIL ");
+            return false;
+        } else {
+            this.email = email;
+            System.out.println("GOOD EMAIL ");
+            return true;
+        }
     }
 
     public String getFirstName() {
@@ -68,6 +85,34 @@ public class Scout {
 
     public String getRank() {
         return rank;
+    }
+
+    //Need to look at updating GUI stuff
+    // will this propagate to the List
+    public void addAward(Award newAward) {
+        awards.add(newAward);
+    }
+
+    //Need to look at updating GUI stuff
+    // will this propagate to the List, or do we need to mess with the Observer instead?
+    public void removeAward(String byName, String current) {
+        for (int i = 0; i < awards.size(); i++) {
+            if (awards.get(i).awardName.equals(byName)) {
+                awards.remove(i);
+                return;
+            }
+        }
+    }public void addMeritBadge(Award newBadge) {
+        meritBadges.add(newBadge);
+    }
+    public Award[] getAwards() {
+        return awards.toArray(new Award[0]);
+    }
+    public Award[] getMeritBadges() {
+        return meritBadges.toArray(new Award[0]);
+    }
+    public void validateEmail() {
+// Implement email validation logic here
     }
 
     public void setRank(String rank) {

@@ -29,3 +29,9 @@
     -fx-base: lightgrey;
     -fx-font-size: 12px;
 }
+
+
+.text-field.error {
+  -fx-text-box-border: red ;
+  -fx-focus-color: red ;
+}

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csc480.MainController">
+<VBox prefHeight="600.0" prefWidth="990.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csc480.MainController">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -17,9 +18,11 @@
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <Menu mnemonicParsing="false" text="New">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#newScoutBtn" text="%scouts.new-scout" />
+                        <MenuItem mnemonicParsing="false" onAction="#newScoutMenuBtn" text="%scouts.new-scout" />
                         <MenuItem mnemonicParsing="false" onAction="#newMerit" text="%scouts.new-badge" />
-                        <MenuItem mnemonicParsing="false" onAction="#newAction" text="%scouts.new-action" />
+                        <MenuItem mnemonicParsing="false" onAction="#newActivity" text="%scouts.new-activity" />
+                        <MenuItem mnemonicParsing="false" onAction="#newEvent" text="%scouts.new-event" />
+                        <MenuItem mnemonicParsing="false" onAction="#newAward" text="%scouts.new-award" />
                     </items>
                   </Menu>
                   <MenuItem mnemonicParsing="false" onAction="#menuQuit" text="%menu.title.quit" />
@@ -47,7 +50,7 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <ListView fx:id="scoutList" layoutY="6.0" prefHeight="448.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" onMouseClicked="#scoutSelect"/>
+                                    <ListView fx:id="scoutList" layoutY="6.0" onMouseClicked="#selectScout" prefHeight="448.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
                           </AnchorPane>
                         </content>
@@ -56,16 +59,16 @@
                         <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                 <children>
-                                    <ListView fx:id="eventList" layoutY="6.0" prefHeight="448.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <ListView fx:id="eventList" layoutY="6.0" onMouseClicked="#selectScoutEvent" prefHeight="448.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                 </children>
                             </AnchorPane>
                         </content>
                       </TitledPane>
-                      <TitledPane animated="false" text="%accordion.meret-badges">
+                      <TitledPane animated="false" text="%accordion.merit-badges">
                         <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                 <children>
-                                    <ListView fx:id="badgeList" layoutY="6.0" prefHeight="448.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <ListView fx:id="badgeList" layoutY="6.0" onMouseClicked="#selectScoutBadge" prefHeight="448.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                 </children>
                             </AnchorPane>
                         </content>
@@ -74,7 +77,7 @@
                            <content>
                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                    <children>
-                                       <ListView fx:id="awardList" layoutY="6.0" prefHeight="448.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                       <ListView fx:id="awardList" layoutY="6.0" onMouseClicked="#selectScoutAward" prefHeight="448.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                    </children>
                                </AnchorPane>
                            </content>
@@ -83,12 +86,12 @@
                   </Accordion>
           </children>
         </AnchorPane>
-            <HBox fx:id="mainScreen" prefHeight="100.0" prefWidth="200.0"  />
+            <HBox fx:id="mainScreen" prefHeight="100.0" prefWidth="200.0" />
       </items>
     </SplitPane>
     <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
       <children>
-        <Label maxHeight="1.8" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
+        <Label fx:id="leftStatus" maxHeight="1.8" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">
           <font>
             <Font size="11.0" fx:id="x3" />
           </font>
@@ -97,7 +100,7 @@
           </textFill>
         </Label>
         <Pane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS" />
-        <Label font="$x3" maxWidth="-1.0" text="Right status" textFill="$x4" HBox.hgrow="NEVER" />
+        <Label fx:id="rightStatus" font="$x3" maxWidth="-1.0" text="Right status" textFill="$x4" HBox.hgrow="NEVER" />
       </children>
       <padding>
         <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />

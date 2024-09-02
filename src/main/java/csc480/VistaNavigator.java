@@ -19,11 +19,13 @@ public class VistaNavigator {
     /**
      * Convenience constants for fxml layouts managed by the navigator.
      */
-    public static final String MAIN = "roadtoeagle.fxml";
-    public static final String SPLASH = "Splash.fxml";
-    public static final String NEW_SCOUT = "NewScout.fxml";
-    public static final String NEW_ACTION = "NewAction.fxml";
-    public static final String NEW_BADGE = "NewBadge.fxml";
+    public static final String MAIN         = "roadtoeagle.fxml";
+    public static final String SPLASH       = "Splash.fxml";
+    public static final String NEW_SCOUT    = "NewScout.fxml";
+    public static final String NEW_ACTION   = "NewActivity.fxml";
+    public static final String NEW_BADGE    = "NewBadge.fxml";
+    public static final String NEW_EVENT    = "NewScoutEvent.fxml";
+    public static final String NEW_AWARD    = "NewAward.fxml";
 
 
     /**

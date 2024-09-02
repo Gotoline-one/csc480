@@ -20,7 +20,8 @@
                   <TextField fx:id="firstNameTxtBox"    layoutX="106.0" layoutY="34.0" prefHeight="25.0" prefWidth="122.0" text="first"/>
                   <TextField fx:id="lastNameTxtBox"     layoutX="231.0" layoutY="34.0" prefHeight="25.0" prefWidth="122.0" text="Second"/>
                   <Label      text="Email"                              layoutX="30.0"  layoutY="75.0"/>
-                  <TextField fx:id="scoutEmail"         layoutX="106.0" layoutY="70.0" prefHeight="25.0" prefWidth="246.0" />
+                  <TextField fx:id="scoutEmail"         layoutX="106.0" layoutY="70.0" prefHeight="25.0" prefWidth="246.0" text="afds@asdf.com"/>
+
                   <Label      text="Rank"                               layoutX="32.0"  layoutY="110.0"/>
                   <ComboBox  fx:id="rankCombo"          layoutX="106.0" layoutY="105.0" prefHeight="25.0" prefWidth="246.0" />
                   <Label      text="Position"                           layoutX="22.0"  layoutY="146.0"/>
