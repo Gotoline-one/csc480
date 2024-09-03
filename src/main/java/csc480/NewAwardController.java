@@ -34,11 +34,14 @@ public class NewAwardController extends SubController<Award>{
 
     @FXML
     TextArea descriptionBox;
+    Activity currentActivity;
 
     public void initialize (){
         this.mainController = VistaNavigator.getMainController();
+        if(mainController == null) return;
         this.currentAward   = null;
         selectedActivities  = null;
+        currentActivity = null;
 
         activitiesListObserver = FXCollections.observableArrayList();
         availActivitiesListObserver = FXCollections.observableArrayList();
@@ -50,11 +53,9 @@ public class NewAwardController extends SubController<Award>{
         }
 
         availActivitiesList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-             activitiesList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        activitiesList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
     }
-    Activity currentActivity =null;
-
 
 
     @FXML
@@ -88,7 +89,6 @@ public class NewAwardController extends SubController<Award>{
                 currentAward = new Award();
             currentAward.setTitle(activityTitle.getText());
             currentAward.setKnowledge(knowledgeCkBx.isSelected());
-            currentAward.setKnowBased(knowledgeCkBx.isSelected());
             currentAward.setActBase(actionCkBx.isSelected());
             currentAward.setAwardDescription(descriptionBox.getText());
             boolean b;
@@ -100,10 +100,8 @@ public class NewAwardController extends SubController<Award>{
     @FXML
     public void saveNewBtn()
     {
-        //currentAward = new Award();
+        currentAward = new Award();
         formToAward();
-
-//        mainController.awardListObserver.add(this.currentAward);
         mainController.addAward(this.currentAward);
         this.currentAward = null;
         clearInfo();
@@ -130,20 +128,15 @@ public class NewAwardController extends SubController<Award>{
         else
             sel = Math.max(activitiesList.getSelectionModel().getSelectedIndex()-1, 0);
 
-        
         for (int i = selectedIndices.size() - 1; i >= 0; i--) {
             int selectedIndex = selectedIndices.get(i);
             activitiesList.getItems().remove(selectedIndex);
         }
 
-
         activitiesList.getSelectionModel().clearSelection();
         activitiesList.getSelectionModel().select(Math.max(sel, 0));
-
-
-
-
     }
+
     @Override
     public void clearInfo()
     {
@@ -152,7 +145,6 @@ public class NewAwardController extends SubController<Award>{
         actionCkBx.setSelected(false);
         descriptionBox.setText("");
         activitiesListObserver.clear();
-//        selectedActivities.clear();
         currentAward = null;
     }
 
@@ -198,8 +190,8 @@ public class NewAwardController extends SubController<Award>{
         }
         else
         {
-            mainController.awardList.getSelectionModel().clearSelection();
-            mainController.awardList.getSelectionModel().select(currentAward);
+            if(mainController !=null)
+                this.mainController.setLeftStatus("issue with new Award form saveBtn()");
         }
         if(mainController !=null)
             this.mainController.setLeftStatus("NewAwardController.saveAward()");
