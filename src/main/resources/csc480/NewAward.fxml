@@ -10,6 +10,7 @@
       <ListView fx:id="activitiesList" layoutX="295.0" layoutY="74.0" prefHeight="220.0" prefWidth="182.0" />
       <Label alignment="BOTTOM_LEFT" layoutX="295.0" layoutY="47.0" prefHeight="15.0" prefWidth="182.0" text="Required Award Activities" />
       <TextField fx:id="activityTitle" alignment="TOP_LEFT" layoutX="23.0" layoutY="74.0" prefHeight="25.0" prefWidth="234.0" />
+
       <Label layoutX="28.0" layoutY="47.0" prefHeight="15.0" prefWidth="234.0" text="Title" />
       <CheckBox fx:id="knowledgeCkBx" layoutX="23.0" layoutY="119.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="104.0" text="Knowledge" />
       <CheckBox fx:id="actionCkBx" layoutX="185.0" layoutY="119.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="74.0" text="Action" />
