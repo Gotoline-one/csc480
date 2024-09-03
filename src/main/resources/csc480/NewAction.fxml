@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="553.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csc480.NewActionController">
+   <children>
+         <TextField fx:id="titleTxtBox" alignment="TOP_LEFT" layoutX="23.0" layoutY="74.0" prefHeight="25.0" prefWidth="234.0" />
+         <Label layoutX="28.0" layoutY="47.0" prefHeight="15.0" prefWidth="234.0" text="Title" />
+         <CheckBox fx:id="knowledgeCkBx" layoutX="28.0" layoutY="119.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="104.0" text="Knowledge" />
+         <CheckBox fx:id="actionCkBx" layoutX="145.0" layoutY="119.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="74.0" text="Action" />
+         <Text layoutX="222.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Activity Creator" />
+         <Button layoutX="71.0" layoutY="352.0" mnemonicParsing="false" text="Save and New" />
+         <Button layoutX="205.0" layoutY="352.0" mnemonicParsing="false" text="Save" />
+         <Label layoutX="25.0" layoutY="155.0" prefHeight="15.0" prefWidth="171.0" text="Description" />
+         <TextArea fx:id="activityDescTxtBx" layoutX="24.0" layoutY="178.0" prefHeight="133.0" prefWidth="508.0" wrapText="true" />
+      <Button layoutX="278.0" layoutY="352.0" mnemonicParsing="false" text="Cancel" />
+   </children>
+</AnchorPane>
