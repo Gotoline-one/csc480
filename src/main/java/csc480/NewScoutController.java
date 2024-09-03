@@ -14,6 +14,9 @@ import javafx.scene.image.ImageView;
  */
 public class NewScoutController extends SubController<Scout>{
     @FXML
+    public ImageView scoutImage;
+
+    @FXML
     ComboBox<String> rankCombo;
     @FXML
     private TextField firstNameTxtBox;
@@ -60,7 +63,7 @@ public class NewScoutController extends SubController<Scout>{
         this.currentScout = null;
         this.mainController = VistaNavigator.getMainController();
         System.out.println("NewScoutController  Initialize");
-
+        System.out.println(scoutImage.imageProperty().get().getUrl());
     }
 
     /**

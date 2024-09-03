@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="roadtoeagle:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/roadtoeagle_jar</output-path>
+    <root id="root">
+      <element id="archive" name="roadtoeagle.jar">
+        <element id="module-output" name="roadtoeagle" />
+      </element>
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:linux:17.0.6" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:17.0.6" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:17.0.6" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:linux:17.0.6" />
+      <element id="library" level="project" name="Maven: org.jetbrains:annotations:24.1.0" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:linux:17.0.6" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:linux:17.0.6" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:17.0.6" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:17.0.6" />
+    </root>
+  </artifact>
+</component>
