@@ -1,9 +1,7 @@
 <component name="libraryTable">
-  <library name="openjfx.javafx.fxml" type="repository">
-    <properties maven-id="org.openjfx:javafx-fxml:11" />
+  <library name="openjfx.javafx.controls" type="repository">
+    <properties maven-id="org.openjfx:javafx-controls:11" />
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/11/javafx-fxml-11.jar!/" />
-      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/11/javafx-fxml-11-linux.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/11/javafx-controls-11.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/11/javafx-controls-11-linux.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/11/javafx-graphics-11.jar!/" />
@@ -12,8 +10,6 @@
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/11/javafx-base-11-linux.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/11/javafx-fxml-11-javadoc.jar!/" />
-      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-fxml/11/javafx-fxml-11-javadoc.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/11/javafx-controls-11-javadoc.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/11/javafx-controls-11-javadoc.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/11/javafx-graphics-11-javadoc.jar!/" />
