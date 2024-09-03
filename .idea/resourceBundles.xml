@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ResourceBundleManager">
+    <file url="file://$PROJECT_DIR$/src/main/resources/csc480/Bundle.properties" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/csc480/Bundle_en.properties" />
+    <custom-resource-bundle>
+      <file value="file://$PROJECT_DIR$/src/main/resources/csc480/Bundle.properties" />
+      <file value="file://$PROJECT_DIR$/src/main/resources/csc480/Bundle_en.properties" />
+      <base-name>Bundle</base-name>
+    </custom-resource-bundle>
+  </component>
+</project>
