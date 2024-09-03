@@ -1,9 +1,8 @@
 package csc480;
 
-import javafx.event.ActionEvent;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -38,17 +37,17 @@ public class NewScoutController extends SubController<Scout>{
     private TextField scoutBadges;
 
     @FXML
-    void addScoutPhoto(ActionEvent event) {
+    void addScoutPhoto() {
 
     }
 
     @FXML
-    void addAwards(ActionEvent event) {
+    void addAwards() {
 
     }
 
     @FXML
-    void addBadges(ActionEvent event) {
+    void addBadges() {
 
     }
 
@@ -161,7 +160,7 @@ public class NewScoutController extends SubController<Scout>{
      *
      */
     @FXML
-    void nextScout(ActionEvent event)
+    void nextScout()
     {
         // No previous scout was selected so make a new one to add to list
         if(this.currentScout !=null){
@@ -174,7 +173,7 @@ public class NewScoutController extends SubController<Scout>{
                 mainController.addScout(this.currentScout);
 //            VistaNavigator.getMainController().addScout(this.currentScout);
                 this.currentScout = null;
-//                mainController.currentScoutSelected = null;// should be taken care of in mainctrl.addScout
+//                mainController.currentScoutSelected = null;// should be taken care of in maincontroller.addScout
                 clearInfo();
                 System.out.println("save scout and get new form");
 //                if (mainController != null)
@@ -196,7 +195,7 @@ public class NewScoutController extends SubController<Scout>{
      *
      ****/
     @FXML
-    boolean saveScout(ActionEvent event)
+    boolean saveScout()
     {
         // no scout selected so make new one
         if(this.currentScout ==null)
@@ -225,7 +224,7 @@ public class NewScoutController extends SubController<Scout>{
      *
      */
     @FXML
-    void cancel(ActionEvent event) {
+    void cancel() {
         VistaNavigator.loadVista(VistaNavigator.SPLASH);
         this.currentScout = null;
         clearInfo();
