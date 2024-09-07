@@ -46,10 +46,10 @@ public class NewScoutController extends SubController<Scout>{
 
     @FXML
     void addAwards() {
-//        ScoutToAward scoutToAward= (ScoutToAward) VistaNavigator.loadVista(VistaNavigator.SCOUT_AWARD);
-//        if(this.currentScout !=null && ScoutToAward != null) {
-//            ScoutToAward.loadInfo(this.currentScout);
-//        }
+        ScoutToAward scoutToAward= (ScoutToAward) VistaNavigator.loadVista(VistaNavigator.SCOUT_AWARD);
+        if(this.currentScout !=null && scoutToAward != null) {
+            scoutToAward.loadInfo(this.currentScout);
+        }
     }
 
     @FXML

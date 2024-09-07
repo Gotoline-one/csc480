@@ -142,4 +142,8 @@ public class Scout {
     public void clearBadges() {
         meritBadges.clear();
     }
+
+    public void clearAwards() {
+        awards.clear();
+    }
 }
