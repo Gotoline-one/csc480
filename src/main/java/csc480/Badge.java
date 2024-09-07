@@ -3,10 +3,10 @@ package csc480;
 import javafx.collections.ObservableList;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 public class Badge implements Iterable<Activity> {
     String description;
@@ -19,14 +19,14 @@ public class Badge implements Iterable<Activity> {
     private boolean complete;
     private ArrayList<Activity> activityList = new ArrayList<>();
 
-    Badge() {
-    }
-    public Badge(String newName, Activity[] scoutActivities){
+    Badge() {}
+
+    public Badge(String newName, List<Activity> scoutActivities){
         this.badgeName = newName;
         this.complete=false;
-        this.activityList = new ArrayList<>(Arrays.asList(scoutActivities));
-
+        this.activityList = new ArrayList<>(scoutActivities);
     }
+
     public String getBadgeName() {
         return badgeName;
     }

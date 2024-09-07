@@ -93,16 +93,17 @@ public class RoadToEagle extends Application {
         java.util.regex.Matcher m = p.matcher(email);
         return m.matches();
     }
+//TODO: Is this needed?
 
-    public Award createAward(String awardName, Activity[] scoutActivities) {
-        Award newAward = new Award(awardName, scoutActivities);
-        if (scoutActivities.length > 0 && scoutActivities[0].getName().contains("Merit Badge")) {
-//            meritBadges.add(newAward);
-        } else {
-//            scoutingAwards.add(newAward);
-        }
-        return newAward;
-    }
+//    public Award createAward(String awardName, Activity[] scoutActivities) {
+//        Award newAward = new Award(awardName, scoutActivities);
+//        if (scoutActivities.length > 0 && scoutActivities[0].getName().contains("Merit Badge")) {
+////            meritBadges.add(newAward);
+//        } else {
+////            scoutingAwards.add(newAward);
+//        }
+//        return newAward;
+//    }
     public static void showAlert(Alert.AlertType alertType, String title, String message) {
         Window owner =  primaryStage.getScene().getWindow();
         Alert alert = new Alert(alertType);

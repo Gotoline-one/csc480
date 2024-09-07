@@ -88,6 +88,8 @@ public class MainController {
         scoutActivities = new ListView<Activity>();
         addFakeActions();
         addFakeScouts();
+        addFakeBadges();
+        addFakeAwards();
         System.out.println("MainController Initialized");
     }
 
@@ -103,7 +105,20 @@ public class MainController {
         scoutActivities.getItems().add(new Activity("Explain how hiking is an aerobic activity"));
 
     }
-
+    public void addFakeBadges(){
+        for(int i = 0; i < scoutActivities.getItems().size(); i++){
+            badgeList.getItems().add(
+                    new Badge("badgeName"+Integer.toString(i), scoutActivities.getItems().subList(0, i)  )
+            );
+        }
+    }
+    public void addFakeAwards(){
+        for(int i = 0; i < scoutActivities.getItems().size(); i++){
+            awardList.getItems().add(
+                    new Award("awardName"+Integer.toString(i), scoutActivities.getItems().subList(0, i)  )
+            );
+        }
+    }
     public void addFakeScouts() {
         //Scout(String newFirstName, String newLastname, String newRank, String newPosition, String newEmail)
         String vari = "aaa";
@@ -355,5 +370,13 @@ public class MainController {
             currentBadgeSelected.updateBadge(newBadge);
         else
             this.addBadge(newBadge);
+    }
+
+    public ListView<Badge> getBadgeList() {
+        return badgeList;
+    }
+
+    public ListView<Award> getAwardList() {
+        return awardList;
     }
 }
