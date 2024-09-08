@@ -57,7 +57,7 @@ public class MainController {
     private NewAwardController currentNewAwardController;
 
     private ListView<Activity> scoutActivities;
-
+    private Connection myconnection;
     @FXML
     void initialize() {
         scoutList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -91,6 +91,8 @@ public class MainController {
         addFakeBadges();
         addFakeAwards();
         System.out.println("MainController Initialized");
+//        myconnection = new Connection();
+//        myconnection.queryScouts();
     }
 
     public ListView<Activity> getScoutActivities() {

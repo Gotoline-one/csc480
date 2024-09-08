@@ -107,6 +107,7 @@ public class Scout {
             }
         }
     }
+
     public void addMeritBadge(Badge newBadge) {
         meritBadges.add(newBadge);
     }
