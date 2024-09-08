@@ -1,6 +1,8 @@
-package csc480;
+package csc480.controller;
 
 
+import csc480.app.RoadToEagle;
+import csc480.model.Scout;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
@@ -46,7 +48,7 @@ public class NewScoutController extends SubController<Scout>{
 
     @FXML
     void addAwards() {
-        ScoutToAward scoutToAward= (ScoutToAward) VistaNavigator.loadVista(VistaNavigator.SCOUT_AWARD);
+        ScoutToAwardController scoutToAward= (ScoutToAwardController) VistaNavigator.loadVista(VistaNavigator.SCOUT_AWARD);
         if(this.currentScout !=null && scoutToAward != null) {
             scoutToAward.loadInfo(this.currentScout);
         }
@@ -54,7 +56,7 @@ public class NewScoutController extends SubController<Scout>{
 
     @FXML
     void addBadges() {
-            ScoutToBadge scoutToBadge= (ScoutToBadge) VistaNavigator.loadVista(VistaNavigator.SCOUT_BADGE);
+            ScoutToBadgeController scoutToBadge= (ScoutToBadgeController) VistaNavigator.loadVista(VistaNavigator.SCOUT_BADGE);
             if(this.currentScout !=null && scoutToBadge != null) {
                 scoutToBadge.loadInfo(this.currentScout);
             }

@@ -1,5 +1,7 @@
-package csc480;
+package csc480.controller;
 
+import csc480.model.Award;
+import csc480.model.Scout;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -7,7 +9,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
 
-public class ScoutToAward extends SubController<Scout>{
+public class ScoutToAwardController extends SubController<Scout>{
     private MainController mainController;
 
     @FXML

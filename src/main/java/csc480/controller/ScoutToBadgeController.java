@@ -1,16 +1,15 @@
-package csc480;
+package csc480.controller;
 
+import csc480.model.Badge;
+import csc480.model.Scout;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.input.MouseEvent;
 
-import java.util.ListIterator;
-
-public class ScoutToBadge extends SubController<Scout>{
+public class ScoutToBadgeController extends SubController<Scout>{
     private MainController mainController;
 
     @FXML

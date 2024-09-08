@@ -1,13 +1,13 @@
-package csc480;
+package csc480.controller;
 
+import csc480.model.Activity;
+import csc480.model.Award;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-
-import java.util.ArrayList;
 
 public class NewAwardController extends SubController<Award>{
     private MainController mainController;
@@ -155,8 +155,8 @@ public class NewAwardController extends SubController<Award>{
             return;
         currentAward = obj;
         activityTitle.setText(currentAward.getAwardName());
-        knowledgeCkBx.setSelected(currentAward.isKnowBased);
-        actionCkBx.setSelected(currentAward.isActBase);
+        knowledgeCkBx.setSelected(currentAward.isKnowBased());
+        actionCkBx.setSelected(currentAward.isActBase());
         descriptionBox.setText(currentAward.getAwardDescription());
         for( Activity act : obj){
             activitiesListObserver.add(act);

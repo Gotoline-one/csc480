@@ -1,11 +1,10 @@
-package csc480;
+package csc480.controller;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 
 import java.io.IOException;
 import java.util.Locale;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -19,32 +18,33 @@ public class VistaNavigator {
     /**
      * Convenience constants for fxml layouts managed by the navigator.
      */
-    public static final String MAIN         = "roadtoeagle.fxml";
-    public static final String SPLASH       = "Splash.fxml";
-    public static final String NEW_SCOUT    = "NewScout.fxml";
-    public static final String NEW_ACTION   = "NewActivity.fxml";
-    public static final String NEW_BADGE    = "NewBadge.fxml";
-    public static final String NEW_EVENT    = "NewScoutEvent.fxml";
-    public static final String NEW_AWARD    = "NewAward.fxml";
-    public static final String SCOUT_BADGE  = "ScoutToBadge.fxml";
-    public static final String SCOUT_AWARD = "ScoutToAward.fxml";
+    public static final String MAIN         = "/csc480/roadtoeagle.fxml";
+    public static final String SPLASH       = "/csc480/Splash.fxml";
+    public static final String NEW_SCOUT    = "/csc480/NewScout.fxml";
+    public static final String NEW_ACTION   = "/csc480/NewActivity.fxml";
+    public static final String NEW_BADGE    = "/csc480/NewBadge.fxml";
+    public static final String NEW_EVENT    = "/csc480/NewScoutEvent.fxml";
+    public static final String NEW_AWARD    = "/csc480/NewAward.fxml";
+    public static final String SCOUT_BADGE  = "/csc480/ScoutToBadgeController.fxml";
+    public static final String SCOUT_AWARD =  "/csc480/ScoutToAwardController.fxml";
 
 
     /**
      * The main application layout controller.
      */
 
-    private static SubController currentSubController;
-    public static SubController getSubController() {
-        if (currentSubController != null) {
-            return currentSubController;
-        }
-        return null;
-    }
-
-    public static void setSubController(SubController subController) {
-        VistaNavigator.currentSubController = subController;
-    }
+//    private static SubController currentSubController;
+//
+//    public static SubController getSubController() {
+//        if (currentSubController != null) {
+//            return currentSubController;
+//        }
+//        return null;
+//    }
+//
+//    public static void setSubController(SubController subController) {
+//        VistaNavigator.currentSubController = subController;
+//    }
 
 
     private static MainController mainController;

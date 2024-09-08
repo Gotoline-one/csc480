@@ -1,10 +1,12 @@
-package csc480;
+package csc480.service;
 
 import com.mongodb.*;
 import com.mongodb.client.*;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
+import csc480.model.Badge;
+import csc480.model.Scout;
 import org.bson.BsonDocument;
 import org.bson.BsonInt64;
 import org.bson.Document;
@@ -22,11 +24,23 @@ public class Connection {
     private  final String scoutDatabase = "TroopManagementApp";
     private MongoDatabase database;
     public MongoClient mongoClient;
+    private ServerApi serverApi;
+    private  MongoClientSettings settings;
 
-    Connection() {
+   public Connection() {
 //        public static void main (String[]args){
-        // Replace the placeholder with your Atlas csc480.csc480.Connection string
+        // Replace the placeholder with your Atlas csc480.csc480.service.Connection string
        // Construct a ServerApi instance using the ServerApi.builder() method
+
+        serverApi = ServerApi.builder()
+                .version(ServerApiVersion.V1)
+                .build();
+
+        settings = MongoClientSettings.builder()
+                .applyConnectionString(new ConnectionString(uri))
+                .serverApi(serverApi)
+                .build();
+
         if(!connect() ){
             //TODO: need to make some kind of "not connected" or "changes will not save" popup on error
             System.out.println("ERROR COULD NOT CONNECT TO DB");
@@ -103,22 +117,30 @@ public class Connection {
  */
         }
 
-    public boolean connect(){
-        ServerApi serverApi = ServerApi.builder()
-                .version(ServerApiVersion.V1)
-                .build();
-
-        MongoClientSettings settings = MongoClientSettings.builder()
-                .applyConnectionString(new ConnectionString(uri))
-                .serverApi(serverApi)
-                .build();
-
+    private boolean connect(){
         try(MongoClient mClient = MongoClients.create(settings)){
-
-
             database = mClient.getDatabase(scoutDatabase);
 
             // Send a ping to confirm a successful Connection
+            Bson command = new BsonDocument("ping", new BsonInt64(1));
+            Document commandResult = database.runCommand(command);
+
+//            System.out.println("You successfully connected to MongoDB!\n" + commandResult.toString());
+        } catch (MongoException me) {
+            System.err.println(me);
+            return false;
+
+        }
+//        checkConnection();
+
+        return true;
+    }
+
+
+     public boolean checkConnection(){
+        try(MongoClient mClient = MongoClients.create(settings)){
+            database = mClient.getDatabase(scoutDatabase);
+
             Bson command = new BsonDocument("ping", new BsonInt64(1));
             Document commandResult = database.runCommand(command);
 
@@ -126,48 +148,45 @@ public class Connection {
         } catch (MongoException me) {
             System.err.println(me);
             return false;
-
         }
-        checkConnection(database);
-
         return true;
     }
 
+    /**
+     * TODO:need to build other parts of the db to get this
+     * @return arrayList of scouts
+     *
+     */
+    public ArrayList<Scout> getScouts(){
+        ArrayList<Scout> dbScouts = new ArrayList<>();
+        Scout currentScout;
+        try(MongoClient mClient = MongoClients.create(settings)){
+            database = mClient.getDatabase(scoutDatabase);
+            MongoCollection<Document> scoutCollection = database.getCollection("Scout");
+            FindIterable<Document> iterDoc = scoutCollection.find();
+            for (Document document : iterDoc) {
+                currentScout = new Scout();
+                System.out.println(document);
+//                dbScouts.add(document);
+            }
 
-    public boolean checkConnection(MongoDatabase db){
-        try {
-            // send a ping to confirm a successful connection
-            Bson command = new BsonDocument("ping", new BsonInt64(1));
-            Document commandResult = db.runCommand(command);
-            System.out.println("Pinged your deployment. You successfully connected to MongoDB!");
-            return true;
         } catch (MongoException me) {
             System.err.println(me);
-            return false;
+            return null;
         }
+
+        return dbScouts;
     }
 
-    public boolean checkConnection(){
-        try {
-            // send a ping to confirm a successful connection
-            Bson command = new BsonDocument("ping", new BsonInt64(1));
-            Document commandResult = database.runCommand(command);
-            System.out.println("Pinged your deployment. You successfully connected to MongoDB!");
-            return true;
-        } catch (MongoException me) {
-            System.err.println(me);
-            return false;
-        }
-    }
+    public void crateMeritBadge(Badge newBadge){
 
-    public void crateMeritBadge(MongoCollection<Document> meritBadgeCollection){
-        String badgeName = "Hiking";
+        String badgeName = newBadge.getBadgeName();
         String requirements = "to hike";
 
         Document badge = new Document("_id", new ObjectId());
         badge.append("badgeName", badgeName)
              .append("requirements", requirements);
-        InsertOneResult res   = meritBadgeCollection.insertOne(badge);
+//        InsertOneResult res   = meritBadgeCollection.insertOne(badge);
     }
 
     public void  createScout(MongoCollection<Document> scoutCollection) {
@@ -187,18 +206,7 @@ public class Connection {
                 .append("MeritBadge", meritBadge);
         InsertOneResult res   = scoutCollection.insertOne(scout);
     }
-    public ArrayList<Scout> queryScouts(){
 
-        if(!checkConnection()){
-            connect();
-        }
-
-
-        ArrayList<Scout> listOfScouts = new ArrayList<>();
-
-
-        return listOfScouts;
-    }
 
     public void deleteScout(MongoCollection<Document> scoutCollection) {
         String fname = "Tom";

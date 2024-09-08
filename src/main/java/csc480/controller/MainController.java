@@ -1,5 +1,7 @@
-package csc480;
+package csc480.controller;
 
+import csc480.model.*;
+import csc480.service.Connection;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,7 +19,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 
 public class MainController {
 
@@ -91,8 +92,10 @@ public class MainController {
         addFakeBadges();
         addFakeAwards();
         System.out.println("MainController Initialized");
-//        myconnection = new Connection();
-//        myconnection.queryScouts();
+        myconnection = new Connection();
+        System.out.println("Connection   " + myconnection.checkConnection());
+
+        myconnection.getScouts();
     }
 
     public ListView<Activity> getScoutActivities() {

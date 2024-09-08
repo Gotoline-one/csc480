@@ -1,4 +1,4 @@
-package csc480;
+package csc480.model;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;

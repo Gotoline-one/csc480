@@ -1,9 +1,8 @@
-package csc480;
+package csc480.controller;
 
-import javafx.collections.ObservableList;
+import csc480.model.Activity;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
@@ -50,7 +49,7 @@ public class NewActivityController extends SubController<Activity>{
     public void loadInfo(Activity activity){
         titleTxtBox.setText(activity.getName());
         activityDescTxtBx.setText(activity.getDescription());
-        actionCkBx.setSelected(activity.actionBased);
-        knowledgeCkBx.setSelected(activity.knowledgeBased);
+        actionCkBx.setSelected(activity.isActionBased());
+        knowledgeCkBx.setSelected(activity.isKnowledgeBased());
     }
 }

@@ -1,9 +1,9 @@
-package csc480;
+package csc480.app;
 
 //import csc480.Branched.Activity;
+import csc480.controller.MainController;
+import csc480.controller.VistaNavigator;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -46,7 +46,7 @@ public class RoadToEagle extends Application {
 
         MainController mainController = loader.getController();
         VistaNavigator.setMainController(mainController);
-        VistaNavigator.loadVista(VistaNavigator.SPLASH);
+   //     VistaNavigator.loadVista(VistaNavigator.SPLASH);
 
         return mainPane;
     }
@@ -61,7 +61,7 @@ public class RoadToEagle extends Application {
         Scene scene = new Scene(mainPane);
 
         scene.getStylesheets().setAll(
-                getClass().getResource("vista.css").toExternalForm()
+                getClass().getResource("/csc480/vista.css").toExternalForm()
         );
 
         return scene;

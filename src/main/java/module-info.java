@@ -10,5 +10,13 @@ module org.csc480.roadtoeagle {
     requires org.mongodb.driver.core;
     requires org.mongodb.bson;
     opens csc480 to javafx.fxml;
-    exports csc480;
+//    exports csc480;
+    exports csc480.controller;
+    opens csc480.controller to javafx.fxml;
+    exports csc480.model;
+    opens csc480.model to javafx.fxml;
+    exports csc480.app;
+    opens csc480.app to javafx.fxml;
+    opens csc480.service to javafx.fxml;
+    exports csc480.service;
 }

@@ -1,4 +1,4 @@
-package csc480;
+package csc480.model;
 
 public class Address {
     private int streetNumber;

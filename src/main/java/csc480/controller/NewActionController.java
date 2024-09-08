@@ -1,5 +1,6 @@
-package csc480;
+package csc480.controller;
 
+import csc480.model.ScoutAction;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 

@@ -1,38 +1,37 @@
-package csc480;
+package csc480.model;
 
 import javafx.collections.ObservableList;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class Award implements Iterable<Activity> {
-    String awardName;
+public class Badge implements Iterable<Activity> {
+    String description;
+
+    String badgeName;
     boolean isKnowBased, isActBase;
-    private String awardType;
-    private String awardDescription;
+    private String badgeType;
+    private String badgeDescription;
     private Duration timeRequirement;
     private boolean complete;
     private ArrayList<Activity> activityList = new ArrayList<>();
 
-    public Award() {
-    }
+    public Badge() {}
 
-    public Award(String name, List<Activity> scoutActivities) {
-        this.awardName = name;
-        this.complete = false;
+    public Badge(String newName, List<Activity> scoutActivities){
+        this.badgeName = newName;
+        this.complete=false;
         this.activityList = new ArrayList<>(scoutActivities);
     }
 
-    public String getAwardDescription() {
-        return awardDescription;
+    public String getBadgeName() {
+        return badgeName;
     }
 
-    public void setAwardDescription(String awardDescription) {
-        this.awardDescription = awardDescription;
+    public void setBadgeName(String badgeName) {
+        this.badgeName = badgeName;
     }
 
     public boolean isKnowBased() {
@@ -51,29 +50,25 @@ public class Award implements Iterable<Activity> {
         isActBase = actBase;
     }
 
-    public boolean getComplete() {
+    public boolean isComplete() {
         return complete;
     }
 
-    public void setComplete() {
-        this.complete = true;
+    public void setComplete(boolean complete) {
+        this.complete = complete;
     }
 
-    public void setTitle(String text) {
-        awardName = text;
+    public String getBadgeDescription() {
+        return badgeDescription;
     }
 
-    public String getAwardName() {
-        return awardName;
-    }
-
-    public void setKnowledge(boolean selected) {
-        isKnowBased = selected;
+    public void setBadgeDescription(String badgeDescription) {
+        this.badgeDescription = badgeDescription;
     }
 
     @Override
     public String toString() {
-        return awardName;
+        return badgeName;
     }
 
     @Override
@@ -81,35 +76,34 @@ public class Award implements Iterable<Activity> {
         return activityList.iterator();
     }
 
-
     public boolean activityAddAll(ArrayList<Activity> newActivityList) {
         if (newActivityList == null) return false;
 
         this.activityList.addAll(newActivityList);
         return (newActivityList.size() == this.activityList.size());
     }
-
     public boolean activityAddAll(ObservableList<Activity> newActivityList) {
         if (newActivityList == null) return false;
         activityList.clear();
         activityList.addAll(newActivityList);
         return true;
     }
-
     public boolean addActivity(Activity act) {
         return this.activityList.add(act);
     }
 
-    public void updateAward(Award updatedAward) {
-        if (updatedAward == this) return;
+    public void updateBadge(Badge updatedBadge) {
+        if (updatedBadge == this) return;
 
-        setActBase(updatedAward.isActBase);
-        setKnowBased(updatedAward.isKnowBased);
-        setAwardDescription(updatedAward.awardDescription);
-        setTitle(updatedAward.awardName);
+        setActBase(updatedBadge.isActBase);
+        setKnowBased(updatedBadge.isKnowBased);
+        setBadgeDescription(updatedBadge.badgeDescription);
+        setBadgeName(updatedBadge.badgeName);
         activityList.clear();
-        if (!activityAddAll(updatedAward.activityList)) {
+        if (!activityAddAll(updatedBadge.activityList)) {
             System.out.println("Issue updating Award Activities Award.updateAward()");
         }
     }
+
 }
+

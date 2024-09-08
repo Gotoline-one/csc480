@@ -1,4 +1,6 @@
-package csc480;
+package csc480.controller;
+
+import csc480.model.ScoutEvent;
 
 public class NewScoutEventController extends SubController<ScoutEvent> {
     @Override

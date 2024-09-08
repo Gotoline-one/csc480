@@ -1,10 +1,8 @@
-package csc480;
+package csc480.model;
 
-import javafx.collections.ObservableList;
-import javafx.scene.Parent;
+import csc480.app.RoadToEagle;
 
 import java.util.ArrayList;
-import java.util.regex.Pattern;
 
 public class Scout {
     private String firstName;

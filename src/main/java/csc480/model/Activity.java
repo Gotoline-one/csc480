@@ -1,4 +1,4 @@
-package csc480;
+package csc480.model;
 
 import javafx.util.Duration;
 
@@ -8,6 +8,47 @@ public class Activity {
     private Duration timeToComplete;
     private int amountComplete;
     private boolean isComplete;
+
+    public void setComplete(boolean complete) {
+        isComplete = complete;
+    }
+
+    public boolean isKnowledgeBased() {
+        return knowledgeBased;
+    }
+
+    public void setKnowledgeBased(boolean knowledgeBased) {
+        this.knowledgeBased = knowledgeBased;
+    }
+
+    public boolean isActionBased() {
+        return actionBased;
+    }
+
+    public void setActionBased(boolean actionBased) {
+        this.actionBased = actionBased;
+    }
+
+    public int getAmountComplete() {
+        return amountComplete;
+    }
+
+    public void setAmountComplete(int amountComplete) {
+        this.amountComplete = amountComplete;
+    }
+
+    public Duration getTimeToComplete() {
+        return timeToComplete;
+    }
+
+    public void setTimeToComplete(Duration timeToComplete) {
+        this.timeToComplete = timeToComplete;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
     boolean knowledgeBased;
     boolean actionBased;
     public Activity(String name) {

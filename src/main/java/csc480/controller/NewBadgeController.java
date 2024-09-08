@@ -1,13 +1,13 @@
-package csc480;
+package csc480.controller;
 
+import csc480.model.Activity;
+import csc480.model.Badge;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-
-import java.util.List;
 
 public class NewBadgeController extends SubController<Badge>{
 
@@ -154,8 +154,8 @@ public class NewBadgeController extends SubController<Badge>{
             return;
         currentBadge = newBadge;
         activityTitle.setText(currentBadge.getBadgeName());
-        knowledgeCkBx.setSelected(currentBadge.isKnowBased);
-        actionCkBx.setSelected(currentBadge.isActBase);
+        knowledgeCkBx.setSelected(currentBadge.isKnowBased());
+        actionCkBx.setSelected(currentBadge.isActBase());
         descriptionBox.setText(currentBadge.getBadgeDescription());
         for( Activity act : newBadge){
             activitiesListObserver.add(act);

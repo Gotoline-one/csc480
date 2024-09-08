@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?scenebuilder-stylesheet vista.css?>
-<?import java.lang.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.layout.StackPane?>
 
-<StackPane fx:id="vista1" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csc480.SplashController">
-   <children>
+<StackPane fx:id="vista1" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csc480.controller.SplashController">
       <Pane prefHeight="680.0" prefWidth="1200.0" />
-   </children>
 </StackPane>
