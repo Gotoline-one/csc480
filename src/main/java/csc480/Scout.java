@@ -1,5 +1,6 @@
 package csc480;
 
+import javafx.collections.ObservableList;
 import javafx.scene.Parent;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class Scout {
     private String position;
     private String rank;
     private ArrayList<Award> awards;
-    private ArrayList<Award> meritBadges;
+    private ArrayList<Badge> meritBadges;
     private Membership membership;
 
 
@@ -24,6 +25,8 @@ public class Scout {
         this.rank       = newRank;
         this.position   = newPosition;
         this.email      = newEmail;
+        meritBadges = new ArrayList<>();
+        awards      = new ArrayList<>();
     }
 
     public Scout() {
@@ -31,7 +34,8 @@ public class Scout {
         this.lastName = "";
         this.rank = "";
         this.email="";
-
+        meritBadges = new ArrayList<>();
+        awards      = new ArrayList<>();
     }
 
     /**
@@ -102,15 +106,18 @@ public class Scout {
                 return;
             }
         }
-    }public void addMeritBadge(Award newBadge) {
+    }
+
+    public void addMeritBadge(Badge newBadge) {
         meritBadges.add(newBadge);
     }
     public Award[] getAwards() {
         return awards.toArray(new Award[0]);
     }
-    public Award[] getMeritBadges() {
-        return meritBadges.toArray(new Award[0]);
+    public ArrayList<Badge> getMeritBadges() {
+        return meritBadges;
     }
+
     public void validateEmail() {
 // Implement email validation logic here
     }
@@ -131,5 +138,13 @@ public class Scout {
     public String toString() {
         return firstName + " " + lastName;
 
+    }
+
+    public void clearBadges() {
+        meritBadges.clear();
+    }
+
+    public void clearAwards() {
+        awards.clear();
     }
 }

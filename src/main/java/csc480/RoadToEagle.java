@@ -80,12 +80,6 @@ public class RoadToEagle extends Application {
         stage.show();
     }
 
-    @FXML
-    void nextPane(ActionEvent event) {
-        VistaNavigator.loadVista(VistaNavigator.NEW_SCOUT);
-
-    }
-
 
     public static boolean isValidEmailAddress(String email) {
         String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
@@ -94,15 +88,6 @@ public class RoadToEagle extends Application {
         return m.matches();
     }
 
-    public Award createAward(String awardName, Activity[] scoutActivities) {
-        Award newAward = new Award(awardName, scoutActivities);
-        if (scoutActivities.length > 0 && scoutActivities[0].getName().contains("Merit Badge")) {
-//            meritBadges.add(newAward);
-        } else {
-//            scoutingAwards.add(newAward);
-        }
-        return newAward;
-    }
     public static void showAlert(Alert.AlertType alertType, String title, String message) {
         Window owner =  primaryStage.getScene().getWindow();
         Alert alert = new Alert(alertType);

@@ -43,7 +43,8 @@ public class NewAwardController extends SubController<Award>{
         selectedActivities  = null;
         currentActivity = null;
 
-        activitiesListObserver = FXCollections.observableArrayList();
+        activitiesListObserver      = FXCollections.observableArrayList();
+
         availActivitiesListObserver = FXCollections.observableArrayList();
         availActivitiesListObserver.addAll(mainController.getScoutActivities().getItems());
 
@@ -91,8 +92,7 @@ public class NewAwardController extends SubController<Award>{
             currentAward.setKnowledge(knowledgeCkBx.isSelected());
             currentAward.setActBase(actionCkBx.isSelected());
             currentAward.setAwardDescription(descriptionBox.getText());
-            boolean b;
-            b = currentAward.activityAddAll(activitiesListObserver);
+            currentAward.activityAddAll(activitiesListObserver);
 
             return true;
 

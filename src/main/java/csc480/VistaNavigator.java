@@ -26,6 +26,8 @@ public class VistaNavigator {
     public static final String NEW_BADGE    = "NewBadge.fxml";
     public static final String NEW_EVENT    = "NewScoutEvent.fxml";
     public static final String NEW_AWARD    = "NewAward.fxml";
+    public static final String SCOUT_BADGE  = "ScoutToBadge.fxml";
+    public static final String SCOUT_AWARD = "ScoutToAward.fxml";
 
 
     /**

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csc480.ScoutToBadge">
+   <children>
+      <ListView fx:id="chosenBadges" layoutX="14.0" layoutY="43.0" prefHeight="298.0" prefWidth="210.0" />
+      <ListView fx:id="availableBadges" layoutX="376.0" layoutY="51.0" onMouseClicked="#selectAvailBadges" prefHeight="298.0" prefWidth="210.0" />
+      <Label layoutX="51.0" layoutY="22.0" text="Scout Merit Badges" />
+      <Label layoutX="430.0" layoutY="22.0" text="Available Badges" />
+      <Button onAction="#addSelectedBadge"  layoutX="286.0" layoutY="149.0" mnemonicParsing="false" text="&lt;" />
+      <Button onAction="#removeSelectedBadge" layoutX="264.0" layoutY="252.0" mnemonicParsing="false" text="Remove" />
+      <Button onAction="#saveBtn"  layoutX="214.0" layoutY="362.0" mnemonicParsing="false" text="Save" />
+      <Button onAction="#cancelBtn" layoutX="323.0" layoutY="362.0" mnemonicParsing="false" text="Cancel" />
+   </children>
+</AnchorPane>

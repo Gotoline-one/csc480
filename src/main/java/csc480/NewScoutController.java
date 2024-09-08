@@ -35,6 +35,9 @@ public class NewScoutController extends SubController<Scout>{
 
     @FXML
     private TextField scoutBadges;
+    Scout currentScout;
+    MainController mainController;
+
 
     @FXML
     void addScoutPhoto() {
@@ -43,18 +46,19 @@ public class NewScoutController extends SubController<Scout>{
 
     @FXML
     void addAwards() {
-
+        ScoutToAward scoutToAward= (ScoutToAward) VistaNavigator.loadVista(VistaNavigator.SCOUT_AWARD);
+        if(this.currentScout !=null && scoutToAward != null) {
+            scoutToAward.loadInfo(this.currentScout);
+        }
     }
 
     @FXML
     void addBadges() {
-
+            ScoutToBadge scoutToBadge= (ScoutToBadge) VistaNavigator.loadVista(VistaNavigator.SCOUT_BADGE);
+            if(this.currentScout !=null && scoutToBadge != null) {
+                scoutToBadge.loadInfo(this.currentScout);
+            }
     }
-
-
-    Scout currentScout;
-    MainController mainController;
-
 
     @FXML
     void initialize() {

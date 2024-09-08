@@ -5,7 +5,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-class ScoutEvent {
+public class ScoutEvent {
     private LocalTime date;
     private LocalDate timeZone;
     private Address location;

@@ -92,8 +92,7 @@ public class NewBadgeController extends SubController<Badge>{
         currentBadge.setKnowBased(knowledgeCkBx.isSelected());
         currentBadge.setActBase(actionCkBx.isSelected());
         currentBadge.setBadgeDescription(descriptionBox.getText());
-        boolean b;
-        b = currentBadge.activityAddAll(activitiesListObserver);
+        currentBadge.activityAddAll(activitiesListObserver);
 
         return true;
 

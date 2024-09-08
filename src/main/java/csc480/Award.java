@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 public class Award implements Iterable<Activity> {
     String awardName;
@@ -20,10 +21,10 @@ public class Award implements Iterable<Activity> {
     public Award() {
     }
 
-    public Award(String name, Activity[] scoutActivities) {
+    public Award(String name, List<Activity> scoutActivities) {
         this.awardName = name;
         this.complete = false;
-        this.activityList = new ArrayList<>(Arrays.asList(scoutActivities));
+        this.activityList = new ArrayList<>(scoutActivities);
     }
 
     public String getAwardDescription() {

@@ -1,6 +1,6 @@
 package csc480;
 
-class Address {
+public class Address {
     private int streetNumber;
     private String streetName;
     private String city;
