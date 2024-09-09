@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csc480.ScoutToAward">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csc480.controller.ScoutToAwardController">
    <children>
       <ListView fx:id="chosenAwards" layoutX="14.0" layoutY="43.0" prefHeight="298.0" prefWidth="210.0" />
       <ListView fx:id="availableAwards" layoutX="376.0" layoutY="51.0" onMouseClicked="#selectAvailAwards" prefHeight="298.0" prefWidth="210.0" />
