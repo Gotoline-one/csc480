@@ -4,6 +4,7 @@ import csc480.model.Scout;
 import csc480.repository.ScoutRepository;
 import csc480.repository.mongo.MongoBaseRepo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class JsonScoutRepo extends MongoBaseRepo implements ScoutRepository {
@@ -13,7 +14,7 @@ public class JsonScoutRepo extends MongoBaseRepo implements ScoutRepository {
     }
 
     @Override
-    public List<Scout> findAll() {
-        return List.of();
+    public ArrayList<Scout> findAll() {
+        return null;
     }
 }

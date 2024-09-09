@@ -4,6 +4,8 @@ import csc480.model.*;
 import csc480.repository.BadgeRepository;
 import csc480.repository.mongo.Connection;
 import csc480.repository.mongo.MongoBadgeRepo;
+import csc480.service.BadgeService;
+import csc480.service.ScoutService;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +22,7 @@ import javafx.scene.layout.HBox;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -95,16 +98,19 @@ public class MainController {
         addFakeBadges();
         addFakeAwards();
         System.out.println("MainController Initialized");
+        BadgeService bs = new BadgeService();
+        ArrayList<Badge> b = bs.findAll();
 
-        try (MongoBadgeRepo badgeRepository = new MongoBadgeRepo()) {
-            ArrayList<Badge> badgeList = badgeRepository.findAll();
-            for(Badge b : badgeList){
-                System.out.println(b + " ");
-            }
+        for (Iterator<Badge> iterator = b.iterator(); iterator.hasNext(); ) {
+            Badge badge = iterator.next();
+            System.out.println("Badge: " + b.toString());
         }
-        catch(Exception e){
-            e.printStackTrace();
 
+        ScoutService ss = new ScoutService();
+        ArrayList<Scout> findAll = ss.findAll();
+        for (int i = 0, findAllSize = findAll.size(); i < findAllSize; i++) {
+            Scout s = findAll.get(i);
+            System.out.println("Badge: " + s.toString());
         }
 
 

@@ -1,5 +1,43 @@
 package csc480.service;
 
-public class BadgeService {
+import csc480.model.Badge;
+import csc480.repository.BadgeRepository;
+import csc480.repository.json.JsonBadgeRepo;
+import csc480.repository.mongo.MongoBadgeRepo;
 
+import java.util.ArrayList;
+
+public class BadgeService {
+    private final BadgeRepository remoteRepository = new MongoBadgeRepo();
+    private final BadgeRepository localRepository = new JsonBadgeRepo();
+    private boolean isConnected = true;
+
+    public void updateBadge(Badge badge) {
+        try {
+            if (isConnected) {
+                remoteRepository.updateBadge(badge);
+            } else {
+                localRepository.updateBadge(badge);
+            }
+        } catch (Exception e) {
+            System.out.println("Connection to MongoDB failed, saving locally.");
+            localRepository.updateBadge(badge);
+            isConnected = false;
+        }
+    }
+
+    public ArrayList<Badge> findAll(){
+        try {
+            if (isConnected) {
+                return remoteRepository.findAll();
+            } else {
+                return localRepository.findAll();
+//                localRepository.updateBadge(badge);
+            }
+        } catch (Exception e) {
+            System.out.println("Connection to MongoDB failed, saving locally.");
+            isConnected = false;
+            return localRepository.findAll();
+        }
+    }
 }

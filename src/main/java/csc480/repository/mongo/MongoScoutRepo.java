@@ -1,48 +1,40 @@
 package csc480.repository.mongo;
+import java.util.ArrayList;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
-import csc480.model.Badge;
+import csc480.model.Scout;
 import org.bson.Document;
-import java.util.ArrayList;
 
-public class MongoBadgeRepo extends MongoBaseRepo implements csc480.repository.BadgeRepository {
-
+public class MongoScoutRepo extends MongoBaseRepo implements csc480.repository.ScoutRepository {
     @Override
-    public void updateBadge(Badge badge) {
-        ArrayList<Badge> dbScouts = new ArrayList<>();
+    public void updateScout(Scout scout) {
+        ArrayList<Scout> dbScouts = new ArrayList<>();
         try (MongoClient mClient = MongoClients.create(settings)) {
             database = mClient.getDatabase(scoutDatabase);
+
             MongoCollection<Document> scoutCollection = database.getCollection("MeritBadge");
-            scoutCollection.insertOne(toDocument(badge));
+            scoutCollection.insertOne(toDocument(scout));
         }
     }
-
-
-
     @Override
-    public ArrayList<Badge> findAll() {
-        ArrayList<Badge> dbScouts = new ArrayList<>();
+    public ArrayList<Scout> findAll() {
+        ArrayList<Scout> dbScouts = new ArrayList<>();
         try (MongoClient mClient = MongoClients.create(settings)) {
             database = mClient.getDatabase(scoutDatabase);
-            MongoCollection<Document> scoutCollection = database.getCollection("MeritBadge");
+
+            MongoCollection<Document> scoutCollection = database.getCollection("MeritScout");
             FindIterable<Document> findIterable = scoutCollection.find(new Document());
 
             for (Document document : findIterable) {
-                String badgeName = document.getString("badgeName");
+                String scoutName = document.getString("scoutName");
                 String requirements = document.getString("requirements");
-                System.out.printf("%s %s \n", badgeName, requirements);
+                System.out.printf("%s %s \n", scoutName, requirements);
                 System.out.println(document.toJson());
             }
         }
-
         return dbScouts;
     }
-
-
-
-
-
 }
