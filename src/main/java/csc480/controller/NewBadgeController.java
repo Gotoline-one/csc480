@@ -90,7 +90,7 @@ public class NewBadgeController extends SubController<Badge>{
             currentBadge = new Badge();
         currentBadge.setBadgeName(activityTitle.getText());
         currentBadge.setKnowBased(knowledgeCkBx.isSelected());
-        currentBadge.setActBase(actionCkBx.isSelected());
+        currentBadge.setPhysical(actionCkBx.isSelected());
         currentBadge.setBadgeDescription(descriptionBox.getText());
         currentBadge.activityAddAll(activitiesListObserver);
 
@@ -155,11 +155,9 @@ public class NewBadgeController extends SubController<Badge>{
         currentBadge = newBadge;
         activityTitle.setText(currentBadge.getBadgeName());
         knowledgeCkBx.setSelected(currentBadge.isKnowBased());
-        actionCkBx.setSelected(currentBadge.isActBase());
+        actionCkBx.setSelected(currentBadge.isPhysical());
         descriptionBox.setText(currentBadge.getBadgeDescription());
-        for( Activity act : newBadge){
-            activitiesListObserver.add(act);
-        }
+        activitiesListObserver.addAll(newBadge.getActivityList());
     }
 
 

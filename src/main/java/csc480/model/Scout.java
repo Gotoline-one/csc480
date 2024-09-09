@@ -3,6 +3,7 @@ package csc480.model;
 import csc480.app.RoadToEagle;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Scout {
     private String firstName;
@@ -15,7 +16,17 @@ public class Scout {
     private Membership membership;
 
 
-
+    public Scout(String newFirstName, String newLastname, String newRank, String newPosition, String newEmail, List<Award> newAward, List<Badge> newBadge) {
+        this.firstName  = newFirstName;
+        this.lastName   = newLastname;
+        this.rank       = newRank;
+        this.position   = newPosition;
+        this.email      = newEmail;
+        meritBadges = new ArrayList<>();
+        meritBadges.addAll(newBadge);
+        awards      = new ArrayList<>();
+        awards.addAll(newAward);
+    }
 
     public Scout(String newFirstName, String newLastname, String newRank, String newPosition, String newEmail) {
         this.firstName  = newFirstName;
@@ -23,7 +34,7 @@ public class Scout {
         this.rank       = newRank;
         this.position   = newPosition;
         this.email      = newEmail;
-        meritBadges = new ArrayList<>();
+        meritBadges = new ArrayList<Badge>();
         awards      = new ArrayList<>();
     }
 
@@ -32,7 +43,7 @@ public class Scout {
         this.lastName = "";
         this.rank = "";
         this.email="";
-        meritBadges = new ArrayList<>();
+        meritBadges = new ArrayList<Badge>();
         awards      = new ArrayList<>();
     }
 

@@ -1,4 +1,4 @@
-package csc480.service;
+package csc480.repository.mongo;
 
 import com.mongodb.*;
 import com.mongodb.client.*;
@@ -20,16 +20,33 @@ import static com.mongodb.client.model.Updates.set;
 
 public class Connection {
 
-    private  final String uri = "mongodb://127.0.0.1:27017";
-    private  final String scoutDatabase = "TroopManagementApp";
-    private MongoDatabase database;
+    protected  final String uri = "mongodb://127.0.0.1:27017";
+
+    public String getUri() {
+        return uri;
+    }
+
+    public String getScoutDatabase() {
+        return scoutDatabase;
+    }
+
+    public MongoDatabase getDatabase() {
+        return database;
+    }
+
+    public MongoClient getMongoClient() {
+        return mongoClient;
+    }
+
+    protected  final String scoutDatabase = "TroopManagementApp";
+    protected MongoDatabase database;
     public MongoClient mongoClient;
     private ServerApi serverApi;
     private  MongoClientSettings settings;
 
    public Connection() {
 //        public static void main (String[]args){
-        // Replace the placeholder with your Atlas csc480.csc480.service.Connection string
+        // Replace the placeholder with your Atlas csc480.csc480.repository.mongo.Connection string
        // Construct a ServerApi instance using the ServerApi.builder() method
 
         serverApi = ServerApi.builder()

@@ -5,13 +5,13 @@ import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class Award implements Iterable<Activity> {
+public class Award  {
     String awardName;
     boolean isKnowBased, isActBase;
-    private String awardType;
     private String awardDescription;
     private Duration timeRequirement;
     private boolean complete;
@@ -23,6 +23,14 @@ public class Award implements Iterable<Activity> {
     public Award(String name, List<Activity> scoutActivities) {
         this.awardName = name;
         this.complete = false;
+        this.activityList = new ArrayList<>(scoutActivities);
+    }
+
+    public Award(String name, String description, boolean isCompleted, Duration timeReq, List<Activity> scoutActivities) {
+        this.awardName = name;
+        this.awardDescription = description;
+        this.complete = isCompleted;
+        this.timeRequirement =timeReq;
         this.activityList = new ArrayList<>(scoutActivities);
     }
 
@@ -75,8 +83,11 @@ public class Award implements Iterable<Activity> {
         return awardName;
     }
 
-    @Override
-    public @NotNull Iterator<Activity> iterator() {
+//    @Override
+//    public @NotNull Iterator<Activity> iterator() {
+//        return activityList.iterator();
+//    }
+    public Iterator<Activity> getActivities() {
         return activityList.iterator();
     }
 
@@ -110,5 +121,18 @@ public class Award implements Iterable<Activity> {
         if (!activityAddAll(updatedAward.activityList)) {
             System.out.println("Issue updating Award Activities Award.updateAward()");
         }
+    }
+
+
+    public Duration getTimeRequirement() {
+        return this.timeRequirement;
+    }
+    public void setTimeRequirement(Duration newTimeRequirement) {
+       this.timeRequirement = newTimeRequirement;
+    }
+
+    public List<Activity> getActivityList() {
+        return  Collections.unmodifiableList(activityList);
+
     }
 }
