@@ -9,6 +9,17 @@ public class Activity {
     private int amountComplete;
     private boolean isComplete;
 
+    public Activity(String name, String description, Duration timeToComplete, int amountComplete, boolean actionBased, boolean knowledgeBased, boolean isComplete) {
+        this.name = name;
+        Description = description;
+        this.timeToComplete = timeToComplete;
+        this.amountComplete = amountComplete;
+        this.actionBased = actionBased;
+        this.knowledgeBased = knowledgeBased;
+        this.isComplete = isComplete;
+    }
+
+
     public void setComplete(boolean complete) {
         isComplete = complete;
     }

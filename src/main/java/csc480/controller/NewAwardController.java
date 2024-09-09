@@ -150,17 +150,17 @@ public class NewAwardController extends SubController<Award>{
 
 
     @Override
-    public void loadInfo(Award obj) {
-        if(obj ==null)
+    public void loadInfo(Award newAward) {
+        if(newAward ==null)
             return;
-        currentAward = obj;
+        currentAward = newAward;
         activityTitle.setText(currentAward.getAwardName());
         knowledgeCkBx.setSelected(currentAward.isKnowBased());
         actionCkBx.setSelected(currentAward.isActBase());
         descriptionBox.setText(currentAward.getAwardDescription());
-        for( Activity act : obj){
-            activitiesListObserver.add(act);
-        }
+        activitiesListObserver.addAll(newAward.getActivityList());
+
+
     }
 
 

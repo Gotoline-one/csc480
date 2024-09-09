@@ -4,16 +4,16 @@ import javafx.collections.ObservableList;
 import javafx.util.Duration;
 import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class Badge implements Iterable<Activity> {
+public class Badge  {
     String description;
 
     String badgeName;
-    boolean isKnowBased, isActBase;
+    boolean isKnowBased, isPhysical;
     private String badgeType;
-    private String badgeDescription;
     private Duration timeRequirement;
     private boolean complete;
     private ArrayList<Activity> activityList = new ArrayList<>();
@@ -24,6 +24,16 @@ public class Badge implements Iterable<Activity> {
         this.badgeName = newName;
         this.complete=false;
         this.activityList = new ArrayList<>(scoutActivities);
+    }
+
+    public Badge(String badgeName, String description, boolean isKnowBased, boolean isPhysical, Duration timeRequirement, boolean complete, ArrayList<Activity> activityList) {
+        this.description = description;
+        this.badgeName = badgeName;
+        this.isKnowBased = isKnowBased;
+        this.isPhysical = isPhysical;
+        this.timeRequirement = timeRequirement;
+        this.complete = complete;
+        this.activityList = activityList;
     }
 
     public String getBadgeName() {
@@ -42,12 +52,16 @@ public class Badge implements Iterable<Activity> {
         isKnowBased = knowBased;
     }
 
-    public boolean isActBase() {
-        return isActBase;
+    public boolean getKnowBased() {
+        return isKnowBased ;
     }
 
-    public void setActBase(boolean actBase) {
-        isActBase = actBase;
+    public boolean isPhysical() {
+        return isPhysical;
+    }
+
+    public void setPhysical(boolean physical) {
+        isPhysical = physical;
     }
 
     public boolean isComplete() {
@@ -59,11 +73,11 @@ public class Badge implements Iterable<Activity> {
     }
 
     public String getBadgeDescription() {
-        return badgeDescription;
+        return description;
     }
 
     public void setBadgeDescription(String badgeDescription) {
-        this.badgeDescription = badgeDescription;
+        this.description = badgeDescription;
     }
 
     @Override
@@ -71,8 +85,8 @@ public class Badge implements Iterable<Activity> {
         return badgeName;
     }
 
-    @Override
-    public @NotNull Iterator<Activity> iterator() {
+
+    public Iterator<Activity> getActivities(){
         return activityList.iterator();
     }
 
@@ -92,12 +106,41 @@ public class Badge implements Iterable<Activity> {
         return this.activityList.add(act);
     }
 
+       public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getBadgeType() {
+        return badgeType;
+    }
+
+    public void setBadgeType(String badgeType) {
+        this.badgeType = badgeType;
+    }
+
+    public Duration getTimeRequirement() {
+        return timeRequirement;
+    }
+
+    public void setTimeRequirement(Duration timeRequirement) {
+        this.timeRequirement = timeRequirement;
+    }
+
+    public List<Activity> getActivityList() {
+        return  Collections.unmodifiableList(activityList);
+
+    }
+
+    public void setActivityList(ArrayList<Activity> activityList) {
+        this.activityList = activityList;
+    }
+public boolean getIsPhys(){return isPhysical;}
     public void updateBadge(Badge updatedBadge) {
         if (updatedBadge == this) return;
 
-        setActBase(updatedBadge.isActBase);
+        setPhysical(updatedBadge.isPhysical);
         setKnowBased(updatedBadge.isKnowBased);
-        setBadgeDescription(updatedBadge.badgeDescription);
+        setBadgeDescription(updatedBadge.description);
         setBadgeName(updatedBadge.badgeName);
         activityList.clear();
         if (!activityAddAll(updatedBadge.activityList)) {

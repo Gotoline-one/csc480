@@ -1,7 +1,9 @@
 package csc480.controller;
 
 import csc480.model.*;
-import csc480.service.Connection;
+import csc480.repository.BadgeRepository;
+import csc480.repository.mongo.Connection;
+import csc480.repository.mongo.MongoBadgeRepo;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,6 +20,7 @@ import javafx.scene.layout.HBox;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class MainController {
@@ -60,7 +63,7 @@ public class MainController {
     private ListView<Activity> scoutActivities;
     private Connection myconnection;
     @FXML
-    void initialize() {
+    void initialize() throws Exception {
         scoutList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
         // Link Observers to Lists
         scoutListObserver = FXCollections.observableArrayList();
@@ -92,10 +95,19 @@ public class MainController {
         addFakeBadges();
         addFakeAwards();
         System.out.println("MainController Initialized");
-        myconnection = new Connection();
-        System.out.println("Connection   " + myconnection.checkConnection());
 
-        myconnection.getScouts();
+        try (MongoBadgeRepo badgeRepository = new MongoBadgeRepo()) {
+            ArrayList<Badge> badgeList = badgeRepository.findAll();
+            for(Badge b : badgeList){
+                System.out.println(b + " ");
+            }
+        }
+        catch(Exception e){
+            e.printStackTrace();
+
+        }
+
+
     }
 
     public ListView<Activity> getScoutActivities() {

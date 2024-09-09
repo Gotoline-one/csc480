@@ -19,4 +19,6 @@ module org.csc480.roadtoeagle {
     opens csc480.app to javafx.fxml;
     opens csc480.service to javafx.fxml;
     exports csc480.service;
+    opens csc480.repository.mongo to javafx.fxml;
+    exports csc480.repository.mongo;
 }
