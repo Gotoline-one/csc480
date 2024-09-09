@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Main-Class: csc480.Launcher
+Main-Class: csc480.app.Launcher
 Class-Path: javafx-graphics-17.0.6-linux.jar javafx-controls-17.0.6.jar 
  javafx-fxml-17.0.6.jar javafx-base-17.0.6-linux.jar annotations-24.1.0.
  jar javafx-controls-17.0.6-linux.jar javafx-fxml-17.0.6-linux.jar javaf
