@@ -41,13 +41,11 @@ public class MongoBaseRepo implements AutoCloseable{
             System.out.print(res+" ");
         }
         System.out.print("\n");
-
-
         scoutDatabase = "TroopManagementApp";
         database = mongoClient.getDatabase(scoutDatabase);
 
-            Bson command = new BsonDocument("ping", new BsonInt64(1));
-            Document commandResult = database.runCommand(command);
+        Bson command = new BsonDocument("ping", new BsonInt64(1));
+        Document commandResult = database.runCommand(command);
     }
 
     @Override
@@ -114,7 +112,6 @@ public class MongoBaseRepo implements AutoCloseable{
             Activity activity = it.next();
             activityDocs.add(toDocument(activity));
         }
-
         return new Document("name", award.getAwardName())
                 .append("description",      award.getAwardDescription())
                 .append("complete",         award.getComplete())
@@ -128,7 +125,6 @@ public class MongoBaseRepo implements AutoCloseable{
      * @param document MongoDB Award document
      * @return Award object from Document
      */
-    //
     protected Award fromAwardDocument(Document document) {
         List<Activity> activities = new ArrayList<>();
         List<Document> activityDocs = document.getList("activities", Document.class);
@@ -162,7 +158,6 @@ public class MongoBaseRepo implements AutoCloseable{
         );
     }
 
-
     /**
      * Converts a MeritBadge object to a MongoDB Document
      * @param badge object
@@ -179,7 +174,6 @@ public class MongoBaseRepo implements AutoCloseable{
                 .append("activities",       activityDocs);
     }
 
-
     /**
      * Converts an Activity object to a MongoDB Document
      * @param activity object
@@ -194,7 +188,6 @@ public class MongoBaseRepo implements AutoCloseable{
                 .append("timeToComplete",   activity.getTimeToComplete())
                 .append("completed",        activity.isComplete());
     }
-
 
     /**
      * Converts a MongoDB Document back into a MeritBadge object
