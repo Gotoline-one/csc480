@@ -8,7 +8,7 @@ import csc480.model.Badge;
 import org.bson.Document;
 import java.util.ArrayList;
 
-public class MongoBadgeRepo extends MongoBaseRepo implements csc480.repository.BadgeRepository {
+public class BadgeMongoRepo extends BaseMongoRepo implements csc480.repository.BadgeRepository {
 
     @Override
     public void updateBadge(Badge badge) {
@@ -19,8 +19,6 @@ public class MongoBadgeRepo extends MongoBaseRepo implements csc480.repository.B
             scoutCollection.insertOne(toDocument(badge));
         }
     }
-
-
 
     @Override
     public ArrayList<Badge> findAll() {
@@ -40,9 +38,4 @@ public class MongoBadgeRepo extends MongoBaseRepo implements csc480.repository.B
 
         return dbScouts;
     }
-
-
-
-
-
 }

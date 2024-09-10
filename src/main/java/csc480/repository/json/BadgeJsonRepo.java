@@ -1,11 +1,11 @@
 package csc480.repository.json;
 
 import csc480.model.Badge;
-import csc480.repository.mongo.MongoBaseRepo;
+import csc480.repository.mongo.BaseMongoRepo;
 import java.util.ArrayList;
 
-public class JsonBadgeRepo extends MongoBaseRepo implements csc480.repository.BadgeRepository {
-    public JsonBadgeRepo(){
+public class BadgeJsonRepo extends BaseMongoRepo implements csc480.repository.BadgeRepository {
+    public BadgeJsonRepo(){
 
     }
 

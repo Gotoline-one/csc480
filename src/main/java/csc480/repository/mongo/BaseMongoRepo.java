@@ -18,13 +18,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class MongoBaseRepo implements AutoCloseable{
+public class BaseMongoRepo implements AutoCloseable{
 
     public MongoClient mongoClient;
     protected MongoDatabase database;
     protected MongoClientSettings settings;
     protected  String scoutDatabase;
-    public MongoBaseRepo() {
+    public BaseMongoRepo() {
         ServerApi serverApi = ServerApi.builder()
                 .version(ServerApiVersion.V1)
                 .build();
@@ -34,18 +34,22 @@ public class MongoBaseRepo implements AutoCloseable{
                 .applyConnectionString(new ConnectionString(uri))
                 .serverApi(serverApi)
                 .build();
-
         mongoClient = MongoClients.create(settings);
-        System.out.print("Databases: ");
-        for(String res :  mongoClient.listDatabaseNames()){
-            System.out.print(res+" ");
-        }
-        System.out.print("\n");
         scoutDatabase = "TroopManagementApp";
-        database = mongoClient.getDatabase(scoutDatabase);
 
-        Bson command = new BsonDocument("ping", new BsonInt64(1));
-        Document commandResult = database.runCommand(command);
+
+//        try (MongoClient mongoClient = MongoClients.create(settings)) {
+////        System.out.print("Databases: ");
+//
+//            for (String res : mongoClient.listDatabaseNames()) {
+////            System.out.print(res+" ");
+//            }
+////        System.out.print("\n");
+//            database = mongoClient.getDatabase(scoutDatabase);
+//
+//            Bson command = new BsonDocument("ping", new BsonInt64(1));
+//            Document commandResult = database.runCommand(command);
+//        }
     }
 
     @Override

@@ -161,7 +161,7 @@ public class Connection {
             Bson command = new BsonDocument("ping", new BsonInt64(1));
             Document commandResult = database.runCommand(command);
 
-            System.out.println("You successfully connected to MongoDB!\n" + commandResult.toString());
+//            System.out.println("You successfully connected to MongoDB!\n" + commandResult.toString());
         } catch (MongoException me) {
             System.err.println(me);
             return false;
@@ -183,7 +183,7 @@ public class Connection {
             FindIterable<Document> iterDoc = scoutCollection.find();
             for (Document document : iterDoc) {
                 currentScout = new Scout();
-                System.out.println(document);
+//                System.out.println(document);
 //                dbScouts.add(document);
             }
 

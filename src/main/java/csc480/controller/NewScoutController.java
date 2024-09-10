@@ -56,7 +56,10 @@ public class NewScoutController extends SubController<Scout>{
 
     @FXML
     void addBadges() {
-            ScoutToBadgeController scoutToBadge= (ScoutToBadgeController) VistaNavigator.loadVista(VistaNavigator.SCOUT_BADGE);
+        ScoutToBadgeController scoutToBadge;
+        SubController sc = VistaNavigator.loadVista(VistaNavigator.SCOUT_BADGE);
+        
+        scoutToBadge= (ScoutToBadgeController)sc;
             if(this.currentScout !=null && scoutToBadge != null) {
                 scoutToBadge.loadInfo(this.currentScout);
             }
@@ -139,7 +142,7 @@ public class NewScoutController extends SubController<Scout>{
             scoutEmail.setStyle("-fx-text-box-border: red;\n-fx-focus-color: red ;");
             errorString = errorString.concat("  email ");
         }
-        else if(!RoadToEagle.isValidEmailAddress(scoutEmail.getText()))
+        else if(RoadToEagle.isValidEmailAddress(scoutEmail.getText()))
         {
             scoutEmail.setStyle("-fx-text-box-border: red;\n-fx-focus-color: red ;");
             errorString = errorString.concat(" valid email ");
