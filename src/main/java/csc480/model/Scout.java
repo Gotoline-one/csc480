@@ -70,7 +70,7 @@ public class Scout {
     public boolean setEmail(String email) {
         System.out.println("Inside Scout.setEmail: "+email);
 
-        if (email == null || !RoadToEagle.isValidEmailAddress(email)) {
+        if (email == null || RoadToEagle.isValidEmailAddress(email)) {
             System.out.println("BAD EMAIL ");
             return false;
         } else {

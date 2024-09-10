@@ -3,6 +3,8 @@ package csc480.app;
 //import csc480.Branched.Activity;
 import csc480.controller.MainController;
 import csc480.controller.VistaNavigator;
+import csc480.model.Scout;
+import csc480.service.ScoutService;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -40,13 +43,11 @@ public class RoadToEagle extends Application {
         loader.setResources(bundle);
 
         Pane mainPane = loader.load(
-                getClass().getResourceAsStream(VistaNavigator.MAIN) //MAIN = "roadtoeagle.fxml";
+                getClass().getResourceAsStream(VistaNavigator.MAIN)
         );
-
 
         MainController mainController = loader.getController();
         VistaNavigator.setMainController(mainController);
-   //     VistaNavigator.loadVista(VistaNavigator.SPLASH);
 
         return mainPane;
     }
@@ -85,7 +86,7 @@ public class RoadToEagle extends Application {
         String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
         java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
         java.util.regex.Matcher m = p.matcher(email);
-        return m.matches();
+        return !m.matches();
     }
 
     public static void showAlert(Alert.AlertType alertType, String title, String message) {
@@ -97,4 +98,26 @@ public class RoadToEagle extends Application {
         alert.initOwner(owner);
         alert.show();
     }
+
+
+    /**
+     *  NOTE: IF NEEDED this is where the threading would go
+     *  Get Array List of Scouts from Mongo or JSON file
+     * @return ArrayList of Scout Objects from Scout Service
+     */
+    public ArrayList<Scout> getScouts(){
+        ScoutService scoutService = new ScoutService();
+        return scoutService.findAll();
+    }
+
+    public boolean saveScout(Scout scout){
+        ScoutService scoutService = new ScoutService();
+        return scoutService.updateScout(scout);
+    }
+
+    public boolean saveScouts(ArrayList<Scout> scouts){
+        ScoutService scoutService = new ScoutService();
+        return scoutService.updateScouts(scouts);
+    }
+
 }

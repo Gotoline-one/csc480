@@ -1,14 +1,19 @@
 package csc480.repository.mongo;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import csc480.model.Scout;
+import csc480.repository.ScoutRepository;
 import org.bson.Document;
 
-public class MongoScoutRepo extends MongoBaseRepo implements csc480.repository.ScoutRepository {
+import javax.print.Doc;
+
+public class ScoutMongoRepo extends BaseMongoRepo implements ScoutRepository {
     @Override
     public void updateScout(Scout scout) {
         ArrayList<Scout> dbScouts = new ArrayList<>();
@@ -31,10 +36,33 @@ public class MongoScoutRepo extends MongoBaseRepo implements csc480.repository.S
             for (Document document : findIterable) {
                 String scoutName = document.getString("scoutName");
                 String requirements = document.getString("requirements");
-                System.out.printf("%s %s \n", scoutName, requirements);
-                System.out.println(document.toJson());
             }
         }
         return dbScouts;
+    }
+
+    @Override
+    public void updateScouts(ArrayList<Scout> scouts) {
+
+    }
+
+    @Override
+    public void addScout(Scout scout) {
+
+    }
+
+    @Override
+    public void addScouts(ArrayList<Scout> scouts) {
+        try (MongoClient mClient = MongoClients.create(settings)) {
+            database = mClient.getDatabase(scoutDatabase);
+
+            MongoCollection<Document> scoutCollection = database.getCollection("scouts");
+            List<Document> scoutDocs = new ArrayList<>(List.of());
+            for (Scout s : scouts) {
+                scoutDocs.add(toDocument(s));
+            }
+            scoutCollection.insertMany(scoutDocs);
+
+        }
     }
 }

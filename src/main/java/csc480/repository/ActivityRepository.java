@@ -1,4 +1,10 @@
 package csc480.repository;
 
-public class ActivityRepository {
+import csc480.model.Activity;
+
+import java.util.ArrayList;
+
+public interface ActivityRepository {
+    void updateActivity(Activity activity);
+    ArrayList<Activity> findAll();
 }

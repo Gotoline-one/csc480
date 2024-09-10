@@ -126,6 +126,4 @@ public class ScoutToAwardController extends SubController<Scout>{
         oChosenAwards.addAll(this.currentScout.getAwards());
     }
 
-
-
 }
