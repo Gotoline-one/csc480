@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 class Membership {
+    private String id;
     private String type;
     private boolean financialAssistance;
     private LocalDate membershipDate;

@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Award  {
+    private String id;
     String awardName;
     boolean isKnowBased, isActBase;
     private String awardDescription;
@@ -133,6 +134,14 @@ public class Award  {
 
     public List<Activity> getActivityList() {
         return  Collections.unmodifiableList(activityList);
+
+    }
+
+    public String getId() {
+        return "";
+    }
+
+    public void setId(String string) {
 
     }
 }

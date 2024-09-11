@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ScoutEvent {
+    private String id;
     private LocalTime date;
     private LocalDate timeZone;
     private Address location;
