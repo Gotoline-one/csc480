@@ -2,10 +2,20 @@ package csc480.model;
 
 import csc480.app.RoadToEagle;
 
+import java.lang.reflect.Member;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Scout {
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    private String id;
     private String firstName;
     private String lastName;
     private String email;
@@ -16,16 +26,34 @@ public class Scout {
     private Membership membership;
 
 
-    public Scout(String newFirstName, String newLastname, String newRank, String newPosition, String newEmail, List<Award> newAward, List<Badge> newBadge) {
+
+    /**
+     * Full Scout constructor with every field
+     * used for batch creation.
+     * @param newId DB ID
+     * @param newFirstName Scouts First Name
+     * @param newLastname Scouts Last Name
+     * @param newRank Scout's Rank
+     * @param newPosition Scout's Position (default to Scout)
+     * @param newEmail Proper email address
+     * @param newAward List of Awards
+     * @param newBadge List of Badges
+     */
+            /** when first created ID can be a placeholder until saved to db.
+             * then the app can know what has and has not been saved to the remote db */
+    public Scout(String newId, String newFirstName, String newLastname, String newRank, String newPosition, String newEmail, List<Award> newAward, List<Badge> newBadge) {
+        this.id         = newId;
         this.firstName  = newFirstName;
         this.lastName   = newLastname;
         this.rank       = newRank;
         this.position   = newPosition;
         this.email      = newEmail;
-        meritBadges = new ArrayList<>();
+        meritBadges     = new ArrayList<>();
         meritBadges.addAll(newBadge);
-        awards      = new ArrayList<>();
+        awards          = new ArrayList<>();
         awards.addAll(newAward);
+        membership      = new Membership();
+
     }
 
     public Scout(String newFirstName, String newLastname, String newRank, String newPosition, String newEmail) {
@@ -34,8 +62,9 @@ public class Scout {
         this.rank       = newRank;
         this.position   = newPosition;
         this.email      = newEmail;
-        meritBadges = new ArrayList<Badge>();
+        meritBadges = new ArrayList<>();
         awards      = new ArrayList<>();
+        membership = new Membership();
     }
 
     public Scout() {
@@ -43,8 +72,9 @@ public class Scout {
         this.lastName = "";
         this.rank = "";
         this.email="";
-        meritBadges = new ArrayList<Badge>();
+        meritBadges = new ArrayList<>();
         awards      = new ArrayList<>();
+        membership = new Membership();
     }
 
     /**
@@ -58,11 +88,11 @@ public class Scout {
         setLastName(newScout.lastName);
         setRank(newScout.rank);
         setPosition(newScout.getPosition());
+        //membership = new Membership();
 
     }
 
     public String getEmail() {
-
         return this.email;
     }
 
@@ -70,7 +100,7 @@ public class Scout {
     public boolean setEmail(String email) {
         System.out.println("Inside Scout.setEmail: "+email);
 
-        if (email == null || !RoadToEagle.isValidEmailAddress(email)) {
+        if (email == null || RoadToEagle.isValidEmailAddress(email)) {
             System.out.println("BAD EMAIL ");
             return false;
         } else {

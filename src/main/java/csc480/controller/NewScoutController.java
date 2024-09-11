@@ -48,16 +48,25 @@ public class NewScoutController extends SubController<Scout>{
 
     @FXML
     void addAwards() {
-        ScoutToAwardController scoutToAward= (ScoutToAwardController) VistaNavigator.loadVista(VistaNavigator.SCOUT_AWARD);
-        if(this.currentScout !=null && scoutToAward != null) {
+        if (this.currentScout ==null  ) currentScout = new Scout();
+        formToScout();
+        ScoutToAwardController scoutToAward;
+        scoutToAward = (ScoutToAwardController) VistaNavigator.loadVista(VistaNavigator.SCOUT_AWARD);
+
+        if(scoutToAward != null) {
             scoutToAward.loadInfo(this.currentScout);
         }
     }
 
     @FXML
     void addBadges() {
-            ScoutToBadgeController scoutToBadge= (ScoutToBadgeController) VistaNavigator.loadVista(VistaNavigator.SCOUT_BADGE);
-            if(this.currentScout !=null && scoutToBadge != null) {
+        if (this.currentScout ==null  ) currentScout = new Scout();
+        formToScout();
+
+        ScoutToBadgeController scoutToBadge;
+        scoutToBadge = (ScoutToBadgeController) VistaNavigator.loadVista(VistaNavigator.SCOUT_BADGE);
+        
+            if(scoutToBadge != null) {
                 scoutToBadge.loadInfo(this.currentScout);
             }
     }
@@ -65,10 +74,12 @@ public class NewScoutController extends SubController<Scout>{
     @FXML
     void initialize() {
         rankCombo.getItems().addAll("Tenderfoot","Second Class","First Class","Star","Life","Eagle");
-        this.currentScout = null;
+
         this.mainController = VistaNavigator.getMainController();
-        System.out.println("NewScoutController  Initialize");
-        System.out.println(scoutImage.imageProperty().get().getUrl());
+        if(mainController!=null) this.currentScout = mainController.currentScoutSelected;
+
+//        System.out.println("NewScoutController  Initialize");
+//        System.out.println(scoutImage.imageProperty().get().getUrl());
     }
 
     /**
@@ -81,7 +92,7 @@ public class NewScoutController extends SubController<Scout>{
      *
      */
     private boolean formToScout(){
-            // check if we are updating or creating new scout obj
+
         if (this.currentScout ==null){
             this.currentScout = new Scout();
         }
@@ -139,7 +150,7 @@ public class NewScoutController extends SubController<Scout>{
             scoutEmail.setStyle("-fx-text-box-border: red;\n-fx-focus-color: red ;");
             errorString = errorString.concat("  email ");
         }
-        else if(!RoadToEagle.isValidEmailAddress(scoutEmail.getText()))
+        else if(RoadToEagle.isValidEmailAddress(scoutEmail.getText()))
         {
             scoutEmail.setStyle("-fx-text-box-border: red;\n-fx-focus-color: red ;");
             errorString = errorString.concat(" valid email ");
@@ -169,7 +180,7 @@ public class NewScoutController extends SubController<Scout>{
     void nextScout()
     {
         // No previous scout was selected so make a new one to add to list
-        if(this.currentScout !=null){
+        if(this.currentScout ==null){
             this.currentScout = new Scout();
         }
 
@@ -259,6 +270,7 @@ public class NewScoutController extends SubController<Scout>{
      */
     @Override
     public void loadInfo(Scout scoutToLoad) {
+        if(scoutToLoad ==null) return;
         firstNameTxtBox.setText(scoutToLoad.getFirstName());
         lastNameTxtBox.setText(scoutToLoad.getLastName());
         rankCombo.setValue(scoutToLoad.getRank());

@@ -1,6 +1,7 @@
 package csc480.model;
 
 public class Address {
+    private String id;
     private int streetNumber;
     private String streetName;
     private String city;

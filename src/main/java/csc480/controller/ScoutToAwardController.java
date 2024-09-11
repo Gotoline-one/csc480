@@ -38,6 +38,7 @@ public class ScoutToAwardController extends SubController<Scout>{
         oAvailableAwards.addAll(mainController.getAwardList().getItems());
 
         oChosenAwards = FXCollections.observableArrayList();
+        chosenAwards.getItems().addAll(currentScout.getAwards());
         chosenAwards.setItems(oChosenAwards);
         chosenAwards.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -111,8 +112,11 @@ public class ScoutToAwardController extends SubController<Scout>{
         oChosenAwards.clear();
         currentAward = null;
         NewScoutController newScoutController = (NewScoutController) VistaNavigator.loadVista(VistaNavigator.NEW_SCOUT);
-        if(newScoutController !=null)
+
+        // This happens if user clicks New Scout, then goes to add award but cancels without ever saving
+        if(newScoutController !=null && this.currentScout != null) {
             newScoutController.loadInfo(this.currentScout);
+        }
     }
 
     @Override
@@ -125,7 +129,5 @@ public class ScoutToAwardController extends SubController<Scout>{
         this.currentScout = scoutToLoad;
         oChosenAwards.addAll(this.currentScout.getAwards());
     }
-
-
 
 }

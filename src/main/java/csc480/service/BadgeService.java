@@ -1,15 +1,16 @@
 package csc480.service;
 
+import csc480.model.Award;
 import csc480.model.Badge;
 import csc480.repository.BadgeRepository;
-import csc480.repository.json.JsonBadgeRepo;
-import csc480.repository.mongo.MongoBadgeRepo;
+import csc480.repository.json.BadgeJsonRepo;
+import csc480.repository.mongo.BadgeMongoRepo;
 
 import java.util.ArrayList;
 
 public class BadgeService {
-    private final BadgeRepository remoteRepository = new MongoBadgeRepo();
-    private final BadgeRepository localRepository = new JsonBadgeRepo();
+    private final BadgeRepository remoteRepository = new BadgeMongoRepo();
+    private final BadgeRepository localRepository = new BadgeJsonRepo();
     private boolean isConnected = true;
 
     public void updateBadge(Badge badge) {
@@ -39,5 +40,8 @@ public class BadgeService {
             isConnected = false;
             return localRepository.findAll();
         }
+    }
+
+    public void updateBadges(ArrayList<Badge> updateBadge) {
     }
 }
