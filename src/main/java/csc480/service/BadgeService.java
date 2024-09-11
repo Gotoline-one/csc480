@@ -1,5 +1,6 @@
 package csc480.service;
 
+import csc480.model.Award;
 import csc480.model.Badge;
 import csc480.repository.BadgeRepository;
 import csc480.repository.json.BadgeJsonRepo;
@@ -39,5 +40,8 @@ public class BadgeService {
             isConnected = false;
             return localRepository.findAll();
         }
+    }
+
+    public void updateBadges(ArrayList<Badge> updateBadge) {
     }
 }

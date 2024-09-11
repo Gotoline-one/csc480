@@ -4,8 +4,11 @@ import csc480.model.Scout;
 import csc480.repository.ScoutRepository;
 import csc480.repository.json.ScoutJsonRepo;
 import csc480.repository.mongo.ScoutMongoRepo;
+import org.bson.BSONObject;
+import org.bson.BsonValue;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ScoutService {
     private ScoutRepository remoteRepository = new ScoutMongoRepo();
@@ -78,24 +81,25 @@ public class ScoutService {
     }
 
 
-    public boolean addScouts(ArrayList<Scout> scouts){
+    public  Map<Integer, BsonValue>  addScouts(ArrayList<Scout> scouts){
         try {
             if (isConnected) {
                 remoteRepository.addScouts(scouts);
-                return true;
+                return null;
             } else {
                 localRepository.addScouts(scouts);
-                return true;
+                return null;
             }
         } catch (Exception e) {
             System.out.println("Connection to MongoDB failed, addScout locally.");
             localRepository.addScouts(scouts);
             isConnected = false;
-            return false;
+            return null;
         }
     }
 
-    public void createScout(Scout newScout) {
+    public Map<Integer, BsonValue> createScout(Scout newScout) {
+        return null;
     }
 
 }

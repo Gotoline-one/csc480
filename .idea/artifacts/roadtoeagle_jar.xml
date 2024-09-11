@@ -5,15 +5,21 @@
       <element id="archive" name="roadtoeagle.jar">
         <element id="module-output" name="roadtoeagle" />
       </element>
-      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:linux:17.0.6" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.17.0" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.17.0" />
+      <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.17.0" />
+      <element id="library" level="project" name="Maven: net.bytebuddy:byte-buddy:1.14.9" />
+      <element id="library" level="project" name="Maven: org.apiguardian:apiguardian-api:1.1.2" />
+      <element id="library" level="project" name="realityforge.jetbrains.annotations" />
+      <element id="library" level="project" name="Maven: org.jetbrains:annotations:24.1.0" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:17.0.6" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:linux:17.0.6" />
       <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:17.0.6" />
       <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:17.0.6" />
-      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:linux:17.0.6" />
-      <element id="library" level="project" name="Maven: org.jetbrains:annotations:24.1.0" />
       <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:linux:17.0.6" />
       <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:linux:17.0.6" />
       <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:17.0.6" />
-      <element id="library" level="project" name="Maven: org.openjfx:javafx-base:17.0.6" />
+      <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:linux:17.0.6" />
     </root>
   </artifact>
 </component>

@@ -14,6 +14,7 @@
         <Menu mnemonicParsing="false" text="%menu.title.file">
                <items>
                   <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#saveMenuBtn" text="%menu.title.Save" />
                   <MenuItem mnemonicParsing="false" text="%menu.title.open" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <Menu mnemonicParsing="false" text="New">

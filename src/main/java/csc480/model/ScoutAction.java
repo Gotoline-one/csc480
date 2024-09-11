@@ -1,6 +1,7 @@
 package csc480.model;
 
 public class ScoutAction {
+    private String id;
     String title, description;
     Boolean knowledge, action;
 

@@ -99,13 +99,10 @@ public class MainController {
         dataController = new DataController();
 
         // TODO: TESTING ONLY
-        if(scoutList !=null) {
-            ArrayList<Scout> scoutArray = new ArrayList<>(scoutList.getItems());
-            dataController.createScouts(scoutArray);
-        }
-
-//        dataController.createBadges(new ArrayList<>(badgeList.getItems()));
-
+//        if(scoutList !=null) {
+//            ArrayList<Scout> scoutArray = new ArrayList<>(scoutList.getItems());
+//            dataController.createScouts(scoutArray);
+//        }
     }
 
 
@@ -394,5 +391,22 @@ public class MainController {
 
     public ListView<Award> getAwardList() {
         return awardList;
+    }
+
+    public void saveMenuBtn() {
+
+        if(scoutList !=null && awardList !=null  && badgeList !=null && activityArrayList !=null ){
+
+
+            dataController.saveAll(new ArrayList<>(scoutList.getItems()),
+                                new ArrayList<>(awardList.getItems()),
+                                new ArrayList<>(badgeList.getItems()),
+                                new ArrayList<>(activityArrayList));
+        }
+        else{
+            if(scoutList != null) {
+                dataController.saveAll(new ArrayList<>(scoutList.getItems()));
+            }
+        }
     }
 }

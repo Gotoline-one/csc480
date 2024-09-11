@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Award  {
+    private String id;
     String awardName;
     boolean isKnowBased, isActBase;
     private String awardDescription;

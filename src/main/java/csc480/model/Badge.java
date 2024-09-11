@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Badge  {
+    private String id;
     String description;
 
     String badgeName;

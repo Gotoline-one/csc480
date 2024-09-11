@@ -13,6 +13,7 @@ import org.bson.BsonDocument;
 import org.bson.BsonInt64;
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -36,20 +37,6 @@ public class BaseMongoRepo implements AutoCloseable{
                 .build();
         mongoClient = MongoClients.create(settings);
         scoutDatabase = "TroopManagementApp";
-
-
-//        try (MongoClient mongoClient = MongoClients.create(settings)) {
-////        System.out.print("Databases: ");
-//
-//            for (String res : mongoClient.listDatabaseNames()) {
-////            System.out.print(res+" ");
-//            }
-////        System.out.print("\n");
-//            database = mongoClient.getDatabase(scoutDatabase);
-//
-//            Bson command = new BsonDocument("ping", new BsonInt64(1));
-//            Document commandResult = database.runCommand(command);
-//        }
     }
 
     @Override
@@ -71,6 +58,7 @@ public class BaseMongoRepo implements AutoCloseable{
         for (Award award : scout.getAwards()) {
             awardDocs.add(toDocument(award));
         }
+
         return new Document("fname",    scout.getFirstName())
                 .append("lname",        scout.getLastName())
                 .append("email",        scout.getEmail())
@@ -97,7 +85,8 @@ public class BaseMongoRepo implements AutoCloseable{
         for (Document awardDoc : awardDocs) {
             awards.add(fromAwardDocument(awardDoc));
         }
-        return new Scout(document.getString("fname"),
+        return new Scout(document.getObjectId("_id").toString(),
+                document.getString("fname"),
                 document.getString("lname"),
                 document.getString("email"),
                 document.getString("rank"),
