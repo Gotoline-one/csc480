@@ -3,11 +3,11 @@
     <properties maven-id="org.openjfx:javafx-media:11" />
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-media/11/javafx-media-11.jar!/" />
-      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-media/11/javafx-media-11-linux.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-media/11/javafx-media-11-win.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/11/javafx-graphics-11.jar!/" />
-      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/11/javafx-graphics-11-linux.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-graphics/11/javafx-graphics-11-win.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/11/javafx-base-11.jar!/" />
-      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/11/javafx-base-11-linux.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-base/11/javafx-base-11-win.jar!/" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-media/11/javafx-media-11-javadoc.jar!/" />

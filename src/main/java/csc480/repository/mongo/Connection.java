@@ -1,5 +1,10 @@
 package csc480.repository.mongo;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mongodb.*;
 import com.mongodb.client.*;
 import com.mongodb.client.result.DeleteResult;
@@ -13,9 +18,11 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Projections.include;
 import static com.mongodb.client.model.Updates.set;
 
 public class Connection {
@@ -70,7 +77,7 @@ public class Connection {
 //                MongoCollection<Document> scoutCollection = database.getCollection("Scout");
 //
 //                MongoCollection<Document> meritBadgeCollection = database.getCollection("MeritBadge");
-//                crateMeritBadge(meritBadgeCollection);
+//                createMeritBadge(meritBadgeCollection);
 //                createScout(scoutCollection);
 //                createScout(scoutCollection);
 //                deleteScout(scoutCollection);
@@ -173,29 +180,148 @@ public class Connection {
      * TODO:need to build other parts of the db to get this
      * @return arrayList of scouts
      *
+     * UPDATED:
+     *
      */
     public ArrayList<Scout> getScouts(){
         ArrayList<Scout> dbScouts = new ArrayList<>();
+        ArrayList<Badge> dbBadges = new ArrayList<>();
+//        ArrayList<Badge> dbAwards = new ArrayList<>();
         Scout currentScout;
         try(MongoClient mClient = MongoClients.create(settings)){
             database = mClient.getDatabase(scoutDatabase);
             MongoCollection<Document> scoutCollection = database.getCollection("Scout");
             FindIterable<Document> iterDoc = scoutCollection.find();
+            FindIterable<Document> badgeDoc;
+//            FindIterable<Document> awardDoc;
             for (Document document : iterDoc) {
-                currentScout = new Scout();
-//                System.out.println(document);
-//                dbScouts.add(document);
+                //Retrieve arraylist of meritbadges for each scout
+                badgeDoc = scoutCollection.find(and(eq("firstName", getFirstName(document)), eq("lastName", getLastName(document)))).projection(include("MeritBadge"));
+                for (Document doc : badgeDoc) {
+                    dbBadges = getBadges(doc);
+                }
+                //Retrieve arraylist of awards for each scout
+                //awards are not currently implemented
+//                awardDoc = scoutCollection.find(and(eq("firstName", getFirstName(document)), eq("lastName", getLastName(document)))).projection(include("Awards"));
+//                for (Document doc : awardDoc) {
+//                    dbAwards = getAwards(doc);
+//                }
+                currentScout = new Scout(getId(document), getFirstName(document), getLastName(document), getRank(document), getPosition(document), getEmail(document), dbBadges);
+                dbScouts.add(currentScout);
             }
-
         } catch (MongoException me) {
             System.err.println(me);
             return null;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
 
         return dbScouts;
     }
 
-    public void crateMeritBadge(Badge newBadge){
+    private static String getId(Document scoutCollection) {
+        String id = scoutCollection.toJson();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = null;
+        try {
+            node = mapper.readTree(id);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return node.get("_id").asText();
+    }
+
+    private static String getFirstName(Document scoutCollection) {
+        String firstName = scoutCollection.toJson();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = null;
+        try {
+            node = mapper.readTree(firstName);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return node.get("firstName").asText();
+    }
+
+    private static String getLastName(Document scoutCollection) {
+        String lastName = scoutCollection.toJson();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = null;
+        try {
+            node = mapper.readTree(lastName);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return node.get("lastName").asText();
+    }
+
+    private static String getRank(Document scoutCollection) {
+        String rank = scoutCollection.toJson();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = null;
+        try {
+            node = mapper.readTree(rank);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return node.get("rank").asText();
+    }
+
+    private static String getPosition(Document scoutCollection) {
+        String position = scoutCollection.toJson();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = null;
+        try {
+            node = mapper.readTree(position);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return node.get("position").asText();
+    }
+
+    private static String getEmail(Document scoutCollection) {
+        String email = scoutCollection.toJson();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = null;
+        try {
+            node = mapper.readTree(email);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return node.get("email").asText();
+    }
+
+    //Parse JSON array into arraylist for merit badges
+    @JsonDeserialize(as=Badge.class)
+    private static ArrayList<Badge> getBadges(Document badgeCollection) throws JsonProcessingException {
+        String newBadge = removeFieldName(badgeCollection.toJson());
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayList<Badge> badgeList = mapper.readValue(newBadge, new TypeReference<ArrayList<Badge>>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        });
+
+        return badgeList;
+    }
+
+    //Parse JSON array into arraylist for awards
+//    @JsonDeserialize(as=Award.class)
+//    private static ArrayList<Award> getAwards(Document awardCollection) throws JsonProcessingException {
+//        String newAward = removeFieldName(awardCollection.toJson());
+//        ObjectMapper mapper = new ObjectMapper();
+//        ArrayList<Award> awardList = mapper.readValue(newAward, new TypeReference<ArrayList<Award>>() {
+//            @Override
+//            public Type getType() {
+//                return super.getType();
+//            }
+//        });
+//
+//        return awardList;
+//    }
+
+    public void createMeritBadge(Badge newBadge){
 
         String badgeName = newBadge.getBadgeName();
         String requirements = "to hike";
@@ -280,6 +406,23 @@ public class Connection {
         UpdateResult updateResult = scoutCollection.updateOne(filter, updateOperation);
         System.out.println(updateResult);
 
+    }
+
+    // Remove field name from mongodb JSON in order to parse into arraylist
+    public static final String removeFieldName(String removeFN) {
+        String string = new String();
+        String[] words = removeFN.split(" ");
+        int count = 1;
+
+        for (String word : words) {
+            if(count > 3) {
+                word = word.replaceFirst("\"MeritBadge\":", "");
+                word = word.replaceFirst("\"Award\":", "");
+                string += (word + " ");
+            }
+            count++;
+        }
+        return string.trim();
     }
 
     private static final String wrap(String toWrap) {

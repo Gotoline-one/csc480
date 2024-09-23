@@ -1,3 +1,8 @@
+/**
+ * UPDATE: removed award from constructors and commented out all membership and award references.
+ * I did not implement any awards or membership fields in the database
+ */
+
 package csc480.model;
 
 import csc480.app.RoadToEagle;
@@ -21,9 +26,9 @@ public class Scout {
     private String email;
     private String position;
     private String rank;
-    private ArrayList<Award> awards;
+//    private ArrayList<Award> awards;
     private ArrayList<Badge> meritBadges;
-    private Membership membership;
+//    private Membership membership;
 
 
 
@@ -41,7 +46,12 @@ public class Scout {
      */
             /** when first created ID can be a placeholder until saved to db.
              * then the app can know what has and has not been saved to the remote db */
-    public Scout(String newId, String newFirstName, String newLastname, String newRank, String newPosition, String newEmail, List<Award> newAward, List<Badge> newBadge) {
+
+    /**
+     * Removed List<Award> newAward from constructor
+     *
+     */
+    public Scout(String newId, String newFirstName, String newLastname, String newRank, String newPosition, String newEmail, List<Badge> newBadge) {
         this.id         = newId;
         this.firstName  = newFirstName;
         this.lastName   = newLastname;
@@ -50,9 +60,9 @@ public class Scout {
         this.email      = newEmail;
         meritBadges     = new ArrayList<>();
         meritBadges.addAll(newBadge);
-        awards          = new ArrayList<>();
-        awards.addAll(newAward);
-        membership      = new Membership();
+//        awards          = new ArrayList<>();
+//        awards.addAll(newAward);
+//        membership      = new Membership();
 
     }
 
@@ -63,8 +73,8 @@ public class Scout {
         this.position   = newPosition;
         this.email      = newEmail;
         meritBadges = new ArrayList<>();
-        awards      = new ArrayList<>();
-        membership = new Membership();
+//        awards      = new ArrayList<>();
+//        membership = new Membership();
     }
 
     public Scout() {
@@ -73,8 +83,8 @@ public class Scout {
         this.rank = "";
         this.email="";
         meritBadges = new ArrayList<>();
-        awards      = new ArrayList<>();
-        membership = new Membership();
+//        awards      = new ArrayList<>();
+//        membership = new Membership();
     }
 
     /**
@@ -132,27 +142,27 @@ public class Scout {
 
     //Need to look at updating GUI stuff
     // will this propagate to the List
-    public void addAward(Award newAward) {
-        awards.add(newAward);
-    }
+//    public void addAward(Award newAward) {
+//        awards.add(newAward);
+//    }
 
     //Need to look at updating GUI stuff
     // will this propagate to the List, or do we need to mess with the Observer instead?
-    public void removeAward(String byName, String current) {
-        for (int i = 0; i < awards.size(); i++) {
-            if (awards.get(i).awardName.equals(byName)) {
-                awards.remove(i);
-                return;
-            }
-        }
-    }
+//    public void removeAward(String byName, String current) {
+//        for (int i = 0; i < awards.size(); i++) {
+//            if (awards.get(i).awardName.equals(byName)) {
+//                awards.remove(i);
+//                return;
+//            }
+//        }
+//    }
 
     public void addMeritBadge(Badge newBadge) {
         meritBadges.add(newBadge);
     }
-    public Award[] getAwards() {
-        return awards.toArray(new Award[0]);
-    }
+//    public Award[] getAwards() {
+//        return awards.toArray(new Award[0]);
+//    }
     public ArrayList<Badge> getMeritBadges() {
         return meritBadges;
     }
@@ -183,7 +193,7 @@ public class Scout {
         meritBadges.clear();
     }
 
-    public void clearAwards() {
-        awards.clear();
-    }
+//    public void clearAwards() {
+//        awards.clear();
+//    }
 }
