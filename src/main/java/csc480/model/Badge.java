@@ -1,48 +1,63 @@
 package csc480.model;
 
+import csc480.model.Requirement;
 import javafx.collections.ObservableList;
 import javafx.util.Duration;
-import org.jetbrains.annotations.NotNull;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 
-public class Badge  {
+import java.util.*;
+
+public class Badge implements TreeNodeData{
     private String id;
     String description;
+    String badgeRequirements;
 
-    String badgeName;
+    String name;
     boolean isKnowBased, isPhysical;
     private String badgeType;
     private Duration timeRequirement;
     private boolean complete;
-    private ArrayList<Activity> activityList = new ArrayList<>();
+   
 
-    public Badge() {}
-
-    public Badge(String newName, List<Activity> scoutActivities){
-        this.badgeName = newName;
-        this.complete=false;
-        this.activityList = new ArrayList<>(scoutActivities);
+    public ArrayList<Requirement> getBadgeRequirementsList() {
+        return badgeRequirementsList;
     }
 
-    public Badge(String badgeName, String description, boolean isKnowBased, boolean isPhysical, Duration timeRequirement, boolean complete, ArrayList<Activity> activityList) {
+    public void setBadgeRequirementsList(ArrayList<Requirement> badgeRequirementsList) {
+        this.badgeRequirementsList = badgeRequirementsList;
+    }
+
+    private ArrayList<Requirement> badgeRequirementsList;
+
+    public Badge() {
+    }
+
+
+    public Badge(String name, String requirements, boolean completed) {
+        this.name = name;
+        this.badgeRequirements = requirements;
+        this.complete = completed;
+    }
+    public Badge(String newID, String name, String requirements) {
+        this.id = newID;
+        this.name = name;
+        this.description = requirements;
+    }
+    public Badge(String name, String description, boolean isKnowBased, boolean isPhysical, Duration timeRequirement, boolean complete, ArrayList<Requirement> requirementArrayList) {
         this.description = description;
-        this.badgeName = badgeName;
+        this.name = name;
         this.isKnowBased = isKnowBased;
         this.isPhysical = isPhysical;
         this.timeRequirement = timeRequirement;
         this.complete = complete;
-        this.activityList = activityList;
+        this.badgeRequirementsList.addAll(requirementArrayList);
     }
 
-    public String getBadgeName() {
-        return badgeName;
+    public String getName() {
+        return name;
     }
 
-    public void setBadgeName(String badgeName) {
-        this.badgeName = badgeName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public boolean isKnowBased() {
@@ -54,7 +69,7 @@ public class Badge  {
     }
 
     public boolean getKnowBased() {
-        return isKnowBased ;
+        return isKnowBased;
     }
 
     public boolean isPhysical() {
@@ -83,31 +98,33 @@ public class Badge  {
 
     @Override
     public String toString() {
-        return badgeName;
+        return name;
     }
 
 
-    public Iterator<Activity> getActivities(){
-        return activityList.iterator();
+    public Iterator<Requirement> getActivities() {
+        return badgeRequirementsList.iterator();
     }
 
-    public boolean activityAddAll(ArrayList<Activity> newActivityList) {
-        if (newActivityList == null) return false;
+    public boolean RequirementAddAll(ArrayList<Requirement> newbadgeRequirementsList) {
+        if (newbadgeRequirementsList == null) return false;
 
-        this.activityList.addAll(newActivityList);
-        return (newActivityList.size() == this.activityList.size());
+        this.badgeRequirementsList.addAll(newbadgeRequirementsList);
+        return (newbadgeRequirementsList.size() == this.badgeRequirementsList.size());
     }
-    public boolean activityAddAll(ObservableList<Activity> newActivityList) {
-        if (newActivityList == null) return false;
-        activityList.clear();
-        activityList.addAll(newActivityList);
+
+    public boolean RequirementAddAll(ObservableList<Requirement> newbadgeRequirementsList) {
+        if (newbadgeRequirementsList == null) return false;
+        badgeRequirementsList.clear();
+        badgeRequirementsList.addAll(newbadgeRequirementsList);
         return true;
     }
-    public boolean addActivity(Activity act) {
-        return this.activityList.add(act);
+
+    public boolean addRequirement(Requirement act) {
+        return this.badgeRequirementsList.add(act);
     }
 
-       public void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -127,27 +144,63 @@ public class Badge  {
         this.timeRequirement = timeRequirement;
     }
 
-    public List<Activity> getActivityList() {
-        return  Collections.unmodifiableList(activityList);
+    public List<Requirement> getbadgeRequirementsList() {
+        return Collections.unmodifiableList(badgeRequirementsList);
 
     }
 
-    public void setActivityList(ArrayList<Activity> activityList) {
-        this.activityList = activityList;
+    public boolean getIsPhys() {
+        return isPhysical;
     }
-public boolean getIsPhys(){return isPhysical;}
+
     public void updateBadge(Badge updatedBadge) {
         if (updatedBadge == this) return;
 
         setPhysical(updatedBadge.isPhysical);
         setKnowBased(updatedBadge.isKnowBased);
         setBadgeDescription(updatedBadge.description);
-        setBadgeName(updatedBadge.badgeName);
-        activityList.clear();
-        if (!activityAddAll(updatedBadge.activityList)) {
+        setName(updatedBadge.name);
+        badgeRequirementsList.clear();
+        if (!RequirementAddAll(updatedBadge.badgeRequirementsList)) {
             System.out.println("Issue updating Award Activities Award.updateAward()");
         }
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getBadgeRequirements() {
+        return badgeRequirements;
+    }
+
+    public void setBadgeRequirements(String badgeRequirements) {
+        this.badgeRequirements = badgeRequirements;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    @Override
+    public String getDisplayText() {
+        return name;
+    }
+
+    @Override
+    public void setCompleted(boolean completed) {
+        this.complete = completed;
 }
+
+    @Override
+    public boolean getCompleted() {
+        return this.complete;
+        }
+
+    }
+
 

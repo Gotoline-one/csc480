@@ -136,4 +136,12 @@ public class Award  {
         return  Collections.unmodifiableList(activityList);
 
     }
+
+    public String getId() {
+        return "";
+    }
+
+    public void setId(String string) {
+
+    }
 }

@@ -6,6 +6,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+
 <Pane xmlns:fx="http://javafx.com/fxml/1" prefHeight="380.0" prefWidth="558.0" xmlns="http://javafx.com/javafx/8"
       fx:controller="csc480.controller.NewScoutController">
     <children>
@@ -33,11 +34,11 @@
                 <Button fx:id="AddScoutPhotoBtn" text="Add Photo" layoutX="400.0" layoutY="233.0" maxHeight="-Infinity"
                         maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
                         onAction="#addScoutPhoto" prefHeight="25.0" prefWidth="85.0"/>
-                <Button fx:id="addAwardsBtn" text="Awards" layoutX="16.0" layoutY="189.0" maxHeight="-Infinity"
-                        maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
-                        onAction="#addAwards" prefHeight="25.0" prefWidth="66.0"/>
-                <TextField fx:id="scoutAwards" layoutX="106.0" layoutY="189.0" editable="false" focusTraversable="false"
-                           prefHeight="25.0" prefWidth="246.0"/>
+<!--                <Button fx:id="addAwardsBtn" text="Awards" layoutX="16.0" layoutY="189.0" maxHeight="-Infinity"-->
+<!--                        maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"-->
+<!--                        onAction="#addAwards" prefHeight="25.0" prefWidth="66.0"/>-->
+<!--                <TextField fx:id="scoutAwards" layoutX="106.0" layoutY="189.0" editable="false" focusTraversable="false"-->
+<!--                           prefHeight="25.0" prefWidth="246.0"/>-->
                 <Button fx:id="addBadgesBtn" text="Badges" layoutX="16.0" layoutY="233.0" maxHeight="-Infinity"
                         maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
                         onAction="#addBadges" prefHeight="25.0" prefWidth="67.0"/>

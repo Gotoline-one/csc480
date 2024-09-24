@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox prefHeight="400.0" prefWidth="638.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csc480.controller.NewScoutController">
+   <children>
+      <AnchorPane layoutX="-1.0" layoutY="1.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="400.0" prefHeight="400.0" prefWidth="422.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="220.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="147.0" AnchorPane.topAnchor="100.0" HBox.hgrow="ALWAYS">
+         <children>
+            <GridPane alignment="CENTER" prefHeight="400.0" prefWidth="478.0" style="-fx-background-color: lightblue;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="NEVER" maxWidth="218.0" minWidth="10.0" prefWidth="89.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="333.0" />
+              </columnConstraints>
+              <rowConstraints>
+                  <RowConstraints maxHeight="101.0" minHeight="10.0" prefHeight="28.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="31.0" minHeight="31.0" prefHeight="31.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="31.0" minHeight="0.0" prefHeight="31.0" vgrow="NEVER" />
+                  <RowConstraints maxHeight="31.0" minHeight="31.0" prefHeight="31.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="31.0" minHeight="31.0" prefHeight="31.0" vgrow="NEVER" />
+                <RowConstraints maxHeight="1.7976931348623157E308" minHeight="50.0" prefHeight="196.0" vgrow="ALWAYS" />
+                  <RowConstraints maxHeight="49.0" minHeight="49.0" prefHeight="49.0" vgrow="NEVER" />
+              </rowConstraints>
+               <children>
+                  <ListView fx:id="scoutBadgeList" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" GridPane.vgrow="ALWAYS" />
+                  <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                     <children>
+                        <Button fx:id="cancelBtn" layoutX="43.0" layoutY="12.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" text="Cancel" />
+                        <Button fx:id="saveScoutBtn" layoutX="170.0" layoutY="12.0" mnemonicParsing="false" onAction="#saveScout" prefHeight="25.0" text="Save" />
+                     </children>
+                  </Pane>
+                  <Label text="Name" textAlignment="CENTER" GridPane.rowIndex="1" />
+                  <Label text="Position" GridPane.rowIndex="4" />
+                  <Label text="Email" GridPane.rowIndex="2" />
+                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <children>
+                        <TextField fx:id="firstNameTxtBox" prefHeight="25.0" text="first" HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="lastNameTxtBox" prefHeight="25.0" text="Second" HBox.hgrow="ALWAYS" />
+                     </children>
+                  </HBox>
+                  <TextField fx:id="scoutEmail" prefHeight="25.0" text="afds@asdf.com" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" />
+                  <TextField fx:id="scoutPosition" prefHeight="25.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="4" />
+                  <ComboBox fx:id="rankCombo" prefHeight="25.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3" />
+                  <Button fx:id="addBadgesBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addBadges" prefHeight="25.0" text="Badges" GridPane.rowIndex="5" />
+                  <Button fx:id="NextBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#nextScout" prefHeight="25.0" text="Save New" GridPane.rowIndex="6" />
+                  <Label text="Rank" GridPane.rowIndex="3" />
+                  <ScrollPane  GridPane.columnIndex="1" fitToWidth="true" hbarPolicy="NEVER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" >
+<!--                   <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" >-->
+                     <content>
+                       <VBox fx:id="treeHomePane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.columnIndex="1" GridPane.rowIndex="5" VBox.vgrow="ALWAYS" />
+                     </content>
+                  </ScrollPane>
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="421.0" prefHeight="400.0" prefWidth="214.0" style="-fx-background-color: lightgreen;" HBox.hgrow="NEVER">
+         <children>
+            <ImageView fitHeight="197.0" fitWidth="193.0" layoutX="12.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                   <Image url="@silhouette_backup.jpg" />
+<!--                  <Image url="@/csc480/silhouette_backup.jpg" />-->
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</HBox>

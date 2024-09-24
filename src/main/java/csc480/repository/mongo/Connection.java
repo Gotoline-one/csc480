@@ -197,7 +197,7 @@ public class Connection {
 
     public void crateMeritBadge(Badge newBadge){
 
-        String badgeName = newBadge.getBadgeName();
+        String badgeName = newBadge.getName();
         String requirements = "to hike";
 
         Document badge = new Document("_id", new ObjectId());

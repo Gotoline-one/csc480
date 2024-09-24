@@ -2,18 +2,28 @@ package csc480.controller;
 
 
 import csc480.app.RoadToEagle;
-import csc480.model.Scout;
+import csc480.model.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.cell.CheckBoxTreeCell;
+import java.util.ArrayList;
+
+import javafx.scene.layout.*;
+import javafx.scene.text.Text;
+import org.controlsfx.control.CheckTreeView;
+//import org.controlsfx.control.CheckTreeItem;
 
 /**
- * TODO: Finish Awards, Badges, and Photo stuff
- * TODO: Make Position a dropdown (There is a finite amount of scouting positions)
  */
 public class NewScoutController extends SubController<Scout>{
+
+
     @FXML
     public ImageView scoutImage;
 
@@ -33,34 +43,33 @@ public class NewScoutController extends SubController<Scout>{
     private TextField scoutEmail;
 
     @FXML
-    private TextField scoutAwards;
-
-    @FXML
-    private TextField scoutBadges;
     Scout currentScout;
     MainController mainController;
 
+    @FXML
+    TreeView<TreeNodeData> badgeTree;
 
     @FXML
+    VBox treeHomePane;
+
+    @FXML
+    private ListView<Badge> scoutBadgeList;
+    private ObservableList<Badge> badgeListObserver;
+
+        @FXML
     void addScoutPhoto() {
 
     }
 
     @FXML
-    void addAwards() {
-        ScoutToAwardController scoutToAward= (ScoutToAwardController) VistaNavigator.loadVista(VistaNavigator.SCOUT_AWARD);
-        if(this.currentScout !=null && scoutToAward != null) {
-            scoutToAward.loadInfo(this.currentScout);
-        }
-    }
-
-    @FXML
     void addBadges() {
+        if (this.currentScout ==null  ) currentScout = new Scout();
+        formToScout();
+
         ScoutToBadgeController scoutToBadge;
-        SubController sc = VistaNavigator.loadVista(VistaNavigator.SCOUT_BADGE);
+        scoutToBadge = (ScoutToBadgeController) VistaNavigator.loadVista(VistaNavigator.SCOUT_BADGE);
         
-        scoutToBadge= (ScoutToBadgeController)sc;
-            if(this.currentScout !=null && scoutToBadge != null) {
+            if(scoutToBadge != null) {
                 scoutToBadge.loadInfo(this.currentScout);
             }
     }
@@ -68,10 +77,16 @@ public class NewScoutController extends SubController<Scout>{
     @FXML
     void initialize() {
         rankCombo.getItems().addAll("Tenderfoot","Second Class","First Class","Star","Life","Eagle");
-        this.currentScout = null;
+        badgeListObserver = FXCollections.observableArrayList();
+        scoutBadgeList.setItems(badgeListObserver);
+
         this.mainController = VistaNavigator.getMainController();
-        System.out.println("NewScoutController  Initialize");
-        System.out.println(scoutImage.imageProperty().get().getUrl());
+        if(mainController!=null) this.currentScout = mainController.currentScoutSelected;
+        if(currentScout!=null)
+            badgeListObserver.addAll(currentScout.getMeritBadges());
+        //load up scout list
+
+
     }
 
     /**
@@ -84,7 +99,7 @@ public class NewScoutController extends SubController<Scout>{
      *
      */
     private boolean formToScout(){
-            // check if we are updating or creating new scout obj
+
         if (this.currentScout ==null){
             this.currentScout = new Scout();
         }
@@ -172,7 +187,7 @@ public class NewScoutController extends SubController<Scout>{
     void nextScout()
     {
         // No previous scout was selected so make a new one to add to list
-        if(this.currentScout !=null){
+        if(this.currentScout ==null){
             this.currentScout = new Scout();
         }
 
@@ -197,6 +212,7 @@ public class NewScoutController extends SubController<Scout>{
         }
 
     }
+
 
 
      /**
@@ -225,8 +241,12 @@ public class NewScoutController extends SubController<Scout>{
 
         if(mainController !=null)
             this.mainController.setLeftStatus("NewScoutController.saveScout()");
+//        updateModelFromTree( (CheckBoxTreeItem<TreeNodeData>) badgeTree.getRoot() );
+
         return true;
     }
+
+
 
     /**
      * Clear out what is seen and the currentScout object
@@ -250,18 +270,16 @@ public class NewScoutController extends SubController<Scout>{
         lastNameTxtBox.clear();
         rankCombo.valueProperty().set(null);
         scoutEmail.clear();
-        scoutAwards.clear();
-        scoutBadges.clear();
         scoutPosition.clear();
     }
 
     /**
-     * Scout to Form
-     * TODO: Awards and Badges
+     * Scout to GUI
      * @param scoutToLoad:Scout
      */
     @Override
     public void loadInfo(Scout scoutToLoad) {
+        if(scoutToLoad ==null) return;
         firstNameTxtBox.setText(scoutToLoad.getFirstName());
         lastNameTxtBox.setText(scoutToLoad.getLastName());
         rankCombo.setValue(scoutToLoad.getRank());
@@ -269,5 +287,158 @@ public class NewScoutController extends SubController<Scout>{
         scoutEmail.setText(scoutToLoad.getEmail());
         this.currentScout = scoutToLoad;
 
+        TreeNodeCheckList rootCheckListItem = loadCheckList(this.currentScout.getMeritBadges());
+        treeHomePane.setPadding(new Insets(1));
+        buildUI(treeHomePane, rootCheckListItem,5);
+
     }
+
+    private TreeNodeCheckList loadCheckList(ArrayList<Badge> meritBadges) {
+        if(meritBadges ==null) return null;
+
+        // create fake root that wont be displayed
+        TreeNodeCheckList rootNode = new TreeNodeCheckList(null);
+
+        for(Badge badge : meritBadges ){
+            TreeNodeCheckList badgeNode = new TreeNodeCheckList(badge);
+            for(Requirement req : badge.getBadgeRequirementsList()){
+                badgeNode.addChild(new TreeNodeCheckList(req));
+            }
+
+            rootNode.addChild(badgeNode);
+        }
+        return rootNode;
+    }
+
+    // Method to build the UI recursively
+    private void buildUI(VBox parentPane, TreeNodeCheckList checkListItem, double indent) {
+        if(checkListItem.getTreeNodeData()  != null) {
+            HBox hbox = createItemHBox(checkListItem, indent, parentPane);
+            parentPane.getChildren().add(hbox);
+        }
+
+        if (!checkListItem.getChildren().isEmpty()) {
+            for (TreeNodeCheckList child : checkListItem.getChildren()) {
+                buildUI(parentPane, child, indent + 20); // Indent child items
+            }
+        }
+    }
+
+    // Method to create an HBox for an checkListItem
+    private HBox createItemHBox(TreeNodeCheckList checkListItem, double indent, VBox parentPane) {
+        HBox hbox = new HBox(5); // Spacing between checkbox and text
+        hbox.setPadding(new Insets(0, 0, 0, indent));
+        hbox.setFillHeight(true);
+        hbox.getStyleClass().add("hbox");
+        // Allow HBox to grow horizontally
+        hbox.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(hbox, Priority.ALWAYS);
+
+
+        CheckBox checkBox = new CheckBox();
+        Text text = new Text(' ' +checkListItem.getText());
+        text.wrappingWidthProperty().bind(parentPane.widthProperty().subtract(indent + 40)); // Adjust 70 as needed
+//        text..setPadding(new Insets(0, 0, 0, 0));
+        checkBox.setPadding(new Insets(0, 0, 0, 0));
+        // Bind the checkbox to the checkListItem's selected property
+        checkBox.selectedProperty().bindBidirectional(checkListItem.selectedProperty());
+
+        // Add listener to handle parent-child selection
+        checkBox.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+
+            // If the checkListItem has children, propagate the selection
+            if (!checkListItem.getChildren().isEmpty()) {
+                checkListItem.setChildrenSelected(isSelected);
+            }
+
+            // If the checkListItem has a parent and is deselected, deselect the parent if necessary
+            if (checkListItem.getParent() != null && !isSelected) {
+                checkListItem.setParentSelected(false);
+            }
+
+            // If the checkListItem is selected, check if all siblings are selected to update the parent
+            if (checkListItem.getParent() != null && isSelected) {
+                checkListItem.checkParentSelection();
+//                System.out.println("CLICKED");
+//                if(checkListItem.getTreeNodeData() instanceof Requirement)
+//                    parentPane.getChildren().remove(hbox);
+            }
+
+        });
+
+        // Ensure the text expands to fill available space
+        HBox.setHgrow(text, Priority.ALWAYS);
+
+        hbox.getChildren().addAll(checkBox, text);
+
+        return hbox;
+    }
+
+
+//    private void updateModelFromTree(CheckBoxTreeItem<TreeNodeData> item) {
+//
+//        // Copy checkbox into into Requirements & Badge
+//        if(item !=null && item.getValue() != null) {
+//            item.getValue().setCompleted(item.isSelected());
+//        }
+//            // Recursively process child items
+//        for (TreeItem<TreeNodeData> child : item.getChildren()) {
+//            if (child instanceof CheckBoxTreeItem) {
+//                updateModelFromTree((CheckBoxTreeItem<TreeNodeData>) child);
+//            }
+//        }
+//    }
+//
+//
+//    public void loadScoutProgressView(ArrayList<Badge> badges) {
+//        badgeTree.setCellFactory(CheckBoxTreeCell.forTreeView());
+//
+//        // Make hidden root so all badges appear at same level
+//        CheckBoxTreeItem<TreeNodeData> rootItem = new CheckBoxTreeItem<>(null);
+//        badgeTree.setShowRoot(false);
+//
+//        for(Badge badge : badges){
+//            rootItem.getChildren().add(badgeToTreeItem(badge));
+//        }
+//
+//        badgeTree.setRoot(rootItem);
+//    }
+//
+//    private TreeItem<TreeNodeData> badgeToTreeItem(Badge badge){
+//        CheckBoxTreeItem<TreeNodeData> reqList = new CheckBoxTreeItem<>(badge);
+//        reqList.setSelected(reqList.getValue().getCompleted());
+//        reqList.setExpanded(!reqList.getValue().getCompleted());
+////        reqList.setExpanded(false);
+//
+//        for(Requirement req :   badge.getBadgeRequirementsList()){
+//            CheckBoxTreeItem<TreeNodeData> reqCheckBox = createCheckBoxTreeItem(req);
+//
+//            reqCheckBox.setSelected(reqCheckBox.getValue().getCompleted());
+//            reqCheckBox.setExpanded(!reqCheckBox.getValue().getCompleted());
+////            reqList.setExpanded(false);
+//
+//            reqList.getChildren().add(reqCheckBox);
+//        }
+//
+//        return reqList;
+//    }
+//
+//
+//    private CheckBoxTreeItem<TreeNodeData> createCheckBoxTreeItem(Requirement requirement) {
+//        CheckBoxTreeItem<TreeNodeData> item = new CheckBoxTreeItem<>(requirement);
+//        item.setExpanded(false);
+//
+//        // Set initial selected state
+//        item.setSelected(requirement.getCompleted());
+//
+//        // Recursively add sub-requirements
+//        if (requirement.getSubRequirements() != null) {
+//            for (Requirement subReq : requirement.getSubRequirements()) {
+//                CheckBoxTreeItem<TreeNodeData> subItem = createCheckBoxTreeItem(subReq);
+//                item.getChildren().add(subItem);
+//            }
+//        }
+//
+//        return item;
+//    }
 }

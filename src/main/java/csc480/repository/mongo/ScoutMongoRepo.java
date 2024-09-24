@@ -77,9 +77,8 @@ public class ScoutMongoRepo extends BaseMongoRepo implements ScoutRepository {
             }
 
         } catch (RuntimeException e) {
-//            System.out.println(updateResult);
             e.printStackTrace();
-//            throw new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 

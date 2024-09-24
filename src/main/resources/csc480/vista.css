@@ -30,8 +30,28 @@
     -fx-font-size: 12px;
 }
 
-
 .text-field.error {
   -fx-text-box-border: red ;
   -fx-focus-color: red ;
+}
+
+.tree-cell {
+    -fx-font-size: 12px;
+    -fx-font-family: "Verdana";
+    -fx-wrap-text: true;
+}
+
+.check-box {
+    -fx-min-width:  12px;
+    -fx-min-height: 12px;
+    -fx-max-width:  12px;
+    -fx-max-height: 12px;
+}
+
+.tree-cell .text {
+    -fx-wrap-text: true;
+}
+.hbox{
+-fx-border-color: black;
+    -fx-border-width: 1px;
 }

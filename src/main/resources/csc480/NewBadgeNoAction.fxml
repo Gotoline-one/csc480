@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: lightred;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="csc480.controller.NewBadgeController">
+   <children>
+      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="619.0" style="-fx-background-color: lightgreen; -fx-border-color: blue;" HBox.hgrow="ALWAYS">
+         <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="252.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints fillHeight="false" maxHeight="31.0" minHeight="31.0" prefHeight="31.0" vgrow="NEVER" />
+            <RowConstraints fillHeight="false" maxHeight="35.0" minHeight="35.0" prefHeight="35.0" vgrow="NEVER" />
+            <RowConstraints maxHeight="1.7976931348623157E308" minHeight="76.0" prefHeight="304.0" valignment="CENTER" vgrow="ALWAYS" />
+            <RowConstraints fillHeight="false" maxHeight="148.0" minHeight="0.0" prefHeight="28.0" vgrow="NEVER" />
+         </rowConstraints>
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="New Merit Badge" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Label prefHeight="15.0" prefWidth="234.0" text="Merit Badge Title" GridPane.rowIndex="1">
+               <padding>
+                  <Insets left="5.0" />
+               </padding>
+            </Label>
+            <VBox prefHeight="51.0" prefWidth="617.0" style="-fx-background-color: lightgreen;" GridPane.rowIndex="2">
+               <children>
+                  <TextField fx:id="activityTitle" alignment="TOP_LEFT" maxHeight="25.0" maxWidth="234.0" minHeight="25.0" prefHeight="25.0" prefWidth="234.0" />
+                  <Pane maxHeight="10.0" prefHeight="10.0" prefWidth="301.0" style="-fx-background-color: lightgreen;" />
+                  <Label maxHeight="15.0" prefHeight="15.0" prefWidth="171.0" text="Requirements">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <StackPane fx:id="treeHomePane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="244.0" prefWidth="617.0" style="-fx-background-color: red;" VBox.vgrow="ALWAYS" >
+                     <TreeView fx:id="requirementsTree" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                  </StackPane>
+               </children>
+            </VBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="3">
+               <children>
+                     <Button alignment="CENTER" mnemonicParsing="false" onAction="#saveNewBtn" text="Save and New" textAlignment="CENTER" />
+                     <Pane maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                     <Button alignment="CENTER" mnemonicParsing="false" onAction="#saveBtn" text="Save" textAlignment="CENTER" />
+                     <Pane maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS" />
+                     <Button fx:id="cancelBtn" alignment="CENTER" mnemonicParsing="false" onAction="#cancelBtn" text="Cancel" textAlignment="CENTER" />
+               </children>
+               <padding>
+                  <Insets left="5.0" right="5.0" />
+               </padding>
+            </HBox>
+         </children>
+      </GridPane>
+   </children>
+</HBox>

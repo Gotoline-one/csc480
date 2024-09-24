@@ -1,31 +1,37 @@
 package csc480.controller;
 
-import csc480.model.Activity;
-import csc480.model.Award;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import csc480.model.Badge;
+import csc480.model.Badge2;
+import csc480.model.Requirement;
 import csc480.model.Scout;
 import csc480.service.ActivityService;
-import csc480.service.AwardService;
 import csc480.service.BadgeService;
 import csc480.service.ScoutService;
 import javafx.concurrent.Task;
 import org.bson.BsonValue;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-
+import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 public class DataController {
     MainController mainController;
     ScoutService scoutService;
     BadgeService badgeService;
-    AwardService awardService;
     ActivityService activityService;
-    DataController(){
-        this.mainController = VistaNavigator.getMainController();
-        this.scoutService = new ScoutService();
-        this.badgeService = new BadgeService();
-        this.awardService = new AwardService();
-        this.activityService = new ActivityService();
+    LoadFakeData lfd;
+    DataController(MainController mc){
+        this.mainController = mc; // VistaNavigator.getMainController();
+        this.scoutService =     new ScoutService();
+        this.badgeService =     new BadgeService();
+        this.activityService =  new ActivityService();
+
+        lfd = new LoadFakeData();
     }
 
     public void  createScout(Scout newScout) {
@@ -44,13 +50,14 @@ public class DataController {
             MainController mc = VistaNavigator.getMainController();
             if(mc !=null){
                 Map<Integer, BsonValue> scoutIDMap = task.getValue();
-                //mc.currentScoutSelected.setId( task.getValue());
             }
             refreshScoutList();
         });
 
         new Thread(task).start();
     }
+
+
 
 
     public void createScouts(ArrayList<Scout> newScouts) {
@@ -103,25 +110,166 @@ public class DataController {
 
     public void createBadges(ArrayList<Badge> badges) {
 
+
     }
 
-    public void saveAll(ArrayList<Scout> updateScouts,
-                        ArrayList<Award> updateAwards,
-                        ArrayList<Badge> updateBadge,
-                        ArrayList<Activity> updateActivity ) {
+    public ArrayList<Badge> getAllBadges(){
+        try {
+            return lfd.loadBadges();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-/*      Go through all the objects and check for ids
-        If any do not have Ids make a New_ list to call add instead of update
-        - or could do that on the lower level inside the for loop of adding them. s
- */
+
+
+    /*      Go through all the objects and check for ids
+            If any do not have Ids make a New_ list to call add instead of update
+            - or could do that on the lower level inside the for loop of adding them. s
+     */
+    public void saveAll(ArrayList<Scout> updateScouts,ArrayList<Badge> updateBadge){
         scoutService.updateScouts(updateScouts);
-        awardService.updateAwards(updateAwards);
         badgeService.updateBadges(updateBadge);
-        activityService.updateActivities(updateActivity);
-
     }
 
     public void saveAll(ArrayList<Scout> es) {
         scoutService.updateScouts(es);
     }
 }
+//Badge2 badge = objectMapper.readValue(new File("./src/main/resources/csc480/TroopManagementApp.MeritBadge.json"), Badge2.class);
+
+//
+//
+
+class LoadFakeData {
+
+    ArrayList<Badge> loadBadges() throws IOException {
+
+        // Create ObjectMapper instance
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            // Read the JSON file and map it to a List of Badge2 objects
+            List<Badge2> badges = objectMapper.readValue(new File("./src/main/resources/csc480/TroopManagementApp.MeritBadge.json"),
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, Badge2.class));
+            ArrayList<Badge> badgeArrayList= new ArrayList<>();
+            // Loop through the badges and print them out
+            for (Badge2 badge : badges) {
+                Badge b = new Badge(badge.getId(),badge.getName(), badge.getRequirements());
+                badgeArrayList.add(b);
+
+                System.out.println("\n" + badge.getName() +": ");
+                ArrayList<Requirement> badgeReqs = new ArrayList<>();
+                badgeReqs.addAll(requirementParser( badge.getRequirements() ));
+
+                b.setBadgeRequirementsList(badgeReqs);
+            }
+            return badgeArrayList;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public List<Requirement> requirementParser(String mainString) throws IOException {
+        Scanner scanner = new Scanner(mainString);
+        String line;
+
+        List<Requirement> mainRequirements = new ArrayList<>();
+        Requirement currentMainRequirement = null;
+        Requirement currentSubRequirement = null;
+
+        Pattern mainReqPattern      =   Pattern.compile("^(\\d+)\\.\\s+(.*)$");
+        Pattern subReqPattern       =   Pattern.compile("^\\s+\\(\\s*([a-z])\\s*\\)\\s+(.*)$");
+        Pattern nestedSubReqPattern =   Pattern.compile("^\\s+\\(\\s*(\\d+)\\s*\\)\\s+(.*)$");
+        Pattern multiTabPattern     =   Pattern.compile("^\\t{2,}(.*)");
+        while (scanner.hasNextLine()) {
+            line = scanner.nextLine();
+            line = line.trim();
+            line = line.replaceFirst("^\\\\","");
+            if (line.isEmpty()) continue;
+
+            Matcher mainMatcher = mainReqPattern.matcher(line);
+            Matcher subMatcher = subReqPattern.matcher(line);
+            Matcher nestedMatcher = nestedSubReqPattern.matcher(line);
+            Matcher multiTabMatcher = multiTabPattern.matcher(line);
+
+            if (mainMatcher.find()) {
+                String id = mainMatcher.group(1);
+                String desc = mainMatcher.group(2);
+
+                Requirement req = new Requirement(id, desc, true, false);
+                mainRequirements.add(req);
+
+                currentMainRequirement= req;
+            } else if (subMatcher.find()) {
+                String id = subMatcher.group(1);
+                String desc = subMatcher.group(2);
+                Requirement req = new Requirement(id, desc, true, false);
+
+                if (currentMainRequirement != null) {
+                    currentSubRequirement = req;
+                    currentMainRequirement.addSubRequirement(req);
+                }else{
+                    System.err.println("Sub-requirement without a main requirement.");
+                }
+            } else if (nestedMatcher.find()) {
+                String id = nestedMatcher.group(1);
+                String desc = nestedMatcher.group(2);
+                Requirement req = new Requirement(id, desc, true, false);
+
+                if (currentSubRequirement != null) {
+                    // In case there is no sub-requirement level
+                    currentSubRequirement.addSubRequirement(req);
+                }
+                else if(currentMainRequirement !=null){
+                    currentMainRequirement.addSubRequirement(req);
+                }
+                else {
+                    System.err.println("Nested sub-requirement without a parent.");
+                }
+
+            } else if (multiTabMatcher.matches()) {
+                // Line starts with multiple tabs
+                String content = multiTabMatcher.group(1);
+                // Decide how to handle this content
+                if (currentSubRequirement != null) {
+                    // Append to the current sub-requirement
+                    currentSubRequirement.appendDescription("\n\t-" + content);
+                } else if (currentMainRequirement != null) {
+                    // Append to the current main requirement
+                    currentMainRequirement.appendDescription("\n" + content);
+                }
+            } else {
+                // Continuation of the previous description
+                if (currentSubRequirement != null) {
+                    currentSubRequirement.appendDescription(" " + line);
+                } else if (currentMainRequirement != null) {
+                    currentMainRequirement.appendDescription(" " + line);
+                } else {
+                    System.err.println("Text outside of any requirement: " + line);
+                }
+            }
+        }
+
+        scanner.close();
+
+        // Output the parsed requirements for verification
+//        for (Requirement req : mainRequirements) {
+//            printRequirement(req, 0);
+//        }
+        return mainRequirements;
+    }
+
+        private static void printRequirement(Requirement req, int level) {
+            String indent = "  ".repeat(level);
+            System.out.println(indent+req.getId() + ". " + req.getDescription());
+            for (Requirement subReq : req.getSubRequirements()) {
+                printRequirement(subReq, level + 1);
+            }
+        }
+
+
+    }

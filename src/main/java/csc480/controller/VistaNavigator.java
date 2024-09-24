@@ -20,31 +20,11 @@ public class VistaNavigator {
      */
     public static final String MAIN         = "/csc480/roadtoeagle.fxml";
     public static final String SPLASH       = "/csc480/Splash.fxml";
-    public static final String NEW_SCOUT    = "/csc480/NewScout.fxml";
+    public static final String NEW_SCOUT    = "/csc480/NewScoutTest.fxml";
     public static final String NEW_ACTION   = "/csc480/NewActivity.fxml";
-    public static final String NEW_BADGE    = "/csc480/NewBadge.fxml";
+    public static final String NEW_BADGE    = "/csc480/NewBadgeNoAction.fxml";
     public static final String NEW_EVENT    = "/csc480/NewScoutEvent.fxml";
-    public static final String NEW_AWARD    = "/csc480/NewAward.fxml";
     public static final String SCOUT_BADGE  = "/csc480/ScoutToBadge.fxml";
-    public static final String SCOUT_AWARD =  "/csc480/ScoutToAward.fxml";
-
-
-    /**
-     * The main application layout controller.
-     */
-
-//    private static SubController currentSubController;
-//
-//    public static SubController getSubController() {
-//        if (currentSubController != null) {
-//            return currentSubController;
-//        }
-//        return null;
-//    }
-//
-//    public static void setSubController(SubController subController) {
-//        VistaNavigator.currentSubController = subController;
-//    }
 
 
     private static MainController mainController;

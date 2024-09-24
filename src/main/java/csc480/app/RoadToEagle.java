@@ -77,6 +77,7 @@ public class RoadToEagle extends Application {
                         loadMainPane()
                 )
         );
+
         primaryStage = stage;
         stage.show();
     }

@@ -4,16 +4,9 @@ import com.mongodb.*;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-import csc480.model.Activity;
-import csc480.model.Award;
-import csc480.model.Badge;
-import csc480.model.Scout;
+import csc480.model.*;
 import javafx.util.Duration;
-import org.bson.BsonDocument;
-import org.bson.BsonInt64;
 import org.bson.Document;
-import org.bson.conversions.Bson;
-import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -51,12 +44,8 @@ public class BaseMongoRepo implements AutoCloseable{
      */
     protected Document toDocument(Scout scout) {
         List<Document> badgeDocs = new ArrayList<>();
-        List<Document> awardDocs = new ArrayList<>();
         for (Badge badge : scout.getMeritBadges()) {
             badgeDocs.add(toDocument(badge));
-        }
-        for (Award award : scout.getAwards()) {
-            awardDocs.add(toDocument(award));
         }
 
         return new Document("fname",    scout.getFirstName())
@@ -64,7 +53,6 @@ public class BaseMongoRepo implements AutoCloseable{
                 .append("email",        scout.getEmail())
                 .append("rank",         scout.getRank())
                 .append("position",     scout.getPosition())
-                .append("awards",       awardDocs)
                 .append("badges",       badgeDocs);
     }
 
@@ -81,10 +69,7 @@ public class BaseMongoRepo implements AutoCloseable{
         }
 
         List<Award> awards = new ArrayList<>();
-        List<Document> awardDocs = document.getList("awards", Document.class);
-        for (Document awardDoc : awardDocs) {
-            awards.add(fromAwardDocument(awardDoc));
-        }
+
         return new Scout(document.getObjectId("_id").toString(),
                 document.getString("fname"),
                 document.getString("lname"),
@@ -94,61 +79,20 @@ public class BaseMongoRepo implements AutoCloseable{
                 awards, badges);
     }
 
-    /**
-     * Converts a Award Object back into a MongoDB Document
-     * @param  award Award object
-     * @return Mongo DB Object for Award
-     */
-    protected Document toDocument(Award award) {
-        List<Document> activityDocs = new ArrayList<>();
-        for (Iterator<Activity> it = award.getActivities(); it.hasNext(); ) {
-            Activity activity = it.next();
-            activityDocs.add(toDocument(activity));
-        }
-        return new Document("name", award.getAwardName())
-                .append("description",      award.getAwardDescription())
-                .append("complete",         award.getComplete())
-                .append("timeRequirement",  award.getTimeRequirement())
-                .append("activities",       activityDocs
-                );
-    }
-
-    /**
-     *  Converts a MongoDB Document back into a Award object
-     * @param document MongoDB Award document
-     * @return Award object from Document
-     */
-    protected Award fromAwardDocument(Document document) {
-        List<Activity> activities = new ArrayList<>();
-        List<Document> activityDocs = document.getList("activities", Document.class);
-
-        for (Document activityDoc : activityDocs) {
-            activities.add(fromActDocument(activityDoc));
-        }
-
-        return new Award(document.getString("name"),
-                document.getString("description"),
-                document.getBoolean("complete"),
-                new Duration( document.getInteger("timeRequirement")),
-                activities);
-    }
 
     /**
      * Converts a MongoDB Document back into an Activity object
      * @param document Activity document from MongoDB
      * @return Activity Object
      */
-    protected Activity fromActDocument(Document document) {
-        return new Activity(document.getString("name"),
+    protected Requirement fromReqDocument(Document document) {
+        return new Requirement(document.getString("name"),
                 document.getString("description"),
-                new Duration(
-                        document.getInteger("timeRequirement")
-                ),
-                document.getInteger("amountComplete"),
-                document.getBoolean("action"),
-                document.getBoolean("knowledge"),
-                document.getBoolean("complete")
+                document.getBoolean("required"),
+                document.getBoolean("completed")
         );
+
+
     }
 
     /**
@@ -158,11 +102,11 @@ public class BaseMongoRepo implements AutoCloseable{
      */
     protected Document toDocument(Badge badge) {
         List<Document> activityDocs = new ArrayList<>();
-        for (Iterator<Activity> it = badge.getActivities(); it.hasNext(); ) {
-            Activity activity = it.next();
-            activityDocs.add(toDocument(activity));
-        }
-        return new Document("name", badge.getBadgeName())
+//        for (Iterator<Activity> it = badge.getActivities(); it.hasNext(); ) {
+//            Activity activity = it.next();
+//            activityDocs.add(toDocument(activity));
+//        }
+        return new Document("name", badge.getName())
                 .append("completed",        badge.getBadgeDescription())
                 .append("activities",       activityDocs);
     }
@@ -181,6 +125,11 @@ public class BaseMongoRepo implements AutoCloseable{
                 .append("timeToComplete",   activity.getTimeToComplete())
                 .append("completed",        activity.isComplete());
     }
+    Document toDocument(Requirement requirement) {
+        return new Document("name", requirement.getId())
+                .append("requirementsString", requirement.getDescription());
+
+    }
 
     /**
      * Converts a MongoDB Document back into a MeritBadge object
@@ -188,10 +137,10 @@ public class BaseMongoRepo implements AutoCloseable{
      * @return Badge object from Document
      */
     protected Badge fromBadgeDocument(Document document) {
-        ArrayList<Activity> activities = new ArrayList<>();
-        List<Document> activityDocs = document.getList("activities", Document.class);
-        for (Document activityDoc : activityDocs) {
-            activities.add(fromActDocument(activityDoc));
+        ArrayList<Requirement> requirements = new ArrayList<>();
+        List<Document> requirementDocs = document.getList("activities", Document.class);
+        for (Document requirementDoc : requirementDocs) {
+            requirements.add(fromReqDocument(requirementDoc));
         }
 
         return new Badge(document.getString("name"),
@@ -200,6 +149,6 @@ public class BaseMongoRepo implements AutoCloseable{
                 document.getBoolean("physical"),
                 new Duration( document.getInteger("timeRequirement")),
                 document.getBoolean("complete"),
-                activities);
+                requirements);
     }
 }

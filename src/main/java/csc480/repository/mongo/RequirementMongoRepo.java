@@ -5,25 +5,32 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import csc480.model.Activity;
+import csc480.model.Requirement;
 import org.bson.Document;
 
 import java.util.ArrayList;
 
-public class ActivityMongoRepo extends BaseMongoRepo implements csc480.repository.ActivityRepository {
+public class RequirementMongoRepo extends BaseMongoRepo implements csc480.repository.RequirementRepository {
+
+
 
     @Override
-    public void updateActivity(Activity activity) {
+    public void updateRequirement(Requirement requirement) {
         try (MongoClient mClient = MongoClients.create(settings))
         {
             database = mClient.getDatabase(scoutDatabase);
-            MongoCollection<Document> activityCollection = database.getCollection("Activity");
-            activityCollection.insertOne(toDocument(activity));
+            MongoCollection<Document> reqirementCollection = database.getCollection("Requirements");
+
+            reqirementCollection.insertOne(toDocument(requirement));
         }
     }
 
+
+
     @Override
-    public ArrayList<Activity> findAll() {
-        ArrayList<Activity> dbActivity = new ArrayList<>();
+    public ArrayList<Requirement> findAll() {
+        ArrayList<Requirement> dbRequirement = new ArrayList<>();
+
         try (MongoClient mClient = MongoClients.create(settings)) {
             database = mClient.getDatabase(scoutDatabase);
             MongoCollection<Document> activityCollection = database.getCollection("Activity");
@@ -36,7 +43,7 @@ public class ActivityMongoRepo extends BaseMongoRepo implements csc480.repositor
                 System.out.println(document.toJson());
             }
         }
-        return dbActivity;
+        return dbRequirement;
     }
 
 

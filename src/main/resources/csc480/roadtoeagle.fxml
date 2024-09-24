@@ -22,8 +22,6 @@
                         <MenuItem mnemonicParsing="false" onAction="#newScoutMenuBtn" text="%scouts.new-scout" />
                         <MenuItem mnemonicParsing="false" onAction="#newMerit" text="%scouts.new-badge" />
                         <MenuItem mnemonicParsing="false" onAction="#newActivity" text="%scouts.new-activity" />
-                        <MenuItem mnemonicParsing="false" onAction="#newEvent" text="%scouts.new-event" />
-                        <MenuItem mnemonicParsing="false" onAction="#newAward" text="%scouts.new-award" />
                     </items>
                   </Menu>
                   <MenuItem mnemonicParsing="false" onAction="#menuQuit" text="%menu.title.quit" />
@@ -41,55 +39,37 @@
         </Menu>
       </menus>
     </MenuBar>
-    <SplitPane dividerPositions="0.5" focusTraversable="true" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-      <items>
+      <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+         <children>
         <AnchorPane maxWidth="-Infinity" prefHeight="549.0" prefWidth="255.0">
-          <children>
-                  <Accordion layoutY="-2.0" prefHeight="549.0" prefWidth="245.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-24.0" AnchorPane.topAnchor="0.0">
-                    <panes>
-                      <TitledPane animated="false" prefHeight="57.0" prefWidth="220.0" text="%accordion.scouts">
+               <children>
+                  <TabPane prefHeight="549.0" prefWidth="263.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <tabs>
+                      <Tab text="Scouts">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                  <children>
-                                    <ListView fx:id="scoutList" layoutY="6.0" onMouseClicked="#selectScout" prefHeight="448.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                    <ListView fx:id="scoutList" layoutX="-14.0" layoutY="-94.0" onMouseClicked="#selectScout" prefHeight="516.0" prefWidth="263.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                  </children>
-                          </AnchorPane>
+                              </AnchorPane>
                         </content>
-                      </TitledPane>
-                      <TitledPane animated="false" text="%accordion.events">
+                      </Tab>
+                      <Tab text="Merit Badges">
                         <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                <children>
-                                    <ListView fx:id="eventList" layoutY="6.0" onMouseClicked="#selectScoutEvent" prefHeight="448.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                </children>
-                            </AnchorPane>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <ListView fx:id="badgeList" layoutX="-5.0" layoutY="-104.0" onMouseClicked="#selectScoutBadge" prefHeight="455.0" prefWidth="263.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                 </children>
+                              </AnchorPane>
                         </content>
-                      </TitledPane>
-                      <TitledPane animated="false" text="%accordion.merit-badges">
-                        <content>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                <children>
-                                    <ListView fx:id="badgeList" layoutY="6.0" onMouseClicked="#selectScoutBadge" prefHeight="448.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                </children>
-                            </AnchorPane>
-                        </content>
-                      </TitledPane>
-                        <TitledPane animated="false" text="%accordion.awards">
-                           <content>
-                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                   <children>
-                                       <ListView fx:id="awardList" layoutY="6.0" onMouseClicked="#selectScoutAward" prefHeight="448.0" prefWidth="277.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                                   </children>
-                               </AnchorPane>
-                           </content>
-                        </TitledPane>
-                    </panes>
-                  </Accordion>
-          </children>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+               </children>
         </AnchorPane>
-            <HBox fx:id="mainScreen" prefHeight="100.0" prefWidth="200.0" />
-      </items>
-    </SplitPane>
+            <StackPane fx:id="mainScreen" layoutX="184.0" layoutY="175.0" prefHeight="551.0" prefWidth="735.0" HBox.hgrow="ALWAYS" />
+         </children>
+      </HBox>
     <HBox id="HBox" alignment="CENTER_LEFT" spacing="5.0" VBox.vgrow="NEVER">
       <children>
         <Label fx:id="leftStatus" maxHeight="1.8" maxWidth="-1.0" text="Left status" HBox.hgrow="ALWAYS">

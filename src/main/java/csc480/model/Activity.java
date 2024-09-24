@@ -4,8 +4,8 @@ import javafx.util.Duration;
 
 public class Activity {
     private String id;
-    private final String name;
-    private String Description;
+    String name;
+    String Description;
     private Duration timeToComplete;
     private int amountComplete;
     private boolean isComplete;
