@@ -1,6 +1,5 @@
 package csc480.app;
 
-//import csc480.Branched.Activity;
 import csc480.controller.MainController;
 import csc480.controller.VistaNavigator;
 import csc480.model.Scout;
@@ -111,14 +110,14 @@ public class RoadToEagle extends Application {
         return scoutService.findAll();
     }
 
-    public boolean saveScout(Scout scout){
-        ScoutService scoutService = new ScoutService();
-        return scoutService.updateScout(scout);
-    }
+//    public boolean saveScout(Scout scout){
+//        ScoutService scoutService = new ScoutService();
+//        return scoutService.updateScout(scout);
+//    }
 
-    public boolean saveScouts(ArrayList<Scout> scouts){
-        ScoutService scoutService = new ScoutService();
-        return scoutService.updateScouts(scouts);
-    }
-
+//
+//    public boolean saveScouts(ArrayList<Scout> scouts){
+//        ScoutService scoutService = new ScoutService();
+//        return scoutService.updateScouts(scouts);
+//    }
 }

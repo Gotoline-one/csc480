@@ -1,5 +1,10 @@
 package csc480.repository.mongo;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.mongodb.*;
 import com.mongodb.client.*;
 import com.mongodb.client.result.DeleteResult;
@@ -13,9 +18,11 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import static com.mongodb.client.model.Filters.*;
+import static com.mongodb.client.model.Projections.include;
 import static com.mongodb.client.model.Updates.set;
 
 public class Connection {
@@ -44,10 +51,10 @@ public class Connection {
     private ServerApi serverApi;
     private  MongoClientSettings settings;
 
-   public Connection() {
+    public Connection() {
 //        public static void main (String[]args){
         // Replace the placeholder with your Atlas csc480.csc480.repository.mongo.Connection string
-       // Construct a ServerApi instance using the ServerApi.builder() method
+        // Construct a ServerApi instance using the ServerApi.builder() method
 
         serverApi = ServerApi.builder()
                 .version(ServerApiVersion.V1)
@@ -70,7 +77,7 @@ public class Connection {
 //                MongoCollection<Document> scoutCollection = database.getCollection("Scout");
 //
 //                MongoCollection<Document> meritBadgeCollection = database.getCollection("MeritBadge");
-//                crateMeritBadge(meritBadgeCollection);
+//                createMeritBadge(meritBadgeCollection);
 //                createScout(scoutCollection);
 //                createScout(scoutCollection);
 //                deleteScout(scoutCollection);
@@ -132,7 +139,7 @@ public class Connection {
 //                }
 //            }
  */
-        }
+    }
 
     private boolean connect(){
         try(MongoClient mClient = MongoClients.create(settings)){
@@ -154,7 +161,7 @@ public class Connection {
     }
 
 
-     public boolean checkConnection(){
+    public boolean checkConnection(){
         try(MongoClient mClient = MongoClients.create(settings)){
             database = mClient.getDatabase(scoutDatabase);
 
@@ -173,36 +180,134 @@ public class Connection {
      * TODO:need to build other parts of the db to get this
      * @return arrayList of scouts
      *
+     * UPDATED:
+     *
      */
     public ArrayList<Scout> getScouts(){
         ArrayList<Scout> dbScouts = new ArrayList<>();
+        ArrayList<Badge> dbBadges = new ArrayList<>();
         Scout currentScout;
         try(MongoClient mClient = MongoClients.create(settings)){
             database = mClient.getDatabase(scoutDatabase);
             MongoCollection<Document> scoutCollection = database.getCollection("Scout");
             FindIterable<Document> iterDoc = scoutCollection.find();
+            FindIterable<Document> badgeDoc;
+//            FindIterable<Document> awardDoc;
             for (Document document : iterDoc) {
-                currentScout = new Scout();
-//                System.out.println(document);
-//                dbScouts.add(document);
+                //Retrieve arraylist of meritbadges for each scout
+                badgeDoc = scoutCollection.find(and(eq("firstName", getFirstName(document)), eq("lastName", getLastName(document)))).projection(include("MeritBadge"));
+                for (Document doc : badgeDoc) {
+                    dbBadges = getBadges(doc);
+                }
+                currentScout = new Scout(getId(document), getFirstName(document), getLastName(document), getRank(document), getPosition(document), getEmail(document), dbBadges);
+                dbScouts.add(currentScout);
             }
-
         } catch (MongoException me) {
             System.err.println(me);
             return null;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
 
         return dbScouts;
     }
 
-    public void crateMeritBadge(Badge newBadge){
+    private static String getId(Document scoutCollection) {
+        String id = scoutCollection.toJson();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = null;
+        try {
+            node = mapper.readTree(id);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return node.get("_id").asText();
+    }
+
+    private static String getFirstName(Document scoutCollection) {
+        String firstName = scoutCollection.toJson();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = null;
+        try {
+            node = mapper.readTree(firstName);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return node.get("firstName").asText();
+    }
+
+    private static String getLastName(Document scoutCollection) {
+        String lastName = scoutCollection.toJson();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = null;
+        try {
+            node = mapper.readTree(lastName);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return node.get("lastName").asText();
+    }
+
+    private static String getRank(Document scoutCollection) {
+        String rank = scoutCollection.toJson();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = null;
+        try {
+            node = mapper.readTree(rank);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return node.get("rank").asText();
+    }
+
+    private static String getPosition(Document scoutCollection) {
+        String position = scoutCollection.toJson();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = null;
+        try {
+            node = mapper.readTree(position);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return node.get("position").asText();
+    }
+
+    private static String getEmail(Document scoutCollection) {
+        String email = scoutCollection.toJson();
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode node = null;
+        try {
+            node = mapper.readTree(email);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return node.get("email").asText();
+    }
+
+    //Parse JSON array into arraylist for merit badges
+    @JsonDeserialize(as=Badge.class)
+    private static ArrayList<Badge> getBadges(Document badgeCollection) throws JsonProcessingException {
+        String newBadge = removeFieldName(badgeCollection.toJson());
+        ObjectMapper mapper = new ObjectMapper();
+        ArrayList<Badge> badgeList = mapper.readValue(newBadge, new TypeReference<ArrayList<Badge>>() {
+            @Override
+            public Type getType() {
+                return super.getType();
+            }
+        });
+
+        return badgeList;
+    }
+
+
+    public void createMeritBadge(Badge newBadge){
 
         String badgeName = newBadge.getName();
         String requirements = "to hike";
 
         Document badge = new Document("_id", new ObjectId());
         badge.append("badgeName", badgeName)
-             .append("requirements", requirements);
+                .append("requirements", requirements);
 //        InsertOneResult res   = meritBadgeCollection.insertOne(badge);
     }
 
@@ -280,6 +385,23 @@ public class Connection {
         UpdateResult updateResult = scoutCollection.updateOne(filter, updateOperation);
         System.out.println(updateResult);
 
+    }
+
+    // Remove field name from mongodb JSON in order to parse into arraylist
+    public static final String removeFieldName(String removeFN) {
+        String string = new String();
+        String[] words = removeFN.split(" ");
+        int count = 1;
+
+        for (String word : words) {
+            if(count > 3) {
+                word = word.replaceFirst("\"MeritBadge\":", "");
+                word = word.replaceFirst("\"Award\":", "");
+                string += (word + " ");
+            }
+            count++;
+        }
+        return string.trim();
     }
 
     private static final String wrap(String toWrap) {

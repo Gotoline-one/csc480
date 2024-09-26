@@ -18,24 +18,22 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import static java.util.Arrays.stream;
-
 public class MainController {
 
     @FXML
     ListView<Scout> scoutList;
     ObservableList<Scout> scoutListObserver;
     Scout currentScoutSelected;
-    ArrayList<Activity> activityArrayList;
+//    ArrayList<Activity> activityArrayList;
 //    @FXML
 //    ListView<ScoutEvent> eventList;
 //    ObservableList<ScoutEvent> eventListObserver;
     @FXML
     ListView<Badge> badgeList;
     ObservableList<Badge> badgeListObserver;
-    @FXML
-    ListView<Award> awardList;
-    ObservableList<Award> awardListObserver;
+//    @FXML
+//    ListView<Award> awardList;
+//    ObservableList<Award> awardListObserver;
     @FXML
     Label rightStatus;
     @FXML
@@ -52,11 +50,11 @@ public class MainController {
     private Button button;
     private Badge currentBadgeSelected;
     private SubController currentNewBadgeController;
-    private ScoutEvent currentScoutEventSelected;
+//    private ScoutEvent currentScoutEventSelected;
     private Object currentNewScoutEventController;
-    private Award currentAwardSelected;
+//    private Award currentAwardSelected;
     private DataController dataController;
-    private ListView<Activity> scoutActivities;
+//    private ListView<Activity> scoutActivities;
     @FXML
     void initialize() throws Exception {
         scoutList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -71,13 +69,13 @@ public class MainController {
         currentBadgeSelected = null;
 
         currentNewScoutEventController = null;
-        currentScoutEventSelected = null;
+//        currentScoutEventSelected = null;
 
         currentNewScoutController = null;
         currentScoutSelected = null;
 
-        currentAwardSelected = null;
-        scoutActivities = new ListView<Activity>();
+//        currentAwardSelected = null;
+//        scoutActivities = new ListView<Activity>();
 //        addFakeActions();
         addFakeScouts();
         System.out.println("MainController Initialized");
@@ -90,9 +88,9 @@ public class MainController {
     }
 
 
-    public ListView<Activity> getScoutActivities() {
-        return scoutActivities;
-    }
+//    public ListView<Activity> getScoutActivities() {
+//        return scoutActivities;
+//    }
 
 //    public void addFakeActions() {
 //
@@ -103,14 +101,14 @@ public class MainController {
 //
 //    }
 
-    public void addFakeBadges(){
-        for(int i = 0; i < scoutActivities.getItems().size(); i++){
-            badgeList.getItems().add(
-                    //new Badge("badgeName"+Integer.toString(i), scoutActivities.getItems().subList(0, i)  )
-                    new Badge("Some Badge 1", "\\\t1. Some requirement",true)
-            );
-        }
-    }
+//    public void addFakeBadges(){
+//        for(int i = 0; i < scoutActivities.getItems().size(); i++){
+//            badgeList.getItems().add(
+//                    //new Badge("badgeName"+Integer.toString(i), scoutActivities.getItems().subList(0, i)  )
+//                    new Badge("Some Badge 1", "\\\t1. Some requirement",true)
+//            );
+//        }
+//    }
 //    public void addFakeAwards(){
 //        for(int i = 0; i < scoutActivities.getItems().size(); i++){
 //            awardList.getItems().add(
@@ -276,28 +274,7 @@ public class MainController {
     public void menuQuit(ActionEvent event) throws IOException {
         Platform.exit();
     }
-//
-//    public void saveAward(Award newAward) {
-//        if (newAward == null) return;
-//
-//        if (currentAwardSelected != null)
-//            currentAwardSelected.updateAward(newAward);
-//        else
-//            this.addAward(newAward);
-//    }
-//
-//    public void addAward(Award currentAward) {
-//        if (currentAward == null) return;
-//
-//        if (!awardListObserver.contains(currentAward)) {//if list does not already contain this award
-//            awardListObserver.add(currentAward);
-//            awardList.getSelectionModel().clearSelection();
-//            setRightStatus("add Award(" + currentAward + ")");
-//            currentAwardSelected = null;
-//        } else {
-//            setRightStatus("ERROR IN ADDING AWARD - award already exists");
-//        }
-//    }
+
 
     public void addBadge(Badge currentBadge) {
         if (currentBadge == null) return;
@@ -326,12 +303,13 @@ public class MainController {
         return badgeList;
     }
 
-    public ListView<Award> getAwardList() {
-        return awardList;
-    }
+//    public ListView<Award> getAwardList() {
+//        return awardList;
+//    }
 
     public void saveMenuBtn() {
-        if(scoutList !=null && awardList !=null  && badgeList !=null  ){
+//        if(scoutList !=null && awardList !=null  && badgeList !=null  ){
+        if(scoutList !=null && badgeList !=null  ){
             dataController.saveAll(new ArrayList<>(scoutList.getItems()),new ArrayList<>(badgeList.getItems()));
         }
         else{

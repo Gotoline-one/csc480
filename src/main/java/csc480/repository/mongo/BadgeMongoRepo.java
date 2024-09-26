@@ -31,8 +31,8 @@ public class BadgeMongoRepo extends BaseMongoRepo implements csc480.repository.B
             for (Document document : findIterable) {
                 String badgeName = document.getString("badgeName");
                 String requirements = document.getString("requirements");
-                System.out.printf("%s %s \n", badgeName, requirements);
-                System.out.println(document.toJson());
+//                System.out.printf("%s %s \n", badgeName, requirements);
+//                System.out.println(document.toJson());
             }
         }
 

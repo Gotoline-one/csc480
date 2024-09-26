@@ -1,10 +1,8 @@
 package csc480.controller;
 
-import csc480.model.Activity;
 import csc480.model.Badge;
+import csc480.model.NodeData;
 import csc480.model.Requirement;
-import csc480.model.TreeNodeData;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -12,15 +10,10 @@ import javafx.scene.layout.StackPane;
 
 public class NewBadgeController extends SubController<Badge> {
 
-    ObservableList<Activity> availActivitiesListObserver;
-    @FXML
-    ListView<Activity> availActivitiesList;
-    ObservableList<Activity> activitiesListObserver;
-    ObservableList<Activity> selectedActivities;
     @FXML
     CheckBoxTreeItem<String> rootItem;
     @FXML
-    TreeView<TreeNodeData> requirementsTree;
+    TreeView<NodeData> requirementsTree;
     @FXML
     StackPane treeHomePane;
     private MainController mainController;
@@ -34,8 +27,8 @@ public class NewBadgeController extends SubController<Badge> {
     private CheckBox actionCkBx;
     @FXML
     private Badge currentBadge;
-    @FXML
-    private ListView<Activity> activitiesList;
+//    @FXML
+//    private ListView<Activity> activitiesList;
 
     public void initialize() {
         this.mainController = VistaNavigator.getMainController();
@@ -113,34 +106,32 @@ public class NewBadgeController extends SubController<Badge> {
     }
 
     public void loadBadgeRequirementsView(Badge badge) {
-        TreeItem<TreeNodeData> rootItem = buildTree(badge);
+        TreeItem<NodeData> rootItem = buildTree(badge);
         requirementsTree.setRoot(rootItem);
-//        requirementsTree.setCellFactory(tree -> new TextOnlyTreeCell());
-
         requirementsTree.setShowRoot(false);
 
     }
 
 
 
-    public TreeItem<TreeNodeData> buildTree(Badge badge) {
-        TreeItem<TreeNodeData> badgeItem = new TreeItem<>(badge);
+    public TreeItem<NodeData> buildTree(Badge badge) {
+        TreeItem<NodeData> badgeItem = new TreeItem<>(badge);
         badgeItem.setExpanded(true);
 
         for (Requirement req : badge.getBadgeRequirementsList()) {
-            TreeItem<TreeNodeData> reqItem = createRequirementTreeItem(req);
+            TreeItem<NodeData> reqItem = createRequirementTreeItem(req);
             badgeItem.getChildren().add(reqItem);
         }
 
         return badgeItem;
     }
 
-    private TreeItem<TreeNodeData> createRequirementTreeItem(Requirement requirement) {
-        TreeItem<TreeNodeData> item = new TreeItem<>(requirement);
+    private TreeItem<NodeData> createRequirementTreeItem(Requirement requirement) {
+        TreeItem<NodeData> item = new TreeItem<>(requirement);
 
         if (requirement.getSubRequirements() != null) {
             for (Requirement subReq : requirement.getSubRequirements()) {
-                TreeItem<TreeNodeData> subItem = createRequirementTreeItem(subReq);
+                TreeItem<NodeData> subItem = createRequirementTreeItem(subReq);
                 item.getChildren().add(subItem);
             }
         }

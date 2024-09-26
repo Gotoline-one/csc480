@@ -47,7 +47,6 @@
                   <Button fx:id="NextBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#nextScout" prefHeight="25.0" text="Save New" GridPane.rowIndex="6" />
                   <Label text="Rank" GridPane.rowIndex="3" />
                   <ScrollPane  GridPane.columnIndex="1" fitToWidth="true" hbarPolicy="NEVER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="5" >
-<!--                   <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" >-->
                      <content>
                        <VBox fx:id="treeHomePane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308"  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" GridPane.columnIndex="1" GridPane.rowIndex="5" VBox.vgrow="ALWAYS" />
                      </content>
@@ -61,7 +60,7 @@
             <ImageView fitHeight="197.0" fitWidth="193.0" layoutX="12.0" pickOnBounds="true" preserveRatio="true">
                <image>
                    <Image url="@silhouette_backup.jpg" />
-<!--                  <Image url="@/csc480/silhouette_backup.jpg" />-->
+
                </image>
             </ImageView>
          </children>

@@ -6,7 +6,6 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UpdateOptions;
-import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.InsertManyResult;
 import com.mongodb.client.result.InsertOneResult;
 import com.mongodb.client.result.UpdateResult;
@@ -14,7 +13,6 @@ import csc480.model.Scout;
 import csc480.repository.ScoutRepository;
 import org.bson.BsonValue;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
@@ -60,19 +58,19 @@ public class ScoutMongoRepo extends BaseMongoRepo implements ScoutRepository {
             for (Scout scout : scouts) {
                 Document scoutDoc = toDocument(scout);
 
-                if (scout.getId() != null) {
+                if (scout.getDbID() != null) {
                     // Update or insert (upsert) based on the _id
                     UpdateResult updateResult = scoutCollection.updateOne(
-                            Filters.eq("_id", new ObjectId(scout.getId()) ),  // Filter by _id Obj
+                            Filters.eq("_id", new ObjectId(scout.getDbID()) ),  // Filter by _id Obj
                             new Document("$set", scoutDoc),    // Set new data
                             new UpdateOptions().upsert(true)   // Upsert if the document doesn't exist
                     );
-            System.out.println(updateResult);
+//            System.out.println(updateResult);
 
                 } else {
                     // If there's no _id, insert the document as a new entry
                     InsertOneResult result = scoutCollection.insertOne(scoutDoc);
-                    scout.setId(result.getInsertedId().asObjectId().getValue().toString());
+                    scout.setDbID(result.getInsertedId().asObjectId().getValue().toString());
                 }
             }
 
@@ -109,7 +107,7 @@ public class ScoutMongoRepo extends BaseMongoRepo implements ScoutRepository {
 
             for (int i = 0; i < r.size(); i++) {
                 String scoutID = String.valueOf(r.get(i).asObjectId().getValue());
-                scouts.get(i).setId(scoutID);
+                scouts.get(i).setDbID(scoutID);
             }
 
         } catch (RuntimeException e) {

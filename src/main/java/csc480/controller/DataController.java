@@ -1,16 +1,12 @@
 package csc480.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import csc480.model.Badge;
-import csc480.model.Badge2;
-import csc480.model.Requirement;
-import csc480.model.Scout;
-import csc480.service.ActivityService;
+import csc480.model.*;
+import csc480.repository.mongo.Connection;
 import csc480.service.BadgeService;
 import csc480.service.ScoutService;
 import javafx.concurrent.Task;
 import org.bson.BsonValue;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,19 +15,25 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 public class DataController {
     MainController mainController;
     ScoutService scoutService;
     BadgeService badgeService;
-    ActivityService activityService;
+    Connection dbConn;
+
     LoadFakeData lfd;
+
+
     DataController(MainController mc){
-        this.mainController = mc; // VistaNavigator.getMainController();
+        this.mainController = mc;
         this.scoutService =     new ScoutService();
         this.badgeService =     new BadgeService();
-        this.activityService =  new ActivityService();
 
+        dbConn = new Connection();
         lfd = new LoadFakeData();
+
+
     }
 
     public void  createScout(Scout newScout) {
@@ -151,17 +153,34 @@ class LoadFakeData {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             // Read the JSON file and map it to a List of Badge2 objects
-            List<Badge2> badges = objectMapper.readValue(new File("./src/main/resources/csc480/TroopManagementApp.MeritBadge.json"),
+            List<Badge2> badge2List = objectMapper.readValue(new File("./src/main/resources/csc480/TroopManagementApp.MeritBadge.json"),
                     objectMapper.getTypeFactory().constructCollectionType(List.class, Badge2.class));
             ArrayList<Badge> badgeArrayList= new ArrayList<>();
-            // Loop through the badges and print them out
-            for (Badge2 badge : badges) {
-                Badge b = new Badge(badge.getId(),badge.getName(), badge.getRequirements());
+
+            for (Badge2 dbBadge : badge2List) {
+
+                ArrayList<Requirement> badgeReqs = new ArrayList<>();
+
+                badgeReqs.addAll(requirementParser( dbBadge.getRequirements() ));
+
+                Boolean badgeComplete;
+
+                if(dbBadge.getComplete() == null)
+                    badgeComplete = false;
+                else
+                    badgeComplete = dbBadge.getComplete();
+
+
+                Badge b = new Badge(dbBadge.getId(),
+                    dbBadge.getName(),
+                    "Place Holder Text",//dbBadge.getDescription(),
+                    badgeComplete,
+                    dbBadge.getRequirements(),
+                    badgeReqs
+                );
                 badgeArrayList.add(b);
 
-                System.out.println("\n" + badge.getName() +": ");
-                ArrayList<Requirement> badgeReqs = new ArrayList<>();
-                badgeReqs.addAll(requirementParser( badge.getRequirements() ));
+
 
                 b.setBadgeRequirementsList(badgeReqs);
             }
@@ -256,18 +275,16 @@ class LoadFakeData {
 
         scanner.close();
 
-        // Output the parsed requirements for verification
-//        for (Requirement req : mainRequirements) {
-//            printRequirement(req, 0);
-//        }
         return mainRequirements;
     }
 
         private static void printRequirement(Requirement req, int level) {
             String indent = "  ".repeat(level);
-            System.out.println(indent+req.getId() + ". " + req.getDescription());
-            for (Requirement subReq : req.getSubRequirements()) {
-                printRequirement(subReq, level + 1);
+            System.out.println(indent+req.getDisplayID() + ". " + req.getDescription());
+
+            for (NodeData subReq : req.getSubRequirements()) {
+                printRequirement((Requirement) subReq, level + 1);
+
             }
         }
 

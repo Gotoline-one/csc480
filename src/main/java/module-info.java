@@ -9,7 +9,7 @@ module org.csc480.roadtoeagle {
     requires org.mongodb.driver.sync.client;
     requires org.mongodb.driver.core;
     requires org.mongodb.bson;
-    requires org.controlsfx.controls;
+//    requires org.controlsfx.controls;
     opens csc480 to javafx.fxml;
 //    exports csc480;
     exports csc480.controller;

@@ -5,11 +5,9 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import csc480.model.*;
-import javafx.util.Duration;
 import org.bson.Document;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class BaseMongoRepo implements AutoCloseable{
@@ -68,15 +66,14 @@ public class BaseMongoRepo implements AutoCloseable{
             badges.add(fromBadgeDocument(badgeDoc));
         }
 
-        List<Award> awards = new ArrayList<>();
-
         return new Scout(document.getObjectId("_id").toString(),
-                document.getString("fname"),
-                document.getString("lname"),
-                document.getString("email"),
-                document.getString("rank"),
-                document.getString("position"),
-                awards, badges);
+                            document.getString("fname"),
+                            document.getString("lname"),
+                            document.getString("rank"),
+                            document.getString("position"),
+                            document.getString("email"),
+                            badges
+        );
     }
 
 
@@ -91,8 +88,6 @@ public class BaseMongoRepo implements AutoCloseable{
                 document.getBoolean("required"),
                 document.getBoolean("completed")
         );
-
-
     }
 
     /**
@@ -110,23 +105,23 @@ public class BaseMongoRepo implements AutoCloseable{
                 .append("completed",        badge.getBadgeDescription())
                 .append("activities",       activityDocs);
     }
-
-    /**
-     * Converts an Activity object to a MongoDB Document
-     * @param activity object
-     * @return MongoDB Document with Activiy info
-     */
-    protected Document toDocument(Activity activity) {
-        return new Document("name",         activity.getName())
-                .append("description",      activity.getDescription())
-                .append("action",           activity.isActionBased())
-                .append("knowledge",        activity.isKnowledgeBased())
-                .append("amountComplete",   activity.getAmountComplete())
-                .append("timeToComplete",   activity.getTimeToComplete())
-                .append("completed",        activity.isComplete());
-    }
+//
+//    /**
+//     * Converts an Activity object to a MongoDB Document
+//     * @param activity object
+//     * @return MongoDB Document with Activiy info
+//     */
+//    protected Document toDocument(Activity activity) {
+//        return new Document("name",         activity.getName())
+//                .append("description",      activity.getDescription())
+//                .append("action",           activity.isActionBased())
+//                .append("knowledge",        activity.isKnowledgeBased())
+//                .append("amountComplete",   activity.getAmountComplete())
+//                .append("timeToComplete",   activity.getTimeToComplete())
+//                .append("completed",        activity.isComplete());
+//    }
     Document toDocument(Requirement requirement) {
-        return new Document("name", requirement.getId())
+        return new Document("name", requirement.getDisplayID())
                 .append("requirementsString", requirement.getDescription());
 
     }
@@ -142,13 +137,13 @@ public class BaseMongoRepo implements AutoCloseable{
         for (Document requirementDoc : requirementDocs) {
             requirements.add(fromReqDocument(requirementDoc));
         }
+        Badge newBadge;
 
-        return new Badge(document.getString("name"),
+        return new Badge(document.getObjectId("_id").toString(),
+                document.getString("name"),
                 document.getString("description"),
-                document.getBoolean("knowledge"),
-                document.getBoolean("physical"),
-                new Duration( document.getInteger("timeRequirement")),
                 document.getBoolean("complete"),
+                document.getString("requirementsText"),
                 requirements);
     }
 }

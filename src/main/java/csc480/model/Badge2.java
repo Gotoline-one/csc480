@@ -21,6 +21,17 @@ public class Badge2 {
     @JsonProperty("Requirements")
     private String requirements;
 
+    public Boolean getComplete() {
+        return complete;
+    }
+
+    public void setComplete(Boolean complete) {
+        this.complete = complete;
+    }
+
+    @JsonProperty("Complete")
+    private Boolean complete;
+
     // Getters and Setters
     public String getId() {
         return id.get("$oid");  // Get the value of $oid

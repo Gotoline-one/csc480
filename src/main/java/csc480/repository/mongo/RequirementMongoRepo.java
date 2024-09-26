@@ -4,7 +4,6 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
-import csc480.model.Activity;
 import csc480.model.Requirement;
 import org.bson.Document;
 
@@ -40,7 +39,7 @@ public class RequirementMongoRepo extends BaseMongoRepo implements csc480.reposi
                 String activityName = document.getString("activityName");
                 String requirements = document.getString("requirements");
                 System.out.printf("%s %s \n", activityName, requirements);
-                System.out.println(document.toJson());
+//                System.out.println(document.toJson());
             }
         }
         return dbRequirement;

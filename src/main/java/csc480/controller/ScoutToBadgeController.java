@@ -21,7 +21,7 @@ public class ScoutToBadgeController extends SubController<Scout>{
     ObservableList<Badge> oChosenBadges;
 
     private Scout currentScout;
-    private Badge currentBadge;
+//    private Badge currentBadge;
     private ObservableList<Badge> selectedBadges;
 
 
@@ -53,22 +53,30 @@ public class ScoutToBadgeController extends SubController<Scout>{
 
             if(aBadge !=null)
             { //something was double clicked
-                currentBadge = aBadge;
-                oChosenBadges.addAll(aBadge);
+                if(oChosenBadges.contains(aBadge)){
+                    mainController.setRightStatus(aBadge +" Already Added to Scout ");
+                    return;
+                }
+                oChosenBadges.add(aBadge);
                 mainController.setLeftStatus("selectAvailBadges clicked add: "+ aBadge);
             }
             else
             {//emptiness was double clicked so there is no badge to select
-                mainController.setRightStatus("selectAvailBadges Clicked empty Click");
+                mainController.setRightStatus("Clicked empty on empty Item");
             }
         }
     }
+
     @FXML
     public void addSelectedBadge(){
 
         if( availableBadges.getSelectionModel().getSelectedItem() !=null){
             selectedBadges =  availableBadges.getSelectionModel().getSelectedItems();
-            oChosenBadges.addAll(selectedBadges);
+            // Only add badges that have not already been added
+            for( Badge selBadge : selectedBadges){
+                if(!oChosenBadges.contains(selBadge))
+                    oChosenBadges.add(selBadge);
+            }
         }
     }
 
@@ -101,7 +109,7 @@ public class ScoutToBadgeController extends SubController<Scout>{
             currentScout.addMeritBadge(b);
         }
         oChosenBadges.clear();
-        currentBadge = null;
+//        currentBadge = null;
         NewScoutController newScoutController = (NewScoutController) VistaNavigator.loadVista(VistaNavigator.NEW_SCOUT);
         if(newScoutController !=null)
             newScoutController.loadInfo(this.currentScout);
@@ -109,7 +117,7 @@ public class ScoutToBadgeController extends SubController<Scout>{
 
     public void cancelBtn() {
         oChosenBadges.clear();
-        currentBadge = null;
+//        currentBadge = null;
         NewScoutController newScoutController = (NewScoutController) VistaNavigator.loadVista(VistaNavigator.NEW_SCOUT);
         if(newScoutController !=null)
             newScoutController.loadInfo(this.currentScout);

@@ -1,26 +1,29 @@
 package csc480.model;
 
-import javafx.beans.property.SimpleBooleanProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Requirement implements TreeNodeData {
-    private String id;
+public class Requirement implements NodeData {
+    private String ID;
+    private String displayID;
     private String description;
-    private List<Requirement> subRequirements;
+    private final List<Requirement> subRequirements;
     private boolean allSubRequirementsNeeded; // true if all sub-requirements are required
     private boolean completed;
-    public Requirement(String id, String description, boolean allSubRequirementsNeeded, boolean completed) {
-        this.id = id;
+
+    public Requirement(String displayID, String description, boolean allSubRequirementsNeeded, boolean completed) {
+        this.displayID = displayID;
         this.description = description;
         this.allSubRequirementsNeeded = allSubRequirementsNeeded;
         this.completed = completed;
         this.subRequirements = new ArrayList<>();
     }
 
+
+
     @Override
     public String getDisplayText() {
-        return id + ". " + description;
+        return  description;
     }
 
 
@@ -37,15 +40,15 @@ public class Requirement implements TreeNodeData {
 
     @Override
     public String toString(){
-        return getDisplayText();
+        return this.getDisplayID ()+" "+getDisplayText();
     }
 
-    public String getId() {
-        return id;
+    public String getDisplayID() {
+        return displayID;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setDisplayID(String displayID) {
+        this.displayID = displayID;
     }
 
     public String getDescription() {
@@ -60,14 +63,6 @@ public class Requirement implements TreeNodeData {
         return subRequirements;
     }
 
-    public void setSubRequirements(List<Requirement> subRequirements) {
-        this.subRequirements = subRequirements;
-    }
-
-    public boolean isAllSubRequirementsNeeded() {
-        return allSubRequirementsNeeded;
-    }
-
     public void setAllSubRequirementsNeeded(boolean allSubRequirementsNeeded) {
         this.allSubRequirementsNeeded = allSubRequirementsNeeded;
     }
@@ -79,6 +74,5 @@ public class Requirement implements TreeNodeData {
     public void appendDescription(String s) {
         description = description + s;
     }
-
 
 }

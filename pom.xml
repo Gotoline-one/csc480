@@ -82,7 +82,7 @@
                 <executions>
                     <execution>
                         <!-- Default configuration for running with: mvn clean javafx:run -->
-                        <id>default-cli</id>
+                        <displayID>default-cli</displayID>
                         <configuration>
                             <mainClass>org.csc480.roadtoeagle/csc480.app.RoadToEagle</mainClass>
                             <launcher>app</launcher>
